@@ -519,3 +519,24 @@ input#reply:focus {
 
     display: none;
 }
+
+.modal-post-window {
+    max-width: 750px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: white;
+}
+
+.btn-input-img {
+    color: white;
+    cursor: pointer;
+    background-color: #0095f6;
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 5px;
+    font-weight: bold;
+}
