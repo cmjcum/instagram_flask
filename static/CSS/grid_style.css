@@ -4,37 +4,37 @@
 
 /*아이콘*/
 .home {
-    background-image: url('./img/home.png');
+    background-image: url('../img/home.png');
     background-position: center;
     background-size: cover;
 }
 
 .direct {
-    background-image: url('./img/direct.png');
+    background-image: url('../img/direct.png');
     background-position: center;
     background-size: cover;
 }
 
 .write {
-    background-image: url('./img/plus.png');
+    background-image: url('../img/plus.png');
     background-position: center;
     background-size: cover;
 }
 
 .explore {
-    background-image: url('./img/compass.png');
+    background-image: url('../img/compass.png');
     background-position: center;
     background-size: cover;
 }
 
 .like {
-    background-image: url('./img/like.png');
+    background-image: url('../img/like.png');
     background-position: center;
     background-size: cover;
 }
 
 .profile {
-    background-image: url('./img/profile.jpg');
+    background-image: url('../img/profile.jpg');
     background-position: center;
     background-size: cover;
 
@@ -44,19 +44,19 @@
 .dot-dot-dot {
     width: 24px;
     height: 24px;
-    background-image: url('./img/more.png');
+    background-image: url('../img/more.png');
     background-position: center;
     background-size: cover;
 }
 
 .comment {
-    background-image: url('./img/chat.png');
+    background-image: url('../img/chat.png');
     background-position: center;
     background-size: cover;
 }
 
 .bookmark {
-    background-image: url('./img/bookmark.png');
+    background-image: url('../img/bookmark.png');
     background-position: center;
     background-size: cover;
 }
@@ -65,7 +65,7 @@
     width: 24px;
     height: 24px;
 
-    background-image: url('./img/emoji.png');
+    background-image: url('../img/emoji.png');
     background-position: center;
     background-size: cover;
 }
@@ -145,7 +145,7 @@ a {
 .logo {
     width: 333.5px;
     height: 29px;
-    background-image: url('./img/logo.png');
+    background-image: url('../img/logo.png');
     background-position: left;
     background-size: inherit;
     background-repeat: no-repeat;
@@ -159,7 +159,7 @@ input#search {
     width: 268px;
     height: 36px;
 
-    background: url('./img/magnifier.png') no-repeat #efefef;
+    background: url('../img/magnifier.png') no-repeat #efefef;
     background-position: 14px;
     background-size: 14px;
     padding-left: 35px;
@@ -239,7 +239,7 @@ input#search:focus {
 .card_header .human {
     width: 32px;
     height: 32px;
-    background-image: url('./img/profile.jpg');
+    background-image: url('../img/profile.jpg');
     background-position: center;
     background-size: cover;
 }
