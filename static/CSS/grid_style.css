@@ -3,10 +3,6 @@
 /*id 추가하시면 될 거 같아요*/
 
 /*아이콘*/
-.click {
-    cursor: pointer;
-}
-
 .home {
     background-image: url('../img/home.png');
     background-position: center;
@@ -96,38 +92,20 @@ a {
 }
 
 .gray_s {
-    color: #8e8e8e;
-    font-weight: 400;
-    font-size: 0.77em;
-    line-height: 16px;
-}
-
-.blue_sb {
-    color: #0095f6;
-    font-weight: 600;
-    font-size: 0.77em;
-    line-height: 16px;
+    color: #b4b4b4;
+    font-weight: 300;
+    font-size: 0.7em;
 }
 
 .gray_r {
-    color: #8e8e8e;
-    font-weight: 400;
+    color: #b4b4b4;
+    font-weight: 300;
     font-size: 0.9em;
-    line-height: 18px;
 }
 
 .gray {
-    color: #8e8e8e;
+    color: #b4b4b4;
     font-weight: 600;
-    font-size: 0.95em;
-    line-height: 18px;
-}
-
-.black {
-    color: #262626;
-    font-weight: 400;
-    font-size: 0.875em;
-    line-height: 18px;
 }
 
 /*전체 영역*/
@@ -409,13 +387,11 @@ input#reply:focus {
 }
 
 .footer {
-    color: #c7c7c7;
-    font-size: 0.75em;
+    color: #8e8e8e;
+    font-size: 0.9em;
     padding-left: 30px;
     padding-bottom: 30px;
 }
-
-
 
 /*모바일 대응*/
 

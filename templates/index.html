@@ -28,17 +28,19 @@
 
     <div class="header">
         <div class="header-item">
-            <div class="logo click" onclick="goHome()"></div>
+            <a href="#">
+                <div class="logo"></div>
+            </a>
             <div class="find">
                 <input type="text" class="search" id="search" placeholder="검색">
             </div>
             <div class="menu">
-                <div class="home click" onclick="goHome()"></div>
-                <div class="direct click"></div>
-                <div class="write click"></div>
-                <div class="explore click"></div>
-                <div class="like click"></div>
-                <div class="profile click"></div>
+                <div class="home"></div>
+                <div class="direct"></div>
+                <div class="write"></div>
+                <div class="explore"></div>
+                <div class="like"></div>
+                <div class="profile"></div>
             </div>
         </div>
     </div>
@@ -57,7 +59,7 @@
                             <div class="human"></div>
                             <div class="nickname">sunset_001<br><span class="gray_s">my location</span></div>
                         </div>
-                        <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
+                        <div class="dot-dot-dot btn-open-popup" onclick="popOpen()"></div>
                     </div>
                     <!--게시글 이미지-->
                     <div id="carouselExampleIndicators1" class="carousel slide" data-bs-ride="false">
@@ -125,18 +127,140 @@
                         <p><span class="bold">좋아요 3개</span></p>
                         <div class="feed-information">
                             <span class="id">sunset_001 </span>
-                            <span class="feed-content black"><a href="#">#윤동주</a> <a href="#">#반딧불</a> 가자, 가자, 가자, 숲으로 가자. 달 조각을 주으러 숲으로 가자. 그믐밤 반딧불은 부서진 달 조각. 가자, 가자, 가자, 숲으로 가자. 달 조각을 주으러 숲으로 가자.</span>
+                            <span class="feed-content"><a href="#">#윤동주</a> <a href="#">#반딧불</a> 가자, 가자, 가자, 숲으로 가자. 달 조각을 주으러 숲으로 가자. 그믐밤 반딧불은 부서진 달 조각. 가자, 가자, 가자, 숲으로 가자. 달 조각을 주으러 숲으로 가자.</span>
+
                         </div>
-                        <div class="click gray_r" id="comments" onclick="showComment()">댓글 보기</div>
-                        <br><div class="gray_s">1시간 전</div>
+                        <span class="gray_r">댓글 5개 모두 보기</span>
+                        <br><span class="gray_s">1시간 전</span>
                     </div>
 
                     <!--댓글 달기-->
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <div class="emoji"></div>
-                            <input type="text" onkeyup="inputComment(this)" class="reply" placeholder="댓글 달기...">
-                            <button type="button" disabled="false" onclick="saveComment()" class="btn btn-outline-info btn-sm">게시</button>
+                            <input type="text" class="reply" placeholder="댓글달기...">
+                            <button type="button" class="btn btn-outline-info btn-sm">게시</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--이미지 post_3 (단일)-->
+            <div class="article">
+                <div class="card">
+                    <!--게시글 헤더-->
+                    <div class="card-body">
+                        <div class="card_header">
+                            <div class="human"></div>
+                            <div class="nickname">sunset_001<br><span class="gray_s">my location</span></div>
+                        </div>
+                        <div class="dot-dot-dot btn-open-popup" onclick="popOpen()"></div>
+
+                    </div>
+                    <!--게시글 이미지-->
+                    <img src="../static/img/post_3.jpg" class="card-img-top post_img">
+                    <!--게시글 이미지 하단 아이콘-->
+                    <div class="post_icon">
+                        <div class="post_icon_left">
+                            <div class="like"></div>
+                            <div class="comment"></div>
+                            <div class="direct"></div>
+                        </div>
+                        <div class="post_icon_right">
+                            <div class="bookmark"></div>
+                        </div>
+                    </div>
+                    <!--댓글 본문-->
+                    <div class="box">
+                        <p><span class="bold">좋아요 18개</span></p>
+                        <div class="feed-information">
+                            <span class="id">sunset_001 </span>
+                            <span class="feed-content"><a href="#">#윤동주</a> <a href="#">#반딧불</a> 가자, 가자, 가자, 숲으로 가자. 달 조각을 주으러 숲으로 가자. 그믐밤 반딧불은 부서진 달 조각. 가자, 가자, 가자, 숲으로 가자. 달 조각을 주으러 숲으로 가자.</span>
+
+                        </div>
+                        <span class="gray_r">댓글 13개 모두 보기</span>
+                        <br><span class="gray_s">1일 전</span>
+                    </div>
+                    <!--댓글 달기-->
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="emoji"></div>
+                            <input type="text" class="reply" placeholder="댓글달기...">
+                            <button type="button" class="btn btn-outline-info btn-sm">게시</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--이미지 post_2 (캐러셀)-->
+            <div class="article">
+                <div class="card">
+                    <!--게시글 헤더-->
+                    <div class="card-body">
+                        <div class="card_header">
+                            <div class="human"></div>
+                            <div class="nickname">sunset_001<br><span class="gray_s">my location</span></div>
+                        </div>
+                        <div class="dot-dot-dot btn-open-popup" onclick="popOpen()"></div>
+                    </div>
+                    <!--게시글 이미지-->
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false">
+                        <!--인디케이터-->
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                                    aria-label="Slide 2"></button>
+                        </div>
+                        <!--이미지영역-->
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="../static/img/post_2-1.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="../static/img/post_2-2.jpg" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                        <!--좌우 넘기기 버튼 영역-->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                    <!--게시글 이미지 하단 아이콘-->
+                    <div class="post_icon">
+                        <div class="post_icon_left">
+                            <div class="like"></div>
+                            <div class="comment"></div>
+                            <div class="direct"></div>
+                        </div>
+                        <div class="post_icon_right">
+                            <div class="bookmark"></div>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <p><span class="bold">좋아요 34개</span></p>
+                        <div class="feed-information">
+                            <span class="id">sunset_001 </span>
+                            <span class="feed-content"><a href="#">#윤동주</a> <a href="#">#반딧불</a> 가자, 가자, 가자, 숲으로 가자. 달 조각을 주으러 숲으로 가자. 그믐밤 반딧불은 부서진 달 조각. 가자, 가자, 가자, 숲으로 가자. 달 조각을 주으러 숲으로 가자.</span>
+
+                        </div>
+                        <span class="gray_r">댓글 21개 모두 보기</span>
+                        <br><span class="gray_s">3일 전</span>
+                    </div>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="emoji"></div>
+                            <input type="text" class="reply" placeholder="댓글달기...">
+                            <button type="button" class="btn btn-outline-info btn-sm">게시</button>
                         </li>
                     </ul>
                 </div>
@@ -162,19 +286,33 @@
                     <div class="follow-info-1">
                         <div class="profile"></div>
                         <div class="nickname">sunset_002<br><span class="gray_s">회원님을 위한 추천입니다</span></div>
-                        <div class="follow-btn"><a href="#" class="blue_sb">팔로우</a></div>
+                        <div class="follow-btn"><span class="gray_s"><a href="#">팔로우</a></span></div>
+                    </div>
+
+                    <div class="follow-info-1">
+                        <div class="profile"></div>
+                        <div class="nickname">sunset_003<br><span class="gray_s">회원님을 위한 추천입니다</span></div>
+                        <div class="follow-btn"><span class="gray_s"><a href="#">팔로우</a></span></div>
+                    </div>
+
+                    <div class="follow-info-1">
+                        <div class="profile"></div>
+                        <div class="nickname">sunset_004<br><span class="gray_s">회원님을 위한 추천입니다</span></div>
+                        <div class="follow-btn"><span class="gray_s"><a href="#">팔로우</a></span></div>
+                    </div>
+
+                    <div class="follow-info-1">
+                        <div class="profile"></div>
+                        <div class="nickname">sunset_005<br><span class="gray_s">회원님을 위한 추천입니다</span></div>
+                        <div class="follow-btn"><span class="gray_s"><a href="#">팔로우</a></span></div>
                     </div>
 
                 </div>
             </div>
 
             <div class="footer">
-                <p>코딩 못하면 죽는 사람들
-                    <br><a href="https://cold-charcoal.tistory.com/" target="_blank">이정아</a>
-                    <a href="https://moist-ink.tistory.com" target="_blank">노을</a>
-                    <a href="https://lululala-2.tistory.com/" target="_blank">이현경</a>
-                    <a href="https://ddongkim.tistory.com/" target="_blank">김동근</a></p>
-                <p>© 2022 Instagram clone coding from COMOTJUCK</p>
+                <p>만든사람 <a href="https://moist-ink.tistory.com" target="_blank">https://moist-ink.tistory.com</a></p>
+                <p>© 2022 ZZAB_stagram from Sunset</p>
             </div>
 
         </div>
