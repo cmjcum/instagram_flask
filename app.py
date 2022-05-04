@@ -7,6 +7,10 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
+@app.route('/profile') # 접속하는 url
+def profile():
+  return render_template('profile.html')
+
 if __name__=="__main__":
   app.run(debug=True)
   # host 등을 직접 지정하고 싶다면
