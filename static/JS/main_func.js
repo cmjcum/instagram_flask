@@ -1,5 +1,6 @@
 // ... 페이지 로딩시 호출 함수
 $(document).ready(function () {
+    getFeed()
     showMoreButton()
 })
 
@@ -40,17 +41,21 @@ function moreButtonClick(obj, i) {
 
 // ... 피드 불러오기
 function getFeed() {
-    $("#article").empty()
+    console.log("악")
+    $("#card_box").empty()
     $.ajax({
         type: "GET",
-        url: "/api/feed",
+        url: "/feed",
         data: {},
         success: function (response) {
+            console.log(response)
             if (response["result"] == "success") {
                 let posts = response["posts"]
                 for (let i = 0; i < posts.length; i++) {
                     let post = posts[i]
-                    let post_date = new Date(post["post_date"])
+                    // let post_date = new Date(post["post_date"])
+                    console.log(post)
+
                     let html_temp_img = `<div class="card">
                                             <!--게시글 헤더-->
                                             <div class="card-body">
@@ -78,7 +83,7 @@ function getFeed() {
                                                 <p><span class="bold">좋아요 18개</span></p>
                                                 <div class="feed-information">
                                                     <span class="id">${post['user_id']} </span>
-                                                    <span class="feed-content">${post['desc']}</span>                                    
+                                                    <span class="feed-content">${post['desc']}</span>
                                                 </div>
                                                 <button class="c_btn gray_r">댓글 13개 모두 보기</button>
                                                 <br><span class="gray_s">${post['post_date']}</span>
@@ -163,7 +168,7 @@ function getFeed() {
                                                     <div class="post_icon_right">
                                                         <div class="bookmark"></div>
                                                     </div>
-                                                </div>                            
+                                                </div>
                                                 <div class="box">
                                                     <p><span class="bold">좋아요 3개</span></p>
                                                     <div class="feed-information">
@@ -172,7 +177,7 @@ function getFeed() {
                                                     </div>
                                                     <div class="click gray_r" id="comments">댓글 보기</div>
                                                     <br><div class="gray_s">${post['post_date']}</div>
-                                                </div>                            
+                                                </div>
                                                 <!--댓글 달기-->
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">
@@ -182,70 +187,70 @@ function getFeed() {
                                                     </li>
                                                 </ul>
                                             </div>`
-                    $("#article").append(html_temp_img)
+                    $("#card_box").append(html_temp_img)
                 }
             }
         }
     })
 }
 
-// ... 좋아요
-function updateLike() {
-
-}
-
-// ... 댓글 불러오기
-function getComment() {
-    $("#comment_box").empty()
-    $.ajax({
-        type: 'GET',
-        url: '/api/comment',
-        data: {},
-        success: function (response) {
-            let rows = response['comments']
-            for (let i = 0; i < rows.length; i++) {
-                let user_id = rows[i]['user_id']
-                let comment = rows[i]['comment']
-                let cmt_date = rows[i]['cmt_date']
-
-                let temp_html = `<tr>
-                                    <td>${user_id} ${comment}</td>
-                                    <td>${cmt_date}</td>
-                                </tr>`
-                $('#comments').append(temp_html)
-                // if ($('#comments').length >= 1) {
-                //     $('#comments').text('댓글 보기')
-                //     $('#comments').append(temp_html)
-                // }
-                // else{
-                //     $('#comments').text('').hide();
-            }
-        }
-    });
-}
-
-// ... 댓글 작성하기
-function postComment() {
-    let comment = $('#reply'.val)
-    let cmt_date = new Date().toISOString()
-
-    form_data.append('post_id_give', post_id)
-    form_data.append('comment_give', comment)
-    form_data.append('cmt_date_give', cmt_date)
-
-    $.ajax({
-        type: "POST",
-        url: "/api/comment",
-        data: form_data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (response) {
-            alert(response["msg"])
-            window.location.reload()
-        }
-    });
-}
+// // ... 좋아요
+// function updateLike() {
+//
+// }
+//
+// // ... 댓글 불러오기
+// function getComment() {
+//     $("#comment_box").empty()
+//     $.ajax({
+//         type: 'GET',
+//         url: '/api/comment',
+//         data: {},
+//         success: function (response) {
+//             let rows = response['comments']
+//             for (let i = 0; i < rows.length; i++) {
+//                 let user_id = rows[i]['user_id']
+//                 let comment = rows[i]['comment']
+//                 let cmt_date = rows[i]['cmt_date']
+//
+//                 let temp_html = `<tr>
+//                                     <td>${user_id} ${comment}</td>
+//                                     <td>${cmt_date}</td>
+//                                 </tr>`
+//                 $('#comments').append(temp_html)
+//                 // if ($('#comments').length >= 1) {
+//                 //     $('#comments').text('댓글 보기')
+//                 //     $('#comments').append(temp_html)
+//                 // }
+//                 // else{
+//                 //     $('#comments').text('').hide();
+//             }
+//         }
+//     });
+// }
+//
+// // ... 댓글 작성하기
+// function postComment() {
+//     let comment = $('#reply'.val)
+//     let cmt_date = new Date().toISOString()
+//
+//     form_data.append('post_id_give', post_id)
+//     form_data.append('comment_give', comment)
+//     form_data.append('cmt_date_give', cmt_date)
+//
+//     $.ajax({
+//         type: "POST",
+//         url: "/api/comment",
+//         data: form_data,
+//         cache: false,
+//         contentType: false,
+//         processData: false,
+//         success: function (response) {
+//             alert(response["msg"])
+//             window.location.reload()
+//         }
+//     });
+// }
 
 // ... 댓글 미입력시 버튼 비활성화
 function inputComment(txt) {
