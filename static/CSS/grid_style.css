@@ -520,15 +520,8 @@ input#reply:focus {
     display: none;
 }
 
-.modal-post-window {
-    max-width: 750px;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    background-color: white;
+.modal-post-content {
+    display: flex;
 }
 
 .btn-input-img {
@@ -539,4 +532,77 @@ input#reply:focus {
     border-radius: 2px;
     padding: 5px;
     font-weight: bold;
+
+    margin: 300px;
+}
+
+.modal-post-wrap {
+    display: flex;
+    flex-direction: column;
+
+    max-width: 1195px;
+    min-width: 688px;
+
+    background-color: white;
+
+    border-radius: 10px;
+
+    z-index: 10;
+}
+
+.modal-title {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 5px 0 5px;
+    font-weight: bold;
+    border-bottom: #dbdbdb 1px solid;
+}
+
+.modal-title > div {
+    flex-grow: 1;
+    text-align: center;
+    margin: 10px;
+}
+
+#button_post {
+    border: none;
+    background: none;
+    color: #0095f6;
+    font-weight: bold;
+    font-size: small;
+}
+
+.modal_post_images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.modal-post-text {
+    /*width: 340px;*/
+}
+
+.modal-post-textarea-div {
+    border-bottom: #dbdbdb 1px solid;
+    padding: 10px;
+}
+
+#post_text {
+    height: 170px;
+    min-width: 340px;
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+.modal-user-id {
+    height: 60px;
+    background-color: rebeccapurple;
+}
+
+.modal-post-text > div > input {
+    min-width: 340px;
+    border: none;
+    outline: none;
 }

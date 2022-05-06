@@ -24,7 +24,8 @@ function popClose() {
 
 
 function selectImages(event) {
-    $('.modal-content').empty();
+    $('#modal_post_display_image').empty();
+    $('#image_upload_button').hide();
     let sel_files = [];
     let files = event.target.files;
     let fileArr = Array.prototype.slice.call(files);
@@ -32,15 +33,6 @@ function selectImages(event) {
 
     let carousel = `<div id="carousel_upload" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
                           <div id="carousel_upload_inner" class="carousel-inner">
-<!--                            <div class="carousel-item active">-->
-<!--                              <img src="..." class="d-block w-100" alt="...">-->
-<!--                            </div>-->
-<!--                            <div class="carousel-item">-->
-<!--                              <img src="..." class="d-block w-100" alt="...">-->
-<!--                            </div>-->
-<!--                            <div class="carousel-item">-->
-<!--                              <img src="..." class="d-block w-100" alt="...">-->
-<!--                            </div>-->
                           </div>
                           <button class="carousel-control-prev" type="button" data-bs-target="#carousel_upload" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -52,13 +44,12 @@ function selectImages(event) {
                           </button>
                         </div>`
 
-    $('.modal-content').append(carousel)
+    $('#modal_post_display_image').append(carousel)
 
     fileArr.forEach(function (f) {
         sel_files.push(f);
         let reader = new FileReader();
         reader.onload = function (e) {
-            // let temp = `<img src=${e.target.result} data-file=${f.name}/>`
             let temp = ``
             if(index == 0) {
                 temp = `<div class="carousel-item active">
@@ -76,4 +67,15 @@ function selectImages(event) {
         };
         reader.readAsDataURL(f);
     })
+    $('.modal-post-text').show();
+    $('#button_post').show();
+}
+
+function initPostModal() {
+    $('#modal_post').addClass('is-active');
+    $('#modal_post_display_image').empty();
+    $('#image_upload_button').show();
+
+    $('.modal-post-text').hide();
+    $('#button_post').hide();
 }
