@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
+import jwt
+import hashlib
+import datetime
 
 client = MongoClient('mongodb+srv://test:sparta@cluster0.gsb7w.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.instaClone
@@ -13,16 +16,22 @@ def index():
   return render_template('index.html')
 
 
+# @app.route('/api/like', methods=['POST'])
+# def updageLike():
+#   # 좋아요 업데이트
+
+
+
 @app.route('/api/comment', methods=['POST'])
 def postComment():
   # 댓글 작성하기
-  user_id_info = db.users.find_one({"username": payload["id"]})
+  user_info = db.users.find_one({"email": payload["id"]}) # payload에 들어있는 email값을 이용해 user_info를 찾아와라
   post_id_receive = request.form['post_id_give']
   comment_receive = request.form['comment_give']
   cmt_date_receive = request.form['cmt_date_give']
 
-  doc = {'post_id': post_id_receive, 'user_id': user_id_info, 'comment': comment_receive, 'cmt_date': cmt_date_receive}
-  db.comment.insert_one(doc)
+  doc = {'post_id': post_id_receive, 'user_id': user_info['email'], 'comment': comment_receive, 'cmt_date': cmt_date_receive}
+  db.comments.insert_one(doc)
 
   return jsonify({'msg': '댓글 작성 완료!'})
 
@@ -30,8 +39,12 @@ def postComment():
 @app.route('/api/comment', methods=['GET'])
 def getComment():
   # 댓글 조회하기
-  all_comments = list(db.comment.find({}, {'_id': False}))
-  return jsonify({'orders': all_comments})
+  all_comments = list(db.comment.find({}).sort("date", -1))
+
+  for comment in all_comments:
+    comment["_id"] = str(comment["_id"])
+
+  return jsonify({'comments': all_comments})
 
 
 if __name__=="__main__":

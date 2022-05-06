@@ -242,9 +242,8 @@ input#search:focus {
 }
 
 /*게시글*/
-.article {
+.card {
     margin-bottom: 24px;
-    z-index: -1;
 }
 
 .card-body {
