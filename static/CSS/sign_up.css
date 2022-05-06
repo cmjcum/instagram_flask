@@ -3,12 +3,12 @@
 }
 
 .main_box{
-    max-width: 430px;
-    height: 780px;
+    max-width: 350px;
+    height: 750px;
     margin: 80px auto auto auto;
 }
 .privacy_box{
-    width: 425px;
+    width: 350px;
     height: 82%;
     margin: auto;
     background-color: #ffffff;
@@ -24,7 +24,7 @@
 }
 .guide_box{
     height: 40px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     color: #8e8e8e;
 }
@@ -37,7 +37,6 @@
 .privacy_text_box{
     width: 80%;
     height: 50px;
-    font-weight: bold;
     outline: none;
     border-radius: 5px;
     border: solid 1px #dedede;
@@ -50,17 +49,16 @@
     margin-top: 120px;
 }
 .join_box{
-    width: 425px;
-    height: 80px;
+    width: 350px;
+    height: 65px;
     margin: 3% auto auto auto;
     background-color: #ffffff;
 }
 .join_box_text{
-    width: 425px;
+    width: 350px;
     height: 50px;
-    font-weight: bold;
-    font-size: 18px;
-    margin-top: 25px;
+    font-size: 16px;
+    margin-top: 20px;
 }
 .footer_box{
     margin-top: 80px;
@@ -71,11 +69,11 @@
 }
 
 
-.margin_top_90px{
-    margin-top: 90px;
+.margin_top_70px{
+    margin-top: 70px;
 }
-.margin_top_20px{
-    margin-top: 20px;
+.margin_top_30px{
+    margin-top: 30px;
 }
 .margin_top_5px{
     margin-top: 5px;
