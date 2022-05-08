@@ -51,14 +51,19 @@
         </div>
         <div class="header_right">
             <div class="my_id">
-                <span class="user_id">User_ID_1111</span>
+                <span class="user_id" id="user_id">User_ID_1111</span>
                 <button class="btn_profile_mod bold">프로필 편집</button>
                 <div class="profile_gear" onclick="popOpen()"></div>
+
             </div>
             <div class="my_info">
-                <div class="info">게시물 <span class="bold">22</span></div>
-                <div class="info">팔로워 <span class="bold">22</span></div>
-                <div class="info">팔로우 <span class="bold">22</span></div>
+                <div class="info">게시물 <span class="bold" id="feed_cnt">0</span></div>
+                <div class="info" onclick="popFollowerOpen()" style="cursor: pointer;">팔로워 <span class="bold"
+                                                                                                 id="follower_cnt">0</span>
+                </div>
+                <div class="info" onclick="popFollowingOpen()" style="cursor: pointer;">팔로우 <span class="bold"
+                                                                                                  id="following_cnt">0</span>
+                </div>
             </div>
             <div class="my_name">
                 <span class="bold">팀 코못죽</span><br>
@@ -86,17 +91,19 @@
 
         <article>
             <div class="post_box" id="article_box">
-                <div class="my_post"></div>
-                <div class="my_post"></div>
-                <div class="my_post"></div>
-                <div class="my_post"></div>
-                <div class="my_post"></div>
-                <div class="my_post"></div>
-                <div class="my_post"></div>
-                <div class="my_post"></div>
-                <div class="my_post"></div>
+                <div class="my_post"><img src="../static/img/post_1-6.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_1-1.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_1-2.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_1-3.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_1-4.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_1-5.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_2-1.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_2-2.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
             </div>
         </article>
+
+
 
     </div>
 
@@ -114,17 +121,28 @@
 
 <!--모달 영역 시작-->
 <div class="modal-bg">
-    <div class="modal-wrap">
-        <button class="btn-in-popup">비밀번호 변경</button>
-        <button class="btn-in-popup">QR 코드</button>
-        <button class="btn-in-popup">앱 및 웹사이트</button>
-        <button class="btn-in-popup">알림</button>
-        <button class="btn-in-popup">개인정보 및 보안</button>
-        <button class="btn-in-popup">로그인 활동</button>
-        <button class="btn-in-popup">Instagram에서 보낸 이메일</button>
-        <button class="btn-in-popup">문제신고</button>
-        <button class="btn-in-popup">로그아웃</button>
-        <button class="btn-in-popup" onclick="popClose()">취소</button>
+    <div class="modal-wrap" id="modal-gear">
+        <button class="btn_in_popup btn_top">비밀번호 변경</button>
+        <button class="btn_in_popup">QR 코드</button>
+        <button class="btn_in_popup">앱 및 웹사이트</button>
+        <button class="btn_in_popup">알림</button>
+        <button class="btn_in_popup">개인정보 및 보안</button>
+        <button class="btn_in_popup">로그인 활동</button>
+        <button class="btn_in_popup">Instagram에서 보낸 이메일</button>
+        <button class="btn_in_popup">문제신고</button>
+        <button class="btn_in_popup">로그아웃</button>
+        <button class="btn_in_popup btn_bottom" onclick="popClose()">취소</button>
+    </div>
+    <div class="modal-wrap" id="modal-follower">
+        <div class="modal-header"><span class="bold">팔로워 목록</span>
+            <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
+        </div>
+
+    </div>
+    <div class="modal-wrap" id="modal-following">
+        <div class="modal-header"><span class="bold">팔로우 목록</span>
+            <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
+        </div>
     </div>
 </div>
 <!--모달 영역 끝-->
