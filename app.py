@@ -6,8 +6,6 @@ import datetime
 import gridfs
 import codecs
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.gsb7w.mongodb.net/Cluster0?retryWrites=true&w=majority')
-db = client.instaClone
 
 #Flask 객체 인스턴스 생성
 app = Flask(__name__)
