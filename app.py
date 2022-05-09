@@ -1,8 +1,8 @@
 import codecs
 
 from flask import Flask, render_template, request, jsonify
-import gridfs
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 from pymongo import MongoClient
 
@@ -24,17 +24,19 @@ def upload():
     time = datetime.now()
     email = "LULULALA_2@insta.com"
     user_id = "LULULALA_2"
-
-    fs = gridfs.GridFS(db)
-    fs_ids = []
+    images_path = []
 
     for image in images:
-      fs_ids.append(fs.put(image))
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
+        path = './static/img/post_img/' + timestamp + secure_filename(image.filename)
+        print(path)
+        image.save(path)
+        images_path.append(path)
 
     doc = {
         'email': email,
         'user_id': user_id,
-        'photo': fs_ids,
+        'photo': images_path,
         'location': location,
         'post_date': time,
         'desc': desc
