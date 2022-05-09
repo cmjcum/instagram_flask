@@ -54,7 +54,7 @@ function getFeed() {
                     let post_date = new Date(post["post_date"])
                     let time_before = time2str(post_date)
 
-                    let html_temp_img = `<div class="card" id="${post['post_id']}">
+                    let html_temp_img = `<div class="card" id="${post['_id']}">
                                             <!--게시글 헤더-->
                                             <div class="card-body">
                                                 <div class="card_header">
@@ -82,8 +82,9 @@ function getFeed() {
                                                     <div class="feed-information">
                                                         <span class="id">${post['user_id']} </span>
                                                         <span class="feed-content black">${post['desc']}</span>
-                                                    </div>
-                                                    <div class="click gray_r" id="comments">댓글 보기</div>
+                                                    </div>                                                    
+                                                    <div class="click gray_r" id="comment-open" onclick="getComment(this)">댓글 보기</div>
+                                                    <div id="comments"></div>
                                                     <br><div class="gray_s">${time_before}</div>
                                                 </div>
                                             <!--댓글 달기-->
@@ -91,8 +92,8 @@ function getFeed() {
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">
                                                         <div class="emoji"></div>
-                                                        <input type="text" onkeyup="inputComment(this)" class="reply" placeholder="댓글 달기...">
-                                                        <button type="button" disabled="false" class="btn btn-outline-info btn-sm">게시</button>
+                                                        <input type="text" onkeyup="inputComment(this)" class="reply" id="reply" placeholder="댓글 달기...">
+                                                        <button type="button" disabled="false" onclick="postComment(this)" class="btn btn-outline-info btn-sm">게시</button>
                                                     </li>
                                                 </ul>
                                             </ul>
@@ -180,7 +181,7 @@ function getFeed() {
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">
                                                         <div class="emoji"></div>
-                                                        <input type="text" onkeyup="inputComment(this)" class="reply" placeholder="댓글 달기...">
+                                                        <input type="text" onkeyup="inputComment(this)" class="reply" id="reply" placeholder="댓글 달기...">
                                                         <button type="button" disabled="false" onclick="postComment()" class="btn btn-outline-info btn-sm">게시</button>
                                                     </li>
                                                 </ul>
@@ -198,60 +199,66 @@ function getFeed() {
 //
 // }
 //
-// // ... 댓글 불러오기
-// function getComment() {
-//     $("#comment_box").empty()
-//     console.log("아")
-//     $.ajax({
-//         type: 'GET',
-//         url: '/api/comment',
-//         data: {},
-//         success: function (response) {
-//             console.log(response)
-//             let rows = response['comments']
-//             for (let i = 0; i < rows.length; i++) {
-//                 let user_id = rows[i]['user_id']
-//                 let comment = rows[i]['comment']
-//                 let cmt_date = rows[i]['cmt_date']
-//
-//                 let temp_html = `<tr>
-//                                     <td>${user_id} ${comment}</td>
-//                                     <td>${cmt_date}</td>
-//                                 </tr>`
-//                 $('#comments').append(temp_html)
-//                 // if ($('#comments').length >= 1) {
-//                 //     $('#comments').text('댓글 보기')
-//                 //     $('#comments').append(temp_html)
-//                 // }
-//                 // else{
-//                 //     $('#comments').text('').hide();
-//             }
-//         }
-//     });
-// }
-//
-// // ... 댓글 작성하기
-// function postComment() {
-//     let comment = $('#reply'.val)
-//     let cmt_date = new Date().toISOString()
-//
-//     form_data.append('post_id_give', post_id)
-//     form_data.append('comment_give', comment)
-//     form_data.append('cmt_date_give', cmt_date)
-//
-//     $.ajax({
-//         type: "POST",
-//         url: "/api/comment",
-//         data: form_data,
-//         cache: false,
-//         contentType: false,
-//         processData: false,
-//         success: function (response) {
-//             alert(response["msg"])
-//             window.location.reload()
-//         }
-//     });
-// }
+// ... 댓글 불러오기
+function getComment(obj) {
+    $(obj).hide()
+    let post_id = $(obj).closest('.card').attr('id')
+    console.log($(obj).attr('id'))
+    console.log(post_id)
+    $.ajax({
+        type: 'GET',
+        url: '/api/comment?post_id_give=' + post_id,
+        data: {},
+        success: function (response) {
+            console.log(response)
+            let comments = response['comments']
+            for (let i = 0; i < comments.length; i++) {
+                let user_id = comments[i]['user_id']
+                let comment = comments[i]['comment']
+                let cmt_date = new Date(comments[i]['cmt_date'])
+                console.log(cmt_date)
+                let time_before = time2str(cmt_date)
+                console.log(time_before)
+
+                let temp_html = `<div>
+                                    <span class="black"><strong>${user_id}</strong> ${comment}</span>
+                                    <span class="gray_s">${time_before}</span>
+                                </div>`
+                $(obj).next().append(temp_html)
+                // if ($('#comments').length >= 1) {
+                //     $('#comments').text('댓글 보기')
+                //     $('#comments').append(temp_html)
+                // }
+                // else{
+                //     $('#comments').text('').hide();
+            }
+        }
+    });
+}
+
+// ... 댓글 작성하기
+function postComment(obj) {
+    let comment = $(obj).prev().val()
+    console.log(comment)
+    let cmt_date = new Date().toISOString()
+    console.log(cmt_date)
+    let post_id = $(obj).closest('.card').attr('id')
+    console.log(post_id)
+
+    $.ajax({
+        type: "POST",
+        url: "/api/comment",
+        data: {
+            post_id_give: post_id,
+            comment_give: comment,
+            cmt_date_give: cmt_date
+        },
+        success: function (response) {
+            alert(response["msg"])
+            window.location.reload()
+        }
+    });
+}
 
 
 function time2str(date) {
@@ -271,13 +278,6 @@ function time2str(date) {
     }
     return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
 }
-
-
-
-
-
-
-
 
 
 // ... 댓글 미입력시 버튼 비활성화

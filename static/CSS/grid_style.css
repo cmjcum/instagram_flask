@@ -92,42 +92,36 @@ a {
 
 .id {
     font-weight: 600;
-    line-height: 1.1em;
 }
 
 .gray_s {
     color: #8e8e8e;
     font-weight: 400;
     font-size: 0.8em;
-    line-height: 1em;
 }
 
 .blue_sb {
     color: #0095f6;
     font-weight: 600;
     font-size: 0.8em;
-    line-height: 16px;
 }
 
 .gray_r {
     color: #8e8e8e;
     font-weight: 400;
     font-size: 0.9em;
-    line-height: 1em;
 }
 
 .gray {
     color: #8e8e8e;
     font-weight: 600;
     font-size: 0.95em;
-    line-height: 18px;
 }
 
 .black {
     color: #262626;
     font-weight: 400;
     font-size: 0.875em;
-    line-height: 18px;
 }
 
 /*전체 영역*/
@@ -270,7 +264,7 @@ input#search:focus {
     font-weight: 600;
     width: 200px;
     height: 26px;
-    line-height: 1em;
+    line-height: 1.1em;
     padding-left: 15px;
 }
 
