@@ -23,6 +23,7 @@ function popClose() {
 }
 
 
+// 포스팅 모달 함수
 function selectImages(event) {
     $('#modal_post_display_image').empty();
     $('#image_upload_button').hide();
@@ -69,6 +70,29 @@ function selectImages(event) {
     })
     $('.modal-post-text').show();
     $('#button_post').show();
+}
+
+function postFeed() {
+    let form = $('#post_form')[0];
+    let formData = new FormData(form);
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/feed',
+        // enctype: 'multipart/form-data',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            alert(response['msg']);
+            window.location.href = '/';
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+            alert("fail");
+            window.location.href = '/'
+        }
+    });
 }
 
 function initPostModal() {

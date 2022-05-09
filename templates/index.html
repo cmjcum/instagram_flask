@@ -338,23 +338,14 @@
     </div>
     <!--모달 영역 끝-->
 
-    {#        포스트 모달#}
-{#    <div id="modal_bg_post" class="modal-bg" onclick='$("#modal_bg_post").removeClass("is-active")'>#}
-{#        <div class="modal-post-window">#}
-{#            <label class="btn_input_img" for="input_img">컴퓨터에서 선택</label>#}
-{#            <input onchange="selectImages(event)" style="display: none" id="input_img" type="file" class="real-upload" accept="image/*" required multiple>#}
-{#            <input style="display: none" id="input_img" type="file" class="real-upload" accept="image/*" required multiple>#}
-{##}
-{#        </div>#}
-{#    </div>#}
-
+{#    포스팅 모달#}
     <div id="modal_post" class="modal">
         <div class="modal-background" onclick='$("#modal_post").removeClass("is-active")'></div>
         <div class="modal-post-wrap">
-            <form action="/upload" method="POST" enctype="multipart/form-data">
-                <div class="modal-title">
+            <form id="post_form">
+                <div class="modal-post-title">
                     <div>새 게시물 만들기</div>
-                    <input value="공유하기" type="submit" id="button_post">
+                    <button type='button' onclick="postFeed()"id="button_post">공유하기</button>
                 </div>
 
                 <div class="modal-post-content">
