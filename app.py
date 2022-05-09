@@ -2,7 +2,7 @@ import codecs
 
 from flask import Flask, render_template, request, jsonify
 import gridfs
-from datetime import  datetime
+from datetime import datetime
 
 from pymongo import MongoClient
 
@@ -42,7 +42,7 @@ def upload():
 
     db.posts.insert_one(doc)
 
-    return render_template('index.html')
+    return jsonify({'msg': '완료!'})
 
 if __name__=="__main__":
   app.run(debug=True)
