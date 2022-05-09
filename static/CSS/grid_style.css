@@ -573,7 +573,7 @@ input#reply:focus {
     font-size: small;
 }
 
-.modal_post_images {
+.modal-post-images {
     display: flex;
     justify-content: center;
     align-items: center;
