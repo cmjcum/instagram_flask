@@ -103,3 +103,22 @@ function initPostModal() {
     $('.modal-post-text').hide();
     $('#button_post').hide();
 }
+
+// 피드 수정 모달
+function initModifyModal() {
+    popClose();
+    $('#modal_modify').addClass('is-active');
+}
+
+function loadModifyFeedModal() {
+
+    $.ajax({
+        type: 'GET',
+        url: '/api/loadModify?post_id_give=',
+        data: {},
+        success: function (response) {
+
+        }
+
+    });
+}

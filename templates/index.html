@@ -331,7 +331,7 @@
             <button class="btn-in-popup">게시물로 이동</button>
             <button class="btn-in-popup">공유 대상...</button>
             <button class="btn-in-popup">링크 복사</button>
-            <button class="btn-in-popup">퍼가기</button>
+            <button class="btn-in-popup" onclick="initModifyModal()">퍼가기</button>
             <button class="btn-in-popup" onclick="popClose()">취소</button>
         </div>
 
@@ -349,7 +349,7 @@
                 </div>
 
                 <div class="modal-post-content">
-                    <div class="modal_post_images">
+                    <div class="modal-post-images">
                         <div id="image_upload_button">
                             <label class="btn-input-img" for="input_img">컴퓨터에서 선택</label>
                             <input name="image[]" onchange="selectImages(event)" style="display: none" id="input_img"
@@ -378,6 +378,42 @@
 
         </div>
         <button class="modal-close is-large" aria-label="close" onclick='$("#modal_post").removeClass("is-active")'></button>
+    </div>
+
+{#    수정 모달#}
+    <div id="modal_modify" class="modal">
+        <div class="modal-background" onclick='$("#modal_modify").removeClass("is-active")'></div>
+        <div class="modal-post-wrap">
+            <form id="modify_form">
+                <div class="modal-post-title">
+                    <div>정보 수정</div>
+                    <button type='button' onclick="postFeed()"id="button_post">완료</button>
+                </div>
+
+                <div class="modal-post-content">
+                    <div class="modal-post-images">
+                        <div id="modal_post_display_image"></div>
+
+                    </div>
+                    <div class="modal-post-text">
+                        <div class="modal-user-id">
+                            <img src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png">
+                            <div>user_id</div>
+                        </div>
+                        <div class="modal-post-textarea-div">
+                            <textarea name="desc" id="post_text" placeholder="문구 입력..."></textarea>
+                        </div>
+                        <div style="padding: 10px">
+                            <input name="location" type="text" placeholder="위치 추가">
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick='$("#modal_modify").removeClass("is-active")'></button>
     </div>
 
 </div>
