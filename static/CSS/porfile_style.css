@@ -239,7 +239,6 @@ input#search:focus {
 
 .header_left {
     width: 292px;
-    /*height: 152px;*/
     margin-right: 25px;
 }
 
@@ -251,6 +250,13 @@ input#search:focus {
     background-image: url('../img/profile.jpg');
     background-position: center;
     background-size: cover;
+
+    border-radius: 50%;
+}
+
+.my_pic >img {
+    width: inherit;
+    height: inherit;
 
     border-radius: 50%;
 }
@@ -302,7 +308,7 @@ input#search:focus {
 .post {
     max-width: 935px;
     width: 100%;
-    height: 1000px;
+    height: auto;
 
     margin: auto;
 
@@ -367,7 +373,6 @@ input#search:focus {
 .post_box .my_post > img:hover {
     opacity: .3;
 }
-
 
 
 .post_box .my_post:hover {
@@ -634,7 +639,58 @@ input#search:focus {
     box-shadow: none;
 }
 
+/*모달창 내부*/
 .modal-header {
     width: 100%;
     height: 40px;
+}
+
+.follow_info {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 30px;
+}
+
+.follow_profile {display: flex;}
+
+.btn_follow {
+    margin: 0 5px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.btn_follow_del {
+    padding: 3px 10px;
+    margin: 0 20px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid #dbdbdb;
+    box-shadow: none;
+
+}
+
+.follow_info .profile {
+    width: 34px;
+    height: 34px;
+    margin-left: 20px;
+
+    border-radius: 50%;
+}
+
+.follow_info .profile > img {
+    width: inherit;
+    height: inherit;
+
+    border-radius: 50%;
+}
+
+.nickname {
+    font-weight: 600;
+    width: 200px;
+    height: 26px;
+    line-height: 1em;
+    padding-left: 15px;
 }

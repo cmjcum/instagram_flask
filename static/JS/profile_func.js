@@ -1,16 +1,48 @@
-// $(document).ready(function () {
-//     show_follow();
-// });
+$(document).ready(function () {
+    // show_follow();
+    showUserInfo();
+    downloadImage();
+});
 
-function show_follow() {
+// function show_follow() {
+//     $.ajax({
+//         type: "GET",
+//         url: "/profile",
+//         data: {},
+//         success: function (response) {
+//             alert(response["msg"])
+//         }
+//     });
+// }
+
+function showUserInfo() {
     $.ajax({
         type: "GET",
-        url: "/profile",
+        url: "/api/profile",
         data: {},
         success: function (response) {
             alert(response["msg"])
         }
     });
+}
+
+// 이미지 로딩
+function downloadImage() {
+    $.ajax({
+        type: 'GET',
+        url: '/prifile/download',
+        data: {},
+        success: function (response) {
+            let rows = response['image']
+            console.log(rows)
+
+            for (let i = 0; i < rows.length; i++) {
+                let id = rows[i]
+                let temp = `<div class="my_post"><img src="data:image/*;base64, ${id}"></div>`
+                $('#article_box').append(temp)
+            }
+        }
+    })
 }
 
 // 톱니바퀴 모달창 열기
@@ -25,6 +57,7 @@ function popOpen() {
         height: 'auto'
     });
 }
+
 // 팔로우 모달창 열기
 function popFollowingOpen() {
     var modalPop = $('#modal-following');
@@ -37,6 +70,7 @@ function popFollowingOpen() {
         height: 'auto'
     });
 }
+
 //팔로워 모달창 열기
 function popFollowerOpen() {
     var modalPop = $('#modal-follower');
@@ -49,6 +83,7 @@ function popFollowerOpen() {
         height: 'auto'
     });
 }
+
 // 모달창 닫기
 function popClose() {
     var modalPop = $('.modal-wrap');

@@ -47,11 +47,11 @@
 
     <div class="header">
         <div class="header_left">
-            <div class="my_pic"></div>
+            <div class="my_pic"><img src="../static/img/post_3.jpg"></div>
         </div>
         <div class="header_right">
             <div class="my_id">
-                <span class="user_id" id="user_id">User_ID_1111</span>
+                <span class="user_id" id="user_id">user_id</span>
                 <button class="btn_profile_mod bold">프로필 편집</button>
                 <div class="profile_gear" onclick="popOpen()"></div>
 
@@ -91,18 +91,9 @@
 
         <article>
             <div class="post_box" id="article_box">
-                <div class="my_post"><img src="../static/img/post_1-6.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_1-1.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_1-2.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_1-3.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_1-4.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_1-5.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_2-1.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_2-2.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+                <!--게시글 섬네일 불러오기-->
             </div>
         </article>
-
 
 
     </div>
@@ -133,15 +124,37 @@
         <button class="btn_in_popup">로그아웃</button>
         <button class="btn_in_popup btn_bottom" onclick="popClose()">취소</button>
     </div>
+
     <div class="modal-wrap" id="modal-follower">
         <div class="modal-header"><span class="bold">팔로워 목록</span>
             <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
+        </div>
+        <div class="follower_list">
+            <div class="follow_info">
+                <div class="follow_profile">
+                    <div class="profile"><img src="../static/img/post_3.jpg"></div>
+                    <div class="nickname"><span id="follower_id">follower_id</span>
+                        <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>
+                        <br><span id="follower_name" class="gray_s">follower_name</span></div>
+                </div>
+                <button type="button" class="btn_follow_del">삭제</button>
+            </div>
         </div>
 
     </div>
     <div class="modal-wrap" id="modal-following">
         <div class="modal-header"><span class="bold">팔로우 목록</span>
             <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
+        </div>
+        <div class="following_list">
+            <div class="follow_info">
+                <div class="follow_profile">
+                    <div class="profile"><img src="../static/img/post_3.jpg"></div>
+                    <div class="nickname"><span id="following_id">following_id</span>
+                        <br><span id="following_name" class="gray_s">following_name</span></div>
+                </div>
+                <button type="button" class="btn_follow_del">팔로잉</button>
+            </div>
         </div>
     </div>
 </div>
