@@ -520,6 +520,7 @@ input#reply:focus {
     display: none;
 }
 
+/*포스팅 모달 css*/
 .modal-post-content {
     display: flex;
 }
@@ -550,7 +551,7 @@ input#reply:focus {
     z-index: 10;
 }
 
-.modal-title {
+.modal-post-title {
     display: flex;
     flex-direction: row;
     margin: 5px 5px 0 5px;
@@ -558,7 +559,7 @@ input#reply:focus {
     border-bottom: #dbdbdb 1px solid;
 }
 
-.modal-title > div {
+.modal-post-title > div {
     flex-grow: 1;
     text-align: center;
     margin: 10px;
@@ -577,10 +578,6 @@ input#reply:focus {
     justify-content: center;
     align-items: center;
     width: 100%;
-}
-
-.modal-post-text {
-    /*width: 340px;*/
 }
 
 .modal-post-textarea-div {
