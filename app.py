@@ -2,10 +2,11 @@ import codecs
 
 from flask import Flask, render_template, request, jsonify
 import gridfs
+from datetime import  datetime
 
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.gsb7w.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('#################')
 db = client.instaClone
 
 #Flask 객체 인스턴스 생성
@@ -15,24 +16,31 @@ app = Flask(__name__)
 def index():
   return render_template('index.html')
 
-@app.route('/upload', methods=["POST"])
+@app.route('/api/feed', methods=["POST"])
 def upload():
     images = request.files.getlist("image[]")
     desc = request.form['desc']
     location = request.form['location']
+    time = datetime.now()
+    email = "LULULALA_2@insta.com"
+    user_id = "LULULALA_2"
 
     fs = gridfs.GridFS(db)
+    fs_ids = []
 
     for image in images:
-      fs.put(image)
+      fs_ids.append(fs.put(image))
 
     doc = {
-        'desc': desc,
-        'location': location
+        'email': email,
+        'user_id': user_id,
+        'photo': fs_ids,
+        'location': location,
+        'post_date': time,
+        'desc': desc
     }
 
-    post_id = db.posts.insertOne(doc)
-    print(post_id)
+    db.posts.insert_one(doc)
 
     return render_template('index.html')
 
