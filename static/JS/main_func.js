@@ -32,7 +32,14 @@ function selectImages(event) {
     let fileArr = Array.prototype.slice.call(files);
     let index = 0;
 
-    let carousel = `<div id="carousel_upload" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+    let temp_img_html = ``
+
+    if(fileArr.length == 1) {
+        temp_img_html = `<div id="carousel_upload" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                          <div id="carousel_upload_inner" class="carousel-inner"></div></div>`
+    }
+    else {
+        temp_img_html = `<div id="carousel_upload" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
                           <div id="carousel_upload_inner" class="carousel-inner">
                           </div>
                           <button class="carousel-control-prev" type="button" data-bs-target="#carousel_upload" data-bs-slide="prev">
@@ -44,8 +51,9 @@ function selectImages(event) {
                             <span class="visually-hidden">Next</span>
                           </button>
                         </div>`
+    }
 
-    $('#modal_post_display_image').append(carousel)
+    $('#modal_post_display_image').append(temp_img_html)
 
     fileArr.forEach(function (f) {
         sel_files.push(f);
