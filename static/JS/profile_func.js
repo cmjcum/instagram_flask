@@ -1,48 +1,33 @@
 $(document).ready(function () {
-    // show_follow();
-    showUserInfo();
-    downloadImage();
-});
+    getFeed()
+})
 
-// function show_follow() {
-//     $.ajax({
-//         type: "GET",
-//         url: "/profile",
-//         data: {},
-//         success: function (response) {
-//             alert(response["msg"])
-//         }
-//     });
-// }
-
-function showUserInfo() {
+// ... 피드 불러오기
+function getFeed() {
+    $("#article_box").empty()
     $.ajax({
         type: "GET",
-        url: "/api/profile",
+        url: "/feed",
         data: {},
         success: function (response) {
-            alert(response["msg"])
-        }
-    });
-}
-
-// 이미지 로딩
-function downloadImage() {
-    $.ajax({
-        type: 'GET',
-        url: '/prifile/download',
-        data: {},
-        success: function (response) {
-            let rows = response['image']
-            console.log(rows)
-
-            for (let i = 0; i < rows.length; i++) {
-                let id = rows[i]
-                let temp = `<div class="my_post"><img src="data:image/*;base64, ${id}"></div>`
-                $('#article_box').append(temp)
+            if (response["result"] == "success") {
+                let posts = response["posts"]
+                for (let i = 0; i < posts.length; i++) {
+                    let post = posts[i]
+                    let url = post['photo'][0]
+                    let html_temp_img = `<div class="my_post"><img src="${url}"></div>`
+                    $("#article_box").append(html_temp_img)
+                }
             }
         }
     })
+}
+
+//로그아웃
+function sign_out() {
+    $.removeCookie('mytoken', {path: '/'});
+    alert('로그아웃!')
+    window.location.href = "/login"
 }
 
 // 톱니바퀴 모달창 열기

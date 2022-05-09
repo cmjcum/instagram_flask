@@ -40,6 +40,7 @@
                 <div class="write"></div>
                 <div class="explore"></div>
                 <div class="like"></div>
+                {#{{ user_pic }} 적용예정#}
                 <div class="profile"></div>
             </div>
         </div>
@@ -47,27 +48,28 @@
 
     <div class="header">
         <div class="header_left">
-            <div class="my_pic"><img src="../static/img/post_3.jpg"></div>
+            {#{{ user_pic }} 적용예정#}
+            <div class="my_pic"></div>
         </div>
         <div class="header_right">
             <div class="my_id">
-                <span class="user_id" id="user_id">user_id</span>
+                <span class="user_id">{{ user_id }}</span>
                 <button class="btn_profile_mod bold">프로필 편집</button>
                 <div class="profile_gear" onclick="popOpen()"></div>
 
             </div>
             <div class="my_info">
-                <div class="info">게시물 <span class="bold" id="feed_cnt">0</span></div>
-                <div class="info" onclick="popFollowerOpen()" style="cursor: pointer;">팔로워 <span class="bold"
-                                                                                                 id="follower_cnt">0</span>
+                <div class="info">게시물 <span class="bold">{{ feed_cnt }}</span></div>
+                <div class="info" onclick="popFollowerOpen()" style="cursor: pointer;">팔로워 <span
+                        class="bold">{{ follower_cnt }}</span>
                 </div>
-                <div class="info" onclick="popFollowingOpen()" style="cursor: pointer;">팔로우 <span class="bold"
-                                                                                                  id="following_cnt">0</span>
+                <div class="info" onclick="popFollowingOpen()" style="cursor: pointer;">팔로우 <span
+                        class="bold">{{ following_cnt }}</span>
                 </div>
             </div>
             <div class="my_name">
-                <span class="bold">팀 코못죽</span><br>
-                <span class="message">데못죽 영문명이 Debut or Die니까 코못죽은 영문명이 Coding or Die가 되는 건가요?</span>
+                <span class="bold">{{ user_name }}</span><br>
+                <span class="message">{{ user_bio }}</span>
             </div>
         </div>
     </div>
@@ -92,6 +94,12 @@
         <article>
             <div class="post_box" id="article_box">
                 <!--게시글 섬네일 불러오기-->
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+
+
             </div>
         </article>
 
@@ -121,7 +129,7 @@
         <button class="btn_in_popup">로그인 활동</button>
         <button class="btn_in_popup">Instagram에서 보낸 이메일</button>
         <button class="btn_in_popup">문제신고</button>
-        <button class="btn_in_popup">로그아웃</button>
+        <button class="btn_in_popup" onclick="sign_out()">로그아웃</button>
         <button class="btn_in_popup btn_bottom" onclick="popClose()">취소</button>
     </div>
 
@@ -139,6 +147,17 @@
                 </div>
                 <button type="button" class="btn_follow_del">삭제</button>
             </div>
+            {% for data in follower_data %}
+                <div class="follow_info">
+                    <div class="follow_profile">
+                        <div class="profile"></div>
+                        <div class="nickname"><span id="follower_id">{{ data.email }}</span>
+                            <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>
+                            <br><span id="follower_name" class="gray_s">follower_name</span></div>
+                    </div>
+                    <button type="button" class="btn_follow_del">삭제</button>
+                </div>
+            {% endfor %}
         </div>
 
     </div>
@@ -155,11 +174,22 @@
                 </div>
                 <button type="button" class="btn_follow_del">팔로잉</button>
             </div>
+
+            {% for data in following_data %}
+                <div class="follow_info">
+                    <div class="follow_profile">
+                        <div class="profile"></div>
+                        <div class="nickname"><span id="following_id">{{ data.t_email }}</span>
+                            <br><span id="following_name" class="gray_s">following_name</span></div>
+                    </div>
+                    <button type="button" class="btn_follow_del">팔로잉</button>
+                </div>
+            {% endfor %}
+
         </div>
+        <!--모달 영역 끝-->
     </div>
 </div>
-<!--모달 영역 끝-->
-
 </body>
 
 </html>
