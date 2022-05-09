@@ -203,22 +203,17 @@ function getFeed() {
 function getComment(obj) {
     $(obj).hide()
     let post_id = $(obj).closest('.card').attr('id')
-    console.log($(obj).attr('id'))
-    console.log(post_id)
     $.ajax({
         type: 'GET',
         url: '/api/comment?post_id_give=' + post_id,
         data: {},
         success: function (response) {
-            console.log(response)
             let comments = response['comments']
             for (let i = 0; i < comments.length; i++) {
                 let user_id = comments[i]['user_id']
                 let comment = comments[i]['comment']
                 let cmt_date = new Date(comments[i]['cmt_date'])
-                console.log(cmt_date)
                 let time_before = time2str(cmt_date)
-                console.log(time_before)
 
                 let temp_html = `<div>
                                     <span class="black"><strong>${user_id}</strong> ${comment}</span>
@@ -239,11 +234,8 @@ function getComment(obj) {
 // ... 댓글 작성하기
 function postComment(obj) {
     let comment = $(obj).prev().val()
-    console.log(comment)
     let cmt_date = new Date().toISOString()
-    console.log(cmt_date)
     let post_id = $(obj).closest('.card').attr('id')
-    console.log(post_id)
 
     $.ajax({
         type: "POST",
