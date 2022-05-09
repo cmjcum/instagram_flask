@@ -41,22 +41,20 @@ function moreButtonClick(obj, i) {
 
 // ... 피드 불러오기
 function getFeed() {
-    console.log("악")
     $("#card_box").empty()
     $.ajax({
         type: "GET",
         url: "/feed",
         data: {},
         success: function (response) {
-            console.log(response)
             if (response["result"] == "success") {
                 let posts = response["posts"]
                 for (let i = 0; i < posts.length; i++) {
                     let post = posts[i]
-                    // let post_date = new Date(post["post_date"])
-                    console.log(post)
+                    let post_date = new Date(post["post_date"])
+                    let time_before = time2str(post_date)
 
-                    let html_temp_img = `<div class="card">
+                    let html_temp_img = `<div class="card" id="${post['post_id']}">
                                             <!--게시글 헤더-->
                                             <div class="card-body">
                                                 <div class="card_header">
@@ -66,7 +64,7 @@ function getFeed() {
                                                 <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
                                             </div>
                                             <!--게시글 이미지-->
-                                            <img src="../static/img/post_3.jpg" class="card-img-top post_img">
+                                            <img src="../static/img/post_1-1.jpg" class="card-img-top post_img">
                                             <!--게시글 이미지 하단 아이콘-->
                                             <div class="post_icon">
                                                 <div class="post_icon_left">
@@ -80,21 +78,21 @@ function getFeed() {
                                             </div>
                                             <!--댓글 본문-->
                                             <div class="box">
-                                                <p><span class="bold">좋아요 18개</span></p>
-                                                <div class="feed-information">
-                                                    <span class="id">${post['user_id']} </span>
-                                                    <span class="feed-content">${post['desc']}</span>
+                                                    <p><span class="bold">좋아요 3개</span></p>
+                                                    <div class="feed-information">
+                                                        <span class="id">${post['user_id']} </span>
+                                                        <span class="feed-content black">${post['desc']}</span>
+                                                    </div>
+                                                    <div class="click gray_r" id="comments">댓글 보기</div>
+                                                    <br><div class="gray_s">${time_before}</div>
                                                 </div>
-                                                <button class="c_btn gray_r">댓글 13개 모두 보기</button>
-                                                <br><span class="gray_s">${post['post_date']}</span>
-                                            </div>
                                             <!--댓글 달기-->
                                             <ul class="list-group list-group-flush">
                                                 <ul class="list-group list-group-flush">
                                                     <li class="list-group-item">
                                                         <div class="emoji"></div>
                                                         <input type="text" onkeyup="inputComment(this)" class="reply" placeholder="댓글 달기...">
-                                                        <button type="button" disabled="false" onclick="postComment()" class="btn btn-outline-info btn-sm">게시</button>
+                                                        <button type="button" disabled="false" class="btn btn-outline-info btn-sm">게시</button>
                                                     </li>
                                                 </ul>
                                             </ul>
@@ -175,7 +173,7 @@ function getFeed() {
                                                         <span class="id">${post['user_id']} </span>
                                                         <span class="feed-content black">${post['desc']}</span>
                                                     </div>
-                                                    <div class="click gray_r" id="comments">댓글 보기</div>
+                                                    <div class="click gray_r" id="comments" onclick="getComment()">댓글 보기</div>
                                                     <br><div class="gray_s">${post['post_date']}</div>
                                                 </div>
                                                 <!--댓글 달기-->
@@ -194,19 +192,22 @@ function getFeed() {
     })
 }
 
+//
 // // ... 좋아요
-// function updateLike() {
+// function updateLike(post_id, type) {
 //
 // }
 //
 // // ... 댓글 불러오기
 // function getComment() {
 //     $("#comment_box").empty()
+//     console.log("아")
 //     $.ajax({
 //         type: 'GET',
 //         url: '/api/comment',
 //         data: {},
 //         success: function (response) {
+//             console.log(response)
 //             let rows = response['comments']
 //             for (let i = 0; i < rows.length; i++) {
 //                 let user_id = rows[i]['user_id']
@@ -251,6 +252,33 @@ function getFeed() {
 //         }
 //     });
 // }
+
+
+function time2str(date) {
+    let today = new Date()
+    let time = (today - date) / 1000 / 60
+
+    if (time < 60) {
+        return parseInt(time) + "분 전"
+    }
+    time = time / 60
+    if (time < 24 ) {
+        return parseInt(time) + "시간 전"
+    }
+    time = time / 24
+    if (time < 7 ) {
+        return parseInt(time) + "일 전"
+    }
+    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
+}
+
+
+
+
+
+
+
+
 
 // ... 댓글 미입력시 버튼 비활성화
 function inputComment(txt) {

@@ -98,14 +98,14 @@ a {
 .gray_s {
     color: #8e8e8e;
     font-weight: 400;
-    font-size: 0.77em;
-    line-height: 16px;
+    font-size: 0.8em;
+    line-height: 1em;
 }
 
 .blue_sb {
     color: #0095f6;
     font-weight: 600;
-    font-size: 0.77em;
+    font-size: 0.8em;
     line-height: 16px;
 }
 
@@ -113,7 +113,7 @@ a {
     color: #8e8e8e;
     font-weight: 400;
     font-size: 0.9em;
-    line-height: 18px;
+    line-height: 1em;
 }
 
 .gray {
@@ -266,6 +266,7 @@ input#search:focus {
 }
 
 .nickname {
+    font-size: 0.95em;
     font-weight: 600;
     width: 200px;
     height: 26px;
@@ -404,7 +405,7 @@ input#reply:focus {
 }
 
 .follow-btn {
-    width: 40px;
+    width: 42px;
 }
 
 .footer {
