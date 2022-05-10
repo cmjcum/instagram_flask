@@ -126,6 +126,12 @@ a {
     font-size: 0.875em;
 }
 
+.black_b {
+    color: #262626;
+    font-weight: 600;
+    font-size: 0.93em;
+}
+
 /*전체 영역*/
 .wrap {
     display: grid;
@@ -317,7 +323,7 @@ input#search:focus {
     width: 420px
 }
 
-.comment-box {
+.comments_box {
     padding: 15px
     /*display: flex;*/
 }
@@ -493,7 +499,6 @@ input#reply:focus {
 }
 
 
-
 /*모달*/
 
 /*버튼 클래스*/
@@ -591,7 +596,7 @@ input#reply:focus {
     margin: 10px;
 }
 
-#button_post {
+.button_modal {
     border: none;
     background: none;
     color: #0095f6;
@@ -611,7 +616,7 @@ input#reply:focus {
     padding: 10px;
 }
 
-#post_text {
+.post-text {
     height: 170px;
     min-width: 340px;
     resize: none;
@@ -643,4 +648,21 @@ input#reply:focus {
     min-width: 340px;
     border: none;
     outline: none;
+}
+
+.modal-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-writer-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    background-color: white;
+    border-radius: 20px;
 }
