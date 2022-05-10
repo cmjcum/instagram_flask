@@ -5,14 +5,11 @@ $(document).ready(function () {
 })
 
 // ... 피드 불러오기
-function getFeed(user_id) {
-    if (user_id == undefined) {
-        user_id = ""
-    }
+function getFeed() {
     $("#article_box").empty()
     $.ajax({
         type: "GET",
-        url: `/feed?user_id_give=${user_id}`,
+        url: "/feed",
         data: {},
         success: function (response) {
             if (response["result"] == "success") {
