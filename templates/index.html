@@ -20,7 +20,13 @@
 
     <title>짭스타그램</title>
 
-
+<script>
+      function logout(){
+        $.removeCookie('mytoken');
+        alert('로그아웃!')
+        window.location.href='/login'
+      }
+</script>
 </head>
 
 <body>

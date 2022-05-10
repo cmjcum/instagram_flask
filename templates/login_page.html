@@ -7,6 +7,39 @@
     <link rel="stylesheet" href="../static/CSS/login_page.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<script>
+{#    {% if msg %}#}
+{#        alert("{{ msg }}")#}
+{#    {% endif %}#}
+
+    function login() {
+    {#    console.log($('#userpw').val());#}
+    {#    console.log($('#userid').val());#}
+        $.ajax({
+            type: "POST",
+            url: "/api/login",
+            data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
+            success: function (response) {
+                console.log('sta')
+                if (response['result'] == 'success') {
+                    // 로그인이 정상적으로 되면, 토큰을 받아옵니다.
+                    // 이 토큰을 mytoken이라는 키 값으로 쿠키에 저장합니다.
+                    $.cookie('mytoken', response['token']);
+                    alert('로그인 완료!')
+                    window.location.href = '/'
+                } else {
+                    // 로그인이 안되면 에러메시지를 띄웁니다.
+                    alert(response['msg'])
+                }
+            }
+        })
+    }
+</script>
+
 </head>
 <body style="background-color:#fafafa">
 
@@ -20,15 +53,15 @@
 
         <!--        이메일 비밀번호-->
         <div style="text-align: center" placeholder="안녕">
-            <input type="text" placeholder=" 이메일" class="privacy_text_box">
+            <input id = "userid" type="text" placeholder=" 이메일" class="privacy_text_box">
         </div>
         <div class="margin_top_5px" style="text-align: center" placeholder="안녕">
-            <input type="password" placeholder=" 비밀번호" class="privacy_text_box">
+            <input id = "userpw" type="password" placeholder=" 비밀번호" class="privacy_text_box">
         </div>
 
         <!--        로그인 버튼-->
         <p class="margin_top_15px" style="text-align: center">
-            <button type="button" class="btn btn-primary privacy_text_box">로그인</button>
+            <button onclick="login()" type="button" class="btn btn-primary privacy_text_box">로그인</button>
         </p>
         <div class="main_bottom">
             비밀번호를 잊으셨나요?
@@ -38,7 +71,7 @@
     <!--    계정 가입 박스-->
     <div class="join_box border_solid">
         <div class="join_box_text" style="text-align: center">
-            계정이 없으신가요? <a href="https://www.naver.com" target="=_blank" style="text-decoration: none">가입하기</a>
+            계정이 없으신가요? <a href = "{{ url_for('home_signup') }}" target="=_blank" style="text-decoration: none">가입하기</a>
         </div>
     </div>
 </div>

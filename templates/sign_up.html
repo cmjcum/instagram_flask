@@ -22,7 +22,7 @@
                 data: {email_give: email, id_give: id, name_give: name, password_give: password},
                 success: function (response) {
                     alert(response['msg'])
-                    window.location.reload()
+                    window.location.href = '/'
                 }
             })
         }
@@ -46,13 +46,13 @@
 
         <!--        이메일 비밀번호-->
         <div class="margin_top_70px" style="text-align: center" placeholder="안녕">
-            <input id="email" type="text" placeholder=" 이메일" class="privacy_text_box">
+            <input id="email" type="text" placeholder=" email" class="privacy_text_box">
         </div>
         <div class="margin_top_5px" style="text-align: center" placeholder="안녕">
             <input id="id" type="text" placeholder=" ID" class="privacy_text_box">
         </div>
         <div class="margin_top_5px" style="text-align: center" placeholder="안녕">
-            <input id="name" type="text" placeholder=" 성명" class="privacy_text_box">
+            <input id="name" type="text" placeholder=" name" class="privacy_text_box">
         </div>
         <div class="margin_top_5px" style="text-align: center" placeholder="안녕">
             <input id="password" type="password" placeholder=" PW" class="privacy_text_box">
