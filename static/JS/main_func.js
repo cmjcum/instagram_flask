@@ -32,7 +32,7 @@ function getFeed() {
                                                     <div class="human"></div>
                                                     <div class="nickname">${post['user_id']}<br><span class="gray_s">${post['location']}</span></div>
                                                 </div>
-                                                <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
+                                                <button class="dot-dot-dot btn-open-popup" onclick="getModalType(this)"></button>
                                             </div>
                                             <!--게시글 이미지-->
                                             <img src="../static/img/post_1-1.jpg" class="card-img-top post_img">
@@ -370,19 +370,21 @@ function initPostModal() {
     $('#modal_post_display_image').empty();
     $('#image_upload_button').show();
 
-    $('.modal-post-text').hide();
+    $('#modal_post_text').hide();
     $('#button_post').hide();
 }
 
 // 모달 종류 선택 -> 내가 작성한 피드의 모달인지 아닌지
-function getModalType() {
+function getModalType(obj) {
+    let post_id = $(obj).closest('.card').attr('id')
     $.ajax({
         type: 'GET',
-        url: '/api/getModal',
+        url: `/api/getModal?post_id_give=${post_id}`,
         data: {},
         success: function(response) {
-            if(response['type'] == 'user') {
-                $('#modal_user').addClass('is-active');
+            if(response['type'] == 'writer') {
+                $('#modal_writer').addClass('is-active');
+                document.getElementById('modal_button_modify').addEventListener('click', function(){initModifyModal(post_id)})
             }
             else {
                 popOpen();
@@ -393,21 +395,85 @@ function getModalType() {
 }
 
 // 피드 수정 모달
-function initModifyModal() {
-    $('#modal_user').removeClass('is-active');
+function initModifyModal(post_id) {
+    $('#modal_writer').removeClass('is-active');
     $('#modal_modify').addClass('is-active');
+    loadModifyModal(post_id);
 }
 
-function loadModifyModal() {
+function loadModifyModal(post_id) {
+    document.getElementById('button_modify').addEventListener('click', function(){modifyFeed(post_id)})
 
     $.ajax({
         type: 'GET',
-        url: '/api/loadModify?post_id_give=',
+        url: `/api/loadModify?post_id_give=${post_id}`,
         data: {},
         success: function (response) {
+            let post_info = response['post_info'];
+            let image_arr = post_info['photo']
+            let temp_img_html = ``;
 
+            $('#modal_modify_display_image').empty()
+            if(image_arr.length == 1) {
+                temp_img_html = `<div id="carousel_modify" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                          <div id="carousel_modify_inner" class="carousel-inner"></div></div>`
+            }
+            else {
+                temp_img_html = `<div id="carousel_modify" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                          <div id="carousel_modify_inner" class="carousel-inner">
+                          </div>
+                          <button class="carousel-control-prev" type="button" data-bs-target="#carousel_modify" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next" type="button" data-bs-target="#carousel_modify" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                        </div>`
+            }
+
+            $('#modal_modify_display_image').append(temp_img_html)
+
+            for (let i = 0; i < image_arr.length; i++) {
+                let temp = ``
+                if (i == 0) {
+                    temp = `<div class="carousel-item active">
+                              <img src=${image_arr[i]} class="d-block w-100" alt="...">
+                            </div>`
+                }
+                else {
+                    temp = `<div class="carousel-item">
+                              <img src=${image_arr[i]} class="d-block w-100" alt="...">
+                            </div>`
+                }
+
+                $('#carousel_modify_inner').append(temp);
+            }
+
+            $('#modify_text').text(post_info['desc']);
+            $('#modify_location').val(post_info['location']);
+            $('#writer_id').text(post_info['user_id']);
         }
 
+    });
+}
+
+function modifyFeed(post_id) {
+    let desc = $('#modify_text').val();
+    let location = $('#modify_location').val();
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/modifyFeed',
+        data: { desc_give: desc,
+                location_give: location,
+                post_id_give: post_id },
+        success: function (response) {
+            alert(response['msg']);
+            $("#modal_modify").removeClass("is-active");
+            window.location.reload();
+        }
     });
 }
 

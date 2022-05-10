@@ -1,8 +1,9 @@
 import codecs
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-import datetime
+from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
+from bson.objectid import ObjectId
 
 import jwt
 import hashlib
@@ -64,7 +65,9 @@ def getComment():
 
   for comment in all_comments:
     comment["_id"] = str(comment["_id"])
+    print(comment['email'])
     user_info = db.users.find_one({"email": comment['email']})
+    print(user_info['user_id'])
     comment['user_id'] = user_info['user_id']
 
   return jsonify({'comments': all_comments})
@@ -145,7 +148,7 @@ def sign_up_post():
 
    doc = {
       'email': email_receive,
-      'id': id_receive,
+      'user_id': id_receive,
       'name': name_receive,
       'password': pw_hash
    }
@@ -163,7 +166,7 @@ def api_login():
    if result is not None:
       payload = {
          'id': id_receive,
-         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30)
+         'exp': datetime.utcnow() + timedelta(seconds=30)
       }
       token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -247,6 +250,41 @@ def user(user_id):
 #         db.follow.insert_one(doc)
 #     else:
 #         db.follow.delete_one(doc)
+
+@app.route('/api/getModal', methods=['GET'])
+def sendModalType():
+    token_receive = request.cookies.get('mytoken')
+    post_id_receive = request.args['post_id_give']
+    post_info = db.posts.find_one({'_id': ObjectId(post_id_receive)})
+    post_writer = post_info['email']
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        if post_writer == payload['id']:
+            return jsonify({'type': 'writer'})
+        else:
+            return jsonify({'type': 'not writer'})
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+         return redirect(url_for("home"))
+
+@app.route('/api/loadModify', methods=['GET'])
+def sendFeedInfo():
+    post_id_receive = request.args['post_id_give']
+    post_info = db.posts.find_one({'_id': ObjectId(post_id_receive)}, {'_id':False})
+    post_info['user_id'] = db.users.find_one({'email': post_info['email']})['user_id']
+    return jsonify({'post_info':post_info})
+
+@app.route('/api/modifyFeed', methods=['POST'])
+def modifyFeed():
+    post_id_receive = request.form['post_id_give']
+    desc_receive = request.form['desc_give']
+    location_receive = request.form['location_give']
+
+    db.posts.update_one({'_id':ObjectId(post_id_receive)}, {'$set':{'desc':desc_receive, 'location':location_receive}})
+
+    return jsonify({'msg': '수정 완료!'})
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
