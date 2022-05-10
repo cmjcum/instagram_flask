@@ -4,17 +4,11 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
-from pymongo import MongoClient
-
 import jwt
 import hashlib
-
-client = MongoClient('#################')
-db = client.instaClone
-
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.gsb7w.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('###########################')
 db = client.instaClone
 
 # Flask 객체 인스턴스 생성
