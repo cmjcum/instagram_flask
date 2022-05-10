@@ -82,7 +82,7 @@ def api_login():
    if result is not None:
       payload = {
          'id': id_receive,
-         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30)
+         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=100)
       }
       token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -125,13 +125,21 @@ def upload():
 
 @app.route('/feed', methods=['GET'])
 def getFeed():
-  # 피드 조회하기
-  posts = list(db.posts.find({}).sort('post_date', -1).limit(20))
+    # 피드 조회하기
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        posts = list(db.posts.find({}).sort('post_date', -1).limit(20))
 
-  for post in posts:
-    post["_id"] = str(post["_id"])
+        for post in posts:
+            post["_id"] = str(post["_id"])
+            post["like_cnt"] = db.likes.count_documents({"post_id": post["_id"]})
+            post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "email": payload["id"]}))
 
-  return jsonify({'posts': posts, 'result': 'success'})
+        return jsonify({'posts': posts, 'result': 'success'})
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 @app.route('/api/comment', methods=['GET'])
@@ -168,24 +176,31 @@ def postComment():
   except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
       return redirect(url_for("home"))
 
-# @app.route('/api/like', methods=['POST'])
-# def updateLike():
-#   # 좋아요 업데이트
-#
-#   user_info = db.users.find_one({'email': 'LULUALA_2@insta.com'})
-#   post_id_receive = request.form['post_id_give']
-#   action_receive = request.form['action_give']
-#
-#   doc = {'post_id': post_id_receive,
-#          'user_id': user_info['user_id']}
-#
-#   if action_receive == "like":
-#     db.likes.insert_one(doc)
-#   else:
-#     db.likes.delete_one(doc)
-#
-#   count = db.likes.count_documents({"post_id": post_id_receive})
-#   return jsonify({'result': 'success', 'msg': 'updated', 'count':count})
+
+@app.route('/api/like', methods=['POST'])
+def updateLike():
+  # 좋아요 업데이트
+  token_receive = request.cookies.get('mytoken')
+  try:
+      payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+      user_info = db.users.find_one({'email': payload["id"]})
+      post_id_receive = request.form['post_id_give']
+      action_receive = request.form['action_give']
+
+      doc = {'post_id': post_id_receive,
+             'email': user_info['email']}
+
+      if action_receive == "like":
+        db.likes.insert_one(doc)
+      else:
+        db.likes.delete_one(doc)
+
+      count = db.likes.count_documents({"post_id": post_id_receive})
+      print(count)
+      return jsonify({'result': 'success', 'msg': 'updated', 'count': count})
+
+  except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+      return redirect(url_for("home"))
 
 
 @app.route('/api/getModal', methods=['GET'])
