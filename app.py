@@ -14,8 +14,6 @@ db = client.instaClone
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
 
-SECRET_KEY = 'CMG'
-
 
 @app.route('/')
 def home():
@@ -29,16 +27,9 @@ def home():
     except jwt.exceptions.DecodeError:
         return render_template('login_page.html')
 
-
 @app.route('/signup')
 def home_signup():
     return render_template('sign_up.html')
-
-
-# @app.route('/login')
-# def goLogin():
-#    return render_template('login_page.html')
-
 
 @app.route('/signup', methods=['POST'])
 def sign_up_post():
@@ -57,7 +48,6 @@ def sign_up_post():
     }
     db.users.insert_one(doc)
     return jsonify({'msg': '가입완료'})
-
 
 @app.route('/api/login', methods=['POST'])
 def api_login():
@@ -92,8 +82,7 @@ def sing_up_get():
     except jwt.ExpiredSignatureError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다'})
 
-    # return jsonify({'result':'success', 'msg': '이 요청은 GET!'})
-
+    # return jsonify({'result':'success', 'msg': '이 요청은 GET!'})\
 
 @app.route('/api/feed', methods=["POST"])
 def upload():
@@ -153,18 +142,23 @@ def getComment():
 
 @app.route('/api/comment', methods=['POST'])
 def postComment():
-    # 댓글 작성하기
-    # user_info = db.users.find_one({"email": 'LULULALA_2@insta.com'})
-    post_id_receive = request.form['post_id_give']
-    comment_receive = request.form['comment_give']
-    cmt_date_receive = request.form['cmt_date_give']
+  # 댓글 작성하기
+  token_receive = request.cookies.get('mytoken')
+  try:
+      payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-    doc = {'post_id': post_id_receive, 'email': 'LULULALA_2@insta.com', 'comment': comment_receive,
-           'cmt_date': cmt_date_receive}
-    db.comments.insert_one(doc)
+      user_info = db.users.find_one({"email": payload["id"]})
+      post_id_receive = request.form['post_id_give']
+      comment_receive = request.form['comment_give']
+      cmt_date_receive = request.form['cmt_date_give']
 
-    return jsonify({'msg': '댓글 작성 완료!'})
+      doc = {'post_id': post_id_receive, 'email': user_info['email'], 'comment': comment_receive, 'cmt_date': cmt_date_receive}
+      db.comments.insert_one(doc)
 
+      return jsonify({'msg': '댓글 작성 완료!'})
+
+  except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+      return redirect(url_for("home"))
 
 # @app.route('/api/like', methods=['POST'])
 # def updateLike():
@@ -213,26 +207,6 @@ def home_signup():
 # def home_signup():
 #    return render_template('login_page.html')
 
-
-@app.route('/signupPrac/', methods=['POST'])
-def sign_up_post():
-   email_receive = request.form['email_give']
-   id_receive = request.form['id_give']
-   name_receive = request.form['name_give']
-   password_receive = request.form['password_give']
-
-   pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-
-   doc = {
-      'email': email_receive,
-      'user_id': id_receive,
-      'name': name_receive,
-      'password': pw_hash
-   }
-   db.users.insert_one(doc)
-   return jsonify({'msg': '가입완료'})
-
-
 @app.route('/api/login', methods=['POST'])
 def api_login():
    id_receive = request.form['id_give']
@@ -251,25 +225,6 @@ def api_login():
       return jsonify({'result': 'success', 'token': token})
    else:
       return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
-
-
-# get을 받는 이유
-@app.route('/signupPrac', methods=['GET'])
-def sing_up_get():
-   token_receive = request.cookies.get('mytoken')
-   try:
-      payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-      print(payload)
-
-      userinfo = db.users.find_one({'id': payload['id']})
-      return jsonify({'result': 'success', 'nickname': userinfo['nick']})
-   except jwt.ExpiredSignatureError:
-      return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다'})
-   except jwt.ExpiredSignatureError:
-      return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다'})
-
-   # return jsonify({'result':'success', 'msg': '이 요청은 GET!'})
-
 
 # @app.route('/api/like', methods=['POST'])
 # def updateLike():
