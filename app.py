@@ -108,15 +108,15 @@ SECRET_KEY = 'CMG'
 @app.route('/')
 def home():
    token_receive = request.cookies.get('mytoken')
-
+   print(token_receive)
    # try뜻
    try:
       # jwt 디코드(암호풀기를 해준다 jwt토큰 안에 있는 토큰 리시브 시크릿키) 까지는 알겠는데 헤쉬256이 , 하고 나오는 이유는 모르겠다
       payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
       # payload의 뜻 알기, 이 코드는 db에 저장되어 있는 id 값을 불러오는 코드인듯?
-      user_info = db.user.find_one({"id": payload['id']})
+      user_info = db.users.find_one({"email": payload['id']})
       # render_template()뜻 알기
-      return render_template('index.html')
+      return render_template('index.html', user_info = user_info)
    except jwt.ExpiredSignatureError:
       return render_template('login_page.html')
       # return redirect(url_for("login", msg="로그인 시간이 만료되었습니다"))
@@ -164,7 +164,7 @@ def api_login():
    if result is not None:
       payload = {
          'id': id_receive,
-         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=12)
+         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
       }
       token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
