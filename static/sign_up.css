@@ -1,0 +1,82 @@
+.border_solid{
+    border: solid 1px #dedede;
+}
+
+.main_box{
+    max-width: 430px;
+    height: 780px;
+    margin: 100px auto auto auto;
+}
+.privacy_box{
+    width: 425px;
+    height: 82%;
+    margin: auto;
+    background-color: #ffffff;
+}
+.insta_logo{
+    width: 210px;
+    height: 70px;
+    margin: 40px auto 30px auto;
+
+    background-image: url("insta.png");
+    background-size: auto;
+    background-position: center;
+}
+.guide_box{
+    height: 40px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #8e8e8e;
+}
+
+
+
+
+
+
+.privacy_text_box{
+    width: 80%;
+    height: 50px;
+    font-weight: bold;
+    outline: none;
+    border-radius: 5px;
+    border: solid 1px #dedede;
+    background-color: #fafafa;
+}
+.main_bottom{
+    height: 50px;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 120px;
+}
+.join_box{
+    width: 425px;
+    height: 80px;
+    margin: 3% auto auto auto;
+    background-color: #ffffff;
+}
+.join_box_text{
+    width: 425px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 25px;
+}
+.footer_box{
+    margin-top: 80px;
+}
+.footer_text{
+    height: 40px;
+    color: #919ba4;
+}
+
+
+.margin_top_90px{
+    margin-top: 90px;
+}
+.margin_top_20px{
+    margin-top: 20px;
+}
+.margin_top_5px{
+    margin-top: 5px;
+}
