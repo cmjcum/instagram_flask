@@ -508,3 +508,16 @@ function showModalProfilePic() {
         }
     });
 }
+
+// 우측 메뉴에서 팔로우 버튼 눌렀을 때 실행하는 함수
+function clickFollowButton(obj) {
+    let recommend = $(obj).parent().prev().children('#recommend_user_id').text()
+    $.ajax({
+        type: 'POST',
+        url: '/api/follow',
+        data: { id_give: recommend },
+        success: function (response) {
+            window.location.reload();
+        }
+    });
+}

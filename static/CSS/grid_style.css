@@ -677,3 +677,10 @@ input#reply:focus {
 .modal-delete-title {
     padding: 20px;
 }
+
+.button-follow {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
