@@ -11,9 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
 
     <!--자바스크립트, 스타일시트 파일 불러오기-->
 
@@ -46,7 +45,7 @@
                 <div class="write click" onclick="initPostModal()"></div>
                 <div class="explore click"></div>
                 <div class="like click"></div>
-                <div class="profile click"></div>
+                <div class="profile click" onclick="goUser()"></div>
             </div>
         </div>
     </div>
@@ -67,7 +66,7 @@
 
                 <div class="my-info">
                     <div class="profile"></div>
-                    <div class="nickname">sunset_001<br><span class="gray_r">노을</span></div>
+                    <div class="nickname">user_id<br><span class="gray_r">name</span></div>
                 </div>
 
                 <div class="follow-info">
@@ -117,7 +116,7 @@
     <div id="modal_writer" class="modal">
         <div class="modal-background" onclick='$("#modal_writer").removeClass("is-active")'>
             <div class="modal-writer-wrap">
-                <button class="btn-in-popup upset">삭제</button>
+                <button id="modal_button_delete" class="btn-in-popup upset">삭제</button>
                 <button id="modal_button_modify" class="btn-in-popup">수정</button>
                 <button class="btn-in-popup">좋아요 수 숨기기</button>
                 <button class="btn-in-popup">댓글 기능 해제</button>
@@ -128,18 +127,6 @@
         </div>
         <button class="modal-close is-large" aria-label="close" onclick='$("#modal_writer").removeClass("is-active")'></button>
     </div>
-{#   <div class="modal-bg">#}
-{#        <div class="modal-wrap">#}
-{#            <button class="btn-in-popup upset">삭제</button>#}
-{#            <button class="btn-in-popup" onclick="initModifyModal()">수정</button>#}
-{#            <button class="btn-in-popup">좋아요 수 숨기기</button>#}
-{#            <button class="btn-in-popup">댓글 기능 해제</button>#}
-{#            <button class="btn-in-popup">게시물로 이동</button>#}
-{#            <button class="btn-in-popup">태그된 계정</button>#}
-{#            <button class="btn-in-popup" onclick="popClose()">취소</button>#}
-{#        </div>#}
-{##}
-{#    </div>#}
 
 {#    포스팅 모달#}
     <div id="modal_post" class="modal">
@@ -219,6 +206,20 @@
         <button class="modal-close is-large" aria-label="close" onclick='$("#modal_modify").removeClass("is-active")'></button>
     </div>
 
+{#    삭제 모달#}
+    <div id="modal_delete" class="modal">
+        <div class="modal-background" onclick='$("#modal_delete").removeClass("is-active")'>
+            <div class="modal-writer-wrap">
+                <div>
+                    <p><strong>게시물을 삭제할까요?</strong></p>
+                    <p class="gray_s">이 게시물을 삭제하시겠어요?</p>
+                </div>
+                <button id="button_delete" class="btn-in-popup upset">삭제</button>
+                <button class="btn-in-popup" onclick='$("#modal_delete").removeClass("is-active")'>취소</button>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick='$("#modal_delete").removeClass("is-active")'></button>
+    </div>
 </div>
 </body>
 

@@ -11,10 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-    <!--자바스크립트, 스타일시트 파일 불러오기-->
+        <!--자바스크립트, 스타일시트 파일 불러오기-->
 
-    <script src="{{ url_for('static', filename='JS/profile_func.js') }}"></script>
+        <script src="{{ url_for('static', filename='JS/profile_func.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/porfile_style.css') }}">
 
 
@@ -41,21 +42,20 @@
                 <div class="explore"></div>
                 <div class="like"></div>
                 {#{{ user_pic }} 적용예정#}
-                <div class="profile"></div>
+                <div class="profile"><img src="{{ user_pic }}"></div>
             </div>
         </div>
     </div>
 
     <div class="header">
         <div class="header_left">
-            {#{{ user_pic }} 적용예정#}
             <div class="my_pic"></div>
         </div>
         <div class="header_right">
             <div class="my_id">
                 <span class="user_id">{{ user_id }}</span>
-                <button class="btn_profile_mod bold">프로필 편집</button>
-                <div class="profile_gear" onclick="popOpen()"></div>
+                    <button class="btn_profile_mod bold">프로필 편집</button>
+                    <div class="profile_gear" onclick="popOpen()"></div>
 
             </div>
             <div class="my_info">
@@ -94,11 +94,6 @@
         <article>
             <div class="post_box" id="article_box">
                 <!--게시글 섬네일 불러오기-->
-                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
-                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
-
 
             </div>
         </article>

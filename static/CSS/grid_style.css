@@ -126,6 +126,12 @@ a {
     font-size: 0.875em;
 }
 
+.black_b {
+    color: #262626;
+    font-weight: 600;
+    font-size: 0.93em;
+}
+
 /*전체 영역*/
 .wrap {
     display: grid;
@@ -169,7 +175,7 @@ a {
 .logo {
     width: 333.5px;
     height: 29px;
-    background-image: url('../img/logo.png');
+    background-image: url('../img/login_logo.png');
     background-position: left;
     background-size: inherit;
     background-repeat: no-repeat;
@@ -317,7 +323,7 @@ input#search:focus {
     width: 420px
 }
 
-.comment-box {
+.comments_box {
     padding: 15px
     /*display: flex;*/
 }
@@ -340,8 +346,6 @@ input#search:focus {
     padding-bottom: 5px;
     border: transparent;
 }
-
-
 
 input#reply:focus {
     outline: none;
@@ -491,7 +495,6 @@ input#reply:focus {
         display: none;
     }
 }
-
 
 
 /*모달*/
