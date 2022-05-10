@@ -9,7 +9,7 @@ function getFeed() {
     $("#article_box").empty()
     $.ajax({
         type: "GET",
-        url: "/feed",
+        url: "/feed?user_id_give=me",
         data: {},
         success: function (response) {
             if (response["result"] == "success") {
