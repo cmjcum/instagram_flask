@@ -355,12 +355,12 @@ function postFeed() {
         contentType: false,
         success: function (response) {
             alert(response['msg']);
-            window.location.href = '/';
+            $("#modal_post").removeClass("is-active");
         },
         error: function (e) {
             console.log("ERROR: ", e);
             alert("fail");
-            window.location.href = '/'
+            $("#modal_post").removeClass("is-active");
         }
     });
 }
@@ -385,6 +385,7 @@ function getModalType(obj) {
             if(response['type'] == 'writer') {
                 $('#modal_writer').addClass('is-active');
                 document.getElementById('modal_button_modify').addEventListener('click', function(){initModifyModal(post_id)})
+                document.getElementById('modal_button_delete').addEventListener('click', function(){initDeleteModal(post_id)})
             }
             else {
                 popOpen();
@@ -477,6 +478,22 @@ function modifyFeed(post_id) {
     });
 }
 
-function deleteModal() {
+// 피드 삭제 모달
+function initDeleteModal(post_id) {
+    $('#modal_writer').removeClass('is-active');
+    $('#modal_delete').addClass('is-active');
+    document.getElementById('button_modify').addEventListener('click', function(){deleteFeed(post_id)})
+}
 
+function deleteFeed(post_id) {
+    $.ajax({
+       type: 'GET',
+       url: `/api/deleteFeed?post_id_give=${post_id}`,
+       data: {},
+       success: function (response) {
+           alert(response['msg']);
+           $("#modal_delete").removeClass("is-active");
+            window.location.reload();
+       }
+    });
 }

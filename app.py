@@ -9,7 +9,7 @@ import jwt
 import hashlib
 from pymongo import MongoClient
 
-client = MongoClient('###########################')
+client = MongoClient('######################')
 db = client.instaClone
 
 # Flask 객체 인스턴스 생성
@@ -283,6 +283,14 @@ def modifyFeed():
     db.posts.update_one({'_id':ObjectId(post_id_receive)}, {'$set':{'desc':desc_receive, 'location':location_receive}})
 
     return jsonify({'msg': '수정 완료!'})
+
+@app.route('/api/deleteFeed', methods=['GET'])
+def deleteFeed():
+    post_id_receive = request.form['post_id_give']
+    print(post_id_receive)
+    # db.posts.delete_one({'_id': ObjectId(post_id_receive)})
+
+    return jsonify({'msg':'삭제 완료!'})
 
 
 
