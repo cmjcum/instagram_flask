@@ -596,7 +596,7 @@ input#reply:focus {
     margin: 10px;
 }
 
-#button_post {
+.button_modal {
     border: none;
     background: none;
     color: #0095f6;
