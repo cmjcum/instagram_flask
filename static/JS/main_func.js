@@ -1,6 +1,7 @@
 // ... 페이지 로딩시 호출 함수
 $(document).ready(function () {
     getFeed()
+    showModalProfilePic()
 })
 
 
@@ -489,6 +490,25 @@ function deleteFeed(post_id) {
            $("#modal_delete").removeClass("is-active");
             window.location.reload();
        }
+    });
+}
+
+// 모달에 사용자 프로필 사진 띄우는 함수
+function showModalProfilePic() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/userInfo',
+        data: {},
+        success: function (response) {
+            let user_info = response['user_info'];
+            let pic = user_info['pic']
+            if(pic == null) {
+                $('.modal_profile_pic').attr("src", '../static/img/profile.jpg');
+            }
+            else {
+               $('.modal_profile_pic').attr("src",pic);
+            }
+        }
     });
 }
 
