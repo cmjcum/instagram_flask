@@ -8,7 +8,7 @@ import jwt
 import hashlib
 from pymongo import MongoClient
 
-client = MongoClient('###########################')
+client = MongoClient('mongodb+srv://test:sparta@cluster0.gsb7w.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.instaClone
 
 # Flask 객체 인스턴스 생성
@@ -129,9 +129,9 @@ def home():
 def home_signup():
    return render_template('sign_up.html')
 
-# @app.route('/loginpage')
-# def home_signup():
-#    return render_template('login_page.html')
+@app.route('/loginpage')
+def home_login():
+   return render_template('login_page.html')
 
 
 @app.route('/signupPrac/', methods=['POST'])
@@ -145,9 +145,10 @@ def sign_up_post():
 
    doc = {
       'email': email_receive,
-      'id': id_receive,
+      'user_id': id_receive,
       'name': name_receive,
       'password': pw_hash
+
    }
    db.users.insert_one(doc)
    return jsonify({'msg': '가입완료'})
@@ -163,7 +164,7 @@ def api_login():
    if result is not None:
       payload = {
          'id': id_receive,
-         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30)
+         'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=12)
       }
       token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
