@@ -27,7 +27,7 @@ function getFeed() {
 function sign_out() {
     $.removeCookie('mytoken', {path: '/'});
     alert('로그아웃!')
-    window.location.href = "/login"
+    window.location.href = "/"
 }
 
 // 톱니바퀴 모달창 열기

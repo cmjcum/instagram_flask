@@ -8,7 +8,6 @@ import datetime
 from pymongo import MongoClient
 
 
-
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
 
@@ -252,6 +251,7 @@ def user():
         feed_cnt = db.posts.count_documents({"email": email})
         follower_cnt = db.follow.count_documents({"t_email": email})
         following_cnt = db.follow.count_documents({"email": email})
+
         follower_data = db.follow.find({"t_email": email})
         following_data = db.follow.find({"email": email})
 
