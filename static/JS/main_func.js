@@ -32,7 +32,7 @@ function getFeed() {
                     let carousel_id = 'carousel' + post_id
 
                     let temp_img_html = `<div id="${carousel_id}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
-                                 <div id="carousel_upload_inner" class="carousel-inner">`
+                                 <div id="carousel_inner" class="carousel-inner">`
 
                     for (let j = 0; j < post['photo'].length; j++) {
 
@@ -72,7 +72,7 @@ function getFeed() {
                                         <div class="human"></div>
                                         <div class="nickname">${post['user_id']}<br><span class="gray_s">${post['location']}</span></div>
                                     </div>
-                                    <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
+                                    <button class="dot-dot-dot btn-open-popup" onclick="getModalType(this)"></button>
                                 </div>
                                 
                                 <!--게시글 이미지-->
