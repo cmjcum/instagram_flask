@@ -8,6 +8,7 @@ import datetime
 from pymongo import MongoClient
 
 
+
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
 
@@ -96,13 +97,13 @@ def upload():
     images = request.files.getlist("image[]")
     desc = request.form['desc']
     location = request.form['location']
-    time = datetime.now()
+    time = datetime.datetime.now()
     email = "LULULALA_2@insta.com"
     user_id = "LULULALA_2"
     images_path = []
 
     for image in images:
-        timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')
+        timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')
         path = './static/img/post_img/' + timestamp + secure_filename(image.filename)
         print(path)
         image.save(path)
