@@ -7,6 +7,10 @@ import hashlib
 import datetime
 from pymongo import MongoClient
 
+client = MongoClient('mongodb+srv://test:sparta@cluster0.gsb7w.mongodb.net/Cluster0?retryWrites=true&w=majority')
+db = client.instaClone
+SECRET_KEY = 'CMG'
+
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
 
@@ -16,9 +20,14 @@ def home():
 
    try:
       payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+      user_info = db.users.find_one({"email": payload['id']}, {'_id':False})
 
-      user_info = db.user.find_one({"id": payload['id']})
-      return render_template('index.html')
+      if user_info['pic'] == '':
+          pic = '../static/img/profile.jpg'
+      else:
+          pic = user_info['pic']
+
+      return render_template('index.html', profile_pic = pic)
 
    except jwt.ExpiredSignatureError:
       return render_template('login_page.html')
