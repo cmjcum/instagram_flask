@@ -35,7 +35,7 @@ function getFeed() {
                                                 <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
                                             </div>
                                             <!--게시글 이미지-->
-                                            <img src="../static/img/post_1-1.jpg" class="card-img-top post_img">
+                                            <img src="../static/img/post_img/post_1-1.jpg" class="card-img-top post_img">
                                             <!--게시글 이미지 하단 아이콘-->
                                             <div class="post_icon">
                                                 <div class="post_icon_left">
@@ -48,7 +48,7 @@ function getFeed() {
                                                 </div>
                                             </div>
                                             <!--댓글 본문-->
-                                            <div class="box">
+                                            <div class="comments_box">
                                                     <p><span class="bold">좋아요 3개</span></p>
                                                     <div class="feed-information">
                                                         <span class="id">${post['user_id']} </span>
@@ -200,7 +200,7 @@ function getComment(obj) {
                 let time_before = time2str(cmt_date)
 
                 let temp_html = `<div>
-                                    <span class="black"><strong>${user_id}</strong> ${comment}</span>
+                                    <span class="black_b">${user_id}</span><span class="black"> ${comment}</span>
                                     <span class="gray_s">${time_before}</span>
                                 </div>`
                 $(obj).next().append(temp_html)

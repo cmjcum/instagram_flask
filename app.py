@@ -52,7 +52,7 @@ def sign_up_post():
 
    doc = {
       'email': email_receive,
-      'id': id_receive,
+      'user_id': id_receive,
       'name': name_receive,
       'password': pw_hash
    }
@@ -70,7 +70,7 @@ def api_login():
    if result is not None:
       payload = {
          'id': id_receive,
-         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30)
+         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=560)
       }
       token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -157,16 +157,22 @@ def getComment():
 @app.route('/api/comment', methods=['POST'])
 def postComment():
   # 댓글 작성하기
-  # user_info = db.users.find_one({"email": 'LULULALA_2@insta.com'})
-  post_id_receive = request.form['post_id_give']
-  comment_receive = request.form['comment_give']
-  cmt_date_receive = request.form['cmt_date_give']
+  token_receive = request.cookies.get('mytoken')
+  try:
+      payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-  doc = {'post_id': post_id_receive, 'email': 'LULULALA_2@insta.com', 'comment': comment_receive, 'cmt_date': cmt_date_receive}
-  db.comments.insert_one(doc)
+      user_info = db.users.find_one({"email": payload["id"]})
+      post_id_receive = request.form['post_id_give']
+      comment_receive = request.form['comment_give']
+      cmt_date_receive = request.form['cmt_date_give']
 
-  return jsonify({'msg': '댓글 작성 완료!'})
+      doc = {'post_id': post_id_receive, 'email': user_info['email'], 'comment': comment_receive, 'cmt_date': cmt_date_receive}
+      db.comments.insert_one(doc)
 
+      return jsonify({'msg': '댓글 작성 완료!'})
+
+  except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+      return redirect(url_for("home"))
 
 # @app.route('/api/like', methods=['POST'])
 # def updateLike():
