@@ -7,7 +7,6 @@ import hashlib
 import datetime
 from pymongo import MongoClient
 
-
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
 
