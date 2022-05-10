@@ -11,9 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
 
     <!--자바스크립트, 스타일시트 파일 불러오기-->
 
@@ -46,7 +45,7 @@
                 <div class="write click" onclick="initPostModal()"></div>
                 <div class="explore click"></div>
                 <div class="like click"></div>
-                <div class="profile click"></div>
+                <div class="profile click" onclick="goUser()"></div>
             </div>
         </div>
     </div>
@@ -114,30 +113,20 @@
     <!--모달 영역 끝-->
 
     {#    자신의 게시글에서 나오는 모달#}
-    <div id="modal_user" class="modal">
-        <div class="modal-background" onclick='$("#modal_user").removeClass("is-active")'>
-            <button class="btn-in-popup upset">삭제</button>
-            <button class="btn-in-popup" onclick="initModifyModal()">수정</button>
-            <button class="btn-in-popup">좋아요 수 숨기기</button>
-            <button class="btn-in-popup">댓글 기능 해제</button>
-            <button class="btn-in-popup">게시물로 이동</button>
-            <button class="btn-in-popup">태그된 계정</button>
-            <button class="btn-in-popup" onclick='$("#modal_user").removeClass("is-active")'>취소</button>
+    <div id="modal_writer" class="modal">
+        <div class="modal-background" onclick='$("#modal_writer").removeClass("is-active")'>
+            <div class="modal-writer-wrap">
+                <button id="modal_button_delete" class="btn-in-popup upset">삭제</button>
+                <button id="modal_button_modify" class="btn-in-popup">수정</button>
+                <button class="btn-in-popup">좋아요 수 숨기기</button>
+                <button class="btn-in-popup">댓글 기능 해제</button>
+                <button class="btn-in-popup">게시물로 이동</button>
+                <button class="btn-in-popup">태그된 계정</button>
+                <button class="btn-in-popup" onclick='$("#modal_writer").removeClass("is-active")'>취소</button>
+            </div>
         </div>
-        <button class="modal-close is-large" aria-label="close" onclick='$("#modal_user").removeClass("is-active")'></button>
+        <button class="modal-close is-large" aria-label="close" onclick='$("#modal_writer").removeClass("is-active")'></button>
     </div>
-{#   <div class="modal-bg">#}
-{#        <div class="modal-wrap">#}
-{#            <button class="btn-in-popup upset">삭제</button>#}
-{#            <button class="btn-in-popup" onclick="initModifyModal()">수정</button>#}
-{#            <button class="btn-in-popup">좋아요 수 숨기기</button>#}
-{#            <button class="btn-in-popup">댓글 기능 해제</button>#}
-{#            <button class="btn-in-popup">게시물로 이동</button>#}
-{#            <button class="btn-in-popup">태그된 계정</button>#}
-{#            <button class="btn-in-popup" onclick="popClose()">취소</button>#}
-{#        </div>#}
-{##}
-{#    </div>#}
 
 {#    포스팅 모달#}
     <div id="modal_post" class="modal">
@@ -146,7 +135,7 @@
             <form id="post_form">
                 <div class="modal-post-title">
                     <div>새 게시물 만들기</div>
-                    <button type='button' onclick="postFeed()"id="button_post">공유하기</button>
+                    <button type='button' class="button_modal" onclick="postFeed()"id="button_post">공유하기</button>
                 </div>
 
                 <div class="modal-post-content">
@@ -160,13 +149,13 @@
                         <div id="modal_post_display_image"></div>
 
                     </div>
-                    <div class="modal-post-text">
+                    <div class="modal-post-text" id="modal_post_text">
                         <div class="modal-user-id">
                             <img src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png">
                             <div>user_id</div>
                         </div>
                         <div class="modal-post-textarea-div">
-                            <textarea name="desc" id="post_text" placeholder="문구 입력..."></textarea>
+                            <textarea class="post-text" name="desc" id="post_text" placeholder="문구 입력..."></textarea>
                         </div>
                         <div style="padding: 10px">
                             <input name="location" type="text" placeholder="위치 추가">
@@ -188,24 +177,24 @@
             <form id="modify_form">
                 <div class="modal-post-title">
                     <div>정보 수정</div>
-                    <button type='button' onclick="postFeed()"id="button_post">완료</button>
+                    <button type='button' class="button_modal" id="button_modify">완료</button>
                 </div>
 
                 <div class="modal-post-content">
                     <div class="modal-post-images">
-                        <div id="modal_post_display_image"></div>
+                        <div id="modal_modify_display_image"></div>
 
                     </div>
                     <div class="modal-post-text">
                         <div class="modal-user-id">
                             <img src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png">
-                            <div>user_id</div>
+                            <div id="writer_id"></div>
                         </div>
                         <div class="modal-post-textarea-div">
-                            <textarea name="desc" id="post_text" placeholder="문구 입력..."></textarea>
+                            <textarea class="post-text" name="desc" id="modify_text" placeholder="문구 입력..."></textarea>
                         </div>
                         <div style="padding: 10px">
-                            <input name="location" type="text" placeholder="위치 추가">
+                            <input id="modify_location" name="location" type="text" placeholder="위치 추가">
                         </div>
 
                     </div>
@@ -217,6 +206,20 @@
         <button class="modal-close is-large" aria-label="close" onclick='$("#modal_modify").removeClass("is-active")'></button>
     </div>
 
+{#    삭제 모달#}
+    <div id="modal_delete" class="modal">
+        <div class="modal-background" onclick='$("#modal_delete").removeClass("is-active")'>
+            <div class="modal-writer-wrap">
+                <div>
+                    <p><strong>게시물을 삭제할까요?</strong></p>
+                    <p class="gray_s">이 게시물을 삭제하시겠어요?</p>
+                </div>
+                <button id="button_delete" class="btn-in-popup upset">삭제</button>
+                <button class="btn-in-popup" onclick='$("#modal_delete").removeClass("is-active")'>취소</button>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick='$("#modal_delete").removeClass("is-active")'></button>
+    </div>
 </div>
 </body>
 
