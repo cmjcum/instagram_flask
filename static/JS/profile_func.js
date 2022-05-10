@@ -41,6 +41,7 @@ function getFollower() {
                                             <div class="profile"></div>
                                             <div class="nickname">${follower_user_id}</div>
                                         </div>
+                                                                <button type="button" class="btn_follow" onclick="follow(this)"><span class="gray_s">팔로우</span></button>
                                         <button type="button" class="btn_follow_del" onclick="followerDel(this)">삭제</button>
                                     </div>`
                     $("#follower_id_box").append(html_temp)
