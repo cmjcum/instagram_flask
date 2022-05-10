@@ -367,7 +367,7 @@ function getModalType(obj) {
         success: function(response) {
             if(response['type'] == 'writer') {
                 $('#modal_writer').addClass('is-active');
-                document.getElementById('modal_button_modify').addEventListener('click', function(){initModifyModal(post_id)})
+                document.getElementById('modal_button_modify').addEventListener('click', function(){initModifyModal(post_id)}, { once: true })
                 document.getElementById('modal_button_delete').addEventListener('click', function(){initDeleteModal(post_id)})
             }
             else {
@@ -386,8 +386,8 @@ function initModifyModal(post_id) {
 }
 
 function loadModifyModal(post_id) {
-    document.getElementById('button_modify').addEventListener('click', function(){modifyFeed(post_id)})
-
+    document.getElementById('button_modify').addEventListener('click', function(){modifyFeed(post_id)}, { once: true })
+    $('#modal_modify_display_image').empty()
     $.ajax({
         type: 'GET',
         url: `/api/loadModify?post_id_give=${post_id}`,
@@ -397,7 +397,6 @@ function loadModifyModal(post_id) {
             let image_arr = post_info['photo']
             let temp_img_html = ``;
 
-            $('#modal_modify_display_image').empty()
             if(image_arr.length == 1) {
                 temp_img_html = `<div id="carousel_modify" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
                           <div id="carousel_modify_inner" class="carousel-inner"></div></div>`
