@@ -499,7 +499,7 @@ function showModalProfilePic() {
         success: function (response) {
             let user_info = response['user_info'];
             let pic = user_info['pic']
-            if(pic == null) {
+            if(pic == '') {
                 $('.modal_profile_pic').attr("src", '../static/img/profile.jpg');
             }
             else {
