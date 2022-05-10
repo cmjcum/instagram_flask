@@ -7,7 +7,6 @@ import hashlib
 import datetime
 from pymongo import MongoClient
 
-
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
 
@@ -225,9 +224,8 @@ def modifyFeed():
 
 @app.route('/api/deleteFeed', methods=['GET'])
 def deleteFeed():
-    post_id_receive = request.form['post_id_give']
-    print(post_id_receive)
-    # db.posts.delete_one({'_id': ObjectId(post_id_receive)})
+    post_id_receive = request.args['post_id_give']
+    db.posts.delete_one({'_id': ObjectId(post_id_receive)})
 
     return jsonify({'msg':'삭제 완료!'})
 

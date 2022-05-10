@@ -666,3 +666,7 @@ input#reply:focus {
     background-color: white;
     border-radius: 20px;
 }
+
+.modal-delete-title {
+    padding: 20px;
+}

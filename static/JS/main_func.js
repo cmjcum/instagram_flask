@@ -337,11 +337,13 @@ function postFeed() {
         success: function (response) {
             alert(response['msg']);
             $("#modal_post").removeClass("is-active");
+            window.location.reload();
         },
         error: function (e) {
             console.log("ERROR: ", e);
             alert("fail");
             $("#modal_post").removeClass("is-active");
+            window.location.reload();
         }
     });
 }
@@ -463,10 +465,11 @@ function modifyFeed(post_id) {
 function initDeleteModal(post_id) {
     $('#modal_writer').removeClass('is-active');
     $('#modal_delete').addClass('is-active');
-    document.getElementById('button_modify').addEventListener('click', function(){deleteFeed(post_id)})
+    document.getElementById('button_delete').addEventListener('click', function(){deleteFeed(post_id)})
 }
 
 function deleteFeed(post_id) {
+    console.log(post_id)
     $.ajax({
        type: 'GET',
        url: `/api/deleteFeed?post_id_give=${post_id}`,
