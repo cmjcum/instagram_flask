@@ -1,7 +1,6 @@
 // ... 페이지 로딩시 호출 함수
 $(document).ready(function () {
     getFeed()
-    showMoreButton()
 })
 
 
@@ -10,34 +9,6 @@ function goHome() {
     window.location.href = "/";
 }
 
-
-// ... 더보기 버튼 만드는 함수
-let feedArray = []
-
-function showMoreButton() {
-    let cntPost = $('.feed-content').length;
-
-    for (let i = 0; i < cntPost; i++) {
-        let id = '#text' + i
-        let text = $(id).text();
-        feedArray[i] = text;
-
-        if (text.length >= 30) {
-            let text_short = text.substring(0, 30).trim() + "... ";
-            let moreButton = `<Button onclick="moreButtonClick(this, ${i})" class="btn showMore">더 보기</Button>`;
-
-            $(id).parents('.feed-content').append(moreButton)
-            $(id).text(text_short)
-        }
-    }
-}
-
-// ... 더보기 버튼 클릭시 이벤트
-function moreButtonClick(obj, i) {
-    let textId = '#text' + i;
-    $(obj).hide();
-    $(textId).text(feedArray[i]);
-}
 
 // ... 피드 불러오기
 function getFeed() {
@@ -68,7 +39,7 @@ function getFeed() {
                                             <!--게시글 이미지 하단 아이콘-->
                                             <div class="post_icon">
                                                 <div class="post_icon_left">
-                                                    <div class="like"></div>
+                                                    <div class="unlike click" onclick="updateLike(this)"></div>
                                                     <div class="comment"></div>
                                                     <div class="direct"></div>
                                                 </div>
@@ -192,13 +163,26 @@ function getFeed() {
         }
     })
 }
+// 하트를 누르면 함수가 실행되는 곳에 있는 클래스를 like 클래스로 바꾸고 좋아요 카운트 +1
+// post_id는 어디서받아와
+//
 
+// ... 좋아요
+// function updateLike(post_id) {
 //
-// // ... 좋아요
-// function updateLike(post_id, type) {
 //
+//     $.ajax({
+//         type: "GET",
+//         url: "/api/like",
+//         data: {post_id_give: post_id, action_give: 'unlike'},
+//         success: function (response) {
+//
+//         }
+//     })
 // }
-//
+
+
+
 // ... 댓글 불러오기
 function getComment(obj) {
     $(obj).hide()
@@ -220,12 +204,6 @@ function getComment(obj) {
                                     <span class="gray_s">${time_before}</span>
                                 </div>`
                 $(obj).next().append(temp_html)
-                // if ($('#comments').length >= 1) {
-                //     $('#comments').text('댓글 보기')
-                //     $('#comments').append(temp_html)
-                // }
-                // else{
-                //     $('#comments').text('').hide();
             }
         }
     });

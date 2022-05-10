@@ -31,8 +31,14 @@
     background-size: cover;
 }
 
-.like {
+.unlike {
     background-image: url('../img/like.png');
+    background-position: center;
+    background-size: cover;
+}
+
+.like {
+    background-image: url('../img/f-like.png');
     background-position: center;
     background-size: cover;
 }

@@ -3,8 +3,7 @@ from pymongo import MongoClient
 import jwt
 import hashlib
 import datetime
-import gridfs
-import codecs
+
 
 
 #Flask 객체 인스턴스 생성
@@ -19,7 +18,7 @@ def index():
 @app.route('/feed', methods=['GET'])
 def getFeed():
   # 피드 조회하기
-  posts = list(db.posts.find({}).sort("post_date", -1).limit(20))
+  posts = list(db.posts.find({}).sort('post_date', -1).limit(20))
 
   for post in posts:
     post["_id"] = str(post["_id"])
@@ -31,7 +30,7 @@ def getFeed():
 def getComment():
   # 댓글 조회하기
   post_id = request.args['post_id_give']
-  all_comments = list(db.comments.find({'post_id': post_id}).sort("cmt_date", -1))
+  all_comments = list(db.comments.find({'post_id': post_id}))
 
   for comment in all_comments:
     comment["_id"] = str(comment["_id"])
@@ -39,20 +38,6 @@ def getComment():
     comment['user_id'] = user_info['user_id']
 
   return jsonify({'comments': all_comments})
-
-
-# @app.route('/download', methods=['GET'])
-# def download():
-#   fs = gridfs.GridFS(db)
-#   data = list(db.fs.files.find({}))
-#   images = []
-#   for d in data:
-#     outputData = fs.get(d['_id'])
-#     base64_img = codecs.encode(outputData.read(), 'base64')
-#     decoded_img = base64_img.decode('utf-8')
-#     images.append(decoded_img)
-#
-#   return jsonify({'image': images})
 
 
 @app.route('/api/comment', methods=['POST'])
@@ -68,30 +53,25 @@ def postComment():
 
   return jsonify({'msg': '댓글 작성 완료!'})
 
-#
-#
-#
+
 # @app.route('/api/like', methods=['POST'])
-# def updageLike():
+# def updateLike():
 #   # 좋아요 업데이트
 #
 #   user_info = db.users.find_one({'email': 'LULUALA_2@insta.com'})
 #   post_id_receive = request.form['post_id_give']
-#   type_receive = request.form['type_give']
 #   action_receive = request.form['action_give']
 #
 #   doc = {'post_id': post_id_receive,
-#          'user_id': user_info['user_id'],
-#          'type': type_receive}
+#          'user_id': user_info['user_id']}
 #
 #   if action_receive == "like":
 #     db.likes.insert_one(doc)
 #   else:
 #     db.likes.delete_one(doc)
 #
-#   count = db.likes.count_documents({"post_id": post_id_receive, "type": type_receive})
+#   count = db.likes.count_documents({"post_id": post_id_receive})
 #   return jsonify({'result': 'success', 'msg': 'updated', 'count':count})
-
 
 
 if __name__=="__main__":
