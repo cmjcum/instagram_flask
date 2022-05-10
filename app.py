@@ -1,7 +1,7 @@
 import codecs
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from datetime import datetime
+import datetime
 from werkzeug.utils import secure_filename
 
 import jwt
@@ -102,12 +102,6 @@ def postComment():
 #
 #   count = db.likes.count_documents({"post_id": post_id_receive})
 #   return jsonify({'result': 'success', 'msg': 'updated', 'count':count})
-
-
-if __name__=="__main__":
-  app.run(debug=True)
-  # host 등을 직접 지정하고 싶다면
-  # app.run(host="127.0.0.1", port="5000", debug=True)
 
 SECRET_KEY = 'CMG'
 
