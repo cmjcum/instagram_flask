@@ -48,7 +48,7 @@ function getFeed() {
                                                 </div>
                                             </div>
                                             <!--댓글 본문-->
-                                            <div class="box">
+                                            <div class="comment-box">
                                                     <p><span class="bold">좋아요 3개</span></p>
                                                     <div class="feed-information">
                                                         <span class="id">${post['user_id']} </span>
