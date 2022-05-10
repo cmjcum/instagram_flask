@@ -25,7 +25,7 @@
       function logout(){
         $.removeCookie('mytoken');
         alert('로그아웃!')
-        window.location.href='/login'
+        window.location.href='/'
       }
 </script>
 </head>
@@ -41,7 +41,7 @@
             </div>
             <div class="menu">
                 <div class="home click" onclick="goHome()"></div>
-                <div class="direct click"></div>
+                <div class="direct click" onclick="logout()"></div>
                 <div class="write click" onclick="initPostModal()"></div>
                 <div class="explore click"></div>
                 <div class="like click"></div>

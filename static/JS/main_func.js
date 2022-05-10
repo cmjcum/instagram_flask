@@ -29,8 +29,8 @@ function getFeed() {
                     let post_date = new Date(post["post_date"])
                     let time_before = time2str(post_date)
 
-                    let post_id = post['_id']
-                    let carousel_id = 'carousel' + post_id
+                    let post_id_num = post['_id']
+                    let carousel_id = 'carousel' + post_id_num
 
                     let temp_img_html = `<div id="${carousel_id}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
                                  <div id="carousel_inner" class="carousel-inner">`
@@ -65,6 +65,13 @@ function getFeed() {
                                              </button>
                                          </div>`
                     }
+                    let temp_like_html = ``
+
+                    if (post["heart_by_me"] == true) {
+                        temp_like_html = `<div class="like click" onclick="updateLike(this)"></div>`
+                    } else {
+                       temp_like_html = `<div class="unlike click" onclick="updateLike(this)"></div>`
+                    }
 
                     let html_temp = `<div class="card" id="${post['_id']}">
                                 <!--게시글 헤더-->
@@ -83,9 +90,9 @@ function getFeed() {
                                 <!--게시글 이미지 하단 아이콘-->
                                 <div class="post_icon">
                                     <div class="post_icon_left">
-                                        <div class="unlike click" onclick="updateLike(this)"></div>
+                                        ${temp_like_html}
                                         <div class="comment"></div>
-                                        <div class="direct"></div>
+                                        <div class="direct click"></div>
                                     </div>
                                     <div class="post_icon_right">
                                         <div class="bookmark"></div>
@@ -93,15 +100,15 @@ function getFeed() {
                                 </div>
                                 <!--댓글 본문-->
                                 <div class="comments_box">
-                                        <p><span class="bold">좋아요 3개</span></p>
-                                        <div class="feed-information">
-                                            <span class="id">${post['user_id']} </span>
-                                            <span class="feed-content black">${post['desc']}</span>
-                                        </div>                                                    
-                                        <div class="click gray_r" id="comment-open" onclick="getComment(this)">댓글 보기</div>
-                                        <div id="comments"></div>
-                                        <br><div class="gray_s">${time_before}</div>
-                                    </div>
+                                    <p class="bold">좋아요 <span id="like_cnt">${post['like_cnt']}</span>개</p>
+                                    <div class="feed-information">
+                                        <span class="id">${post['user_id']} </span>
+                                        <span class="feed-content black">${post['desc']}</span>
+                                    </div>                                                    
+                                    <div class="click gray_r" id="comment-open" onclick="getComment(this)">댓글 보기</div>
+                                    <div id="comments"></div>
+                                    <br><div class="gray_s">${time_before}</div>
+                                </div>
                                 <!--댓글 달기-->
                                 <ul class="list-group list-group-flush">
                                     <ul class="list-group list-group-flush">
@@ -113,31 +120,46 @@ function getFeed() {
                                     </ul>
                                 </ul>
                             </div>`
-                    $("#card_box").append(html_temp)
 
+                    $("#card_box").append(html_temp)
                 }
             }
         }
     })
 }
-// 하트를 누르면 함수가 실행되는 곳에 있는 클래스를 like 클래스로 바꾸고 좋아요 카운트 +1
-// post_id는 어디서받아와
+// 하트를 누르면 (onclick) 함수가 실행되는 곳에 있는 클래스를 like 클래스로 바꾸고 좋아요 카운트 +1
+// 카운트는 db의 like 테이블에서 post_id 의 개수를 셈
 //
 
 // ... 좋아요
-// function updateLike(post_id) {
-//
-//
-//     $.ajax({
-//         type: "GET",
-//         url: "/api/like",
-//         data: {post_id_give: post_id, action_give: 'unlike'},
-//         success: function (response) {
-//
-//         }
-//     })
-// }
+function updateLike(obj) {
+    let post_id = $(obj).closest('.card').attr('id')
 
+    if ($(obj).hasClass('unlike')) {
+        $.ajax({
+            type: "POST",
+            url: "/api/like",
+            data: {post_id_give: post_id, action_give: 'like'},
+            success: function (response) {
+                console.log("like")
+                console.log(response["count"])
+                $(obj).addClass('like').removeClass('unlike')
+                $(obj).closest('.post_icon').next().find('span#like_cnt').text(response["count"])
+            }
+        })
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "/api/like",
+            data: {post_id_give: post_id, action_give: 'unlike'},
+            success: function (response) {
+                console.log("unlike")
+                $(obj).addClass('unlike').removeClass('like')
+                $(obj).closest('.post_icon').next().find('span#like_cnt').text(response["count"])
+            }
+        })
+    }
+}
 
 
 // ... 댓글 불러오기
