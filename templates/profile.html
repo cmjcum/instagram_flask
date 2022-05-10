@@ -41,15 +41,14 @@
                 <div class="write"></div>
                 <div class="explore"></div>
                 <div class="like"></div>
-                {#{{ user_pic }} 적용예정#}
-                <div class="profile"><img src="{{ user_pic }}"></div>
+                <div class="profile"><img src="{{ user_pic }}" onerror="this.style.display='none'"></div>
             </div>
         </div>
     </div>
 
     <div class="header">
         <div class="header_left">
-            <div class="my_pic"></div>
+            <div class="my_pic"><img src="{{ user_pic }}" onerror="this.style.display='none'"></div>
         </div>
         <div class="header_right">
             <div class="my_id">
@@ -133,23 +132,24 @@
             <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
         </div>
         <div class="follower_list">
-            <div class="follow_info">
-                <div class="follow_profile">
-                    <div class="profile"><img src="../static/img/post_3.jpg"></div>
-                    <div class="nickname"><span id="follower_id">follower_id</span>
-                        <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>
-                        <br><span id="follower_name" class="gray_s">follower_name</span></div>
-                </div>
-                <button type="button" class="btn_follow_del">삭제</button>
-            </div>
+        <!--샘플-->
+{#            <div class="follow_info">#}
+{#                <div class="follow_profile">#}
+{#                    <div class="profile"><img src="../static/img/post_3.jpg"></div>#}
+{#                    <div class="nickname"><span id="follower_id">follower_id</span>#}
+{#                        <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>#}
+{#                        <br><span id="follower_name" class="gray_s">follower_name</span></div>#}
+{#                </div>#}
+{#                <button type="button" class="btn_follow_del">삭제</button>#}
+{#            </div>#}
+        <!--샘플-->
             {% for data in follower_data %}
                 <div class="follow_info">
                     <div class="follow_profile">
                         <div class="profile"></div>
-                        <div class="nickname"><span id="follower_id">{{ data.email }}</span>
-                            <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>
-                            <br><span id="follower_name" class="gray_s">follower_name</span></div>
+                        <div class="nickname"><span id="follower_id">{{ data.email }}</span></div>
                     </div>
+                    <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>
                     <button type="button" class="btn_follow_del">삭제</button>
                 </div>
             {% endfor %}
@@ -161,21 +161,21 @@
             <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
         </div>
         <div class="following_list">
-            <div class="follow_info">
-                <div class="follow_profile">
-                    <div class="profile"><img src="../static/img/post_3.jpg"></div>
-                    <div class="nickname"><span id="following_id">following_id</span>
-                        <br><span id="following_name" class="gray_s">following_name</span></div>
-                </div>
-                <button type="button" class="btn_follow_del">팔로잉</button>
-            </div>
-
+        <!--샘플-->
+{#            <div class="follow_info">#}
+{#                <div class="follow_profile">#}
+{#                    <div class="profile"><img src="../static/img/post_3.jpg"></div>#}
+{#                    <div class="nickname"><span id="following_id">following_id</span>#}
+{#                        <br><span id="following_name" class="gray_s">following_name</span></div>#}
+{#                </div>#}
+{#                <button type="button" class="btn_follow_del">팔로잉</button>#}
+{#            </div>#}
+        <!--샘플-->
             {% for data in following_data %}
                 <div class="follow_info">
                     <div class="follow_profile">
                         <div class="profile"></div>
-                        <div class="nickname"><span id="following_id">{{ data.t_email }}</span>
-                            <br><span id="following_name" class="gray_s">following_name</span></div>
+                        <div class="nickname"><span id="following_id">{{ data.t_email }}</span></div>
                     </div>
                     <button type="button" class="btn_follow_del">팔로잉</button>
                 </div>

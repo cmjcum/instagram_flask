@@ -3,11 +3,14 @@ $(document).ready(function () {
 })
 
 // 피드 불러오기
-function getFeed() {
+function getFeed(email) {
+    if (email==undefined) {
+        email=""
+    }
     $("#article_box").empty()
     $.ajax({
         type: "GET",
-        url: "/feed",
+        url: `/feed?email_give=${email}`,
         data: {},
         success: function (response) {
             if (response["result"] == "success") {

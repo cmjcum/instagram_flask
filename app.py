@@ -125,9 +125,32 @@ def upload():
     return jsonify({'msg': '완료!'})
 
 
+# @app.route("/get_posts", methods=['GET'])
+# def get_posts():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         username_receive = request.args.get("username_give")
+#         if username_receive=="":
+#             posts = list(db.posts.find({}).sort("date", -1).limit(20))
+#         else:
+#             posts = list(db.posts.find({"username":username_receive}).sort("date", -1).limit(20))
+#         for post in posts:
+#             post["_id"] = str(post["_id"])
+#             post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+#             post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": my_username}))        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "posts": posts})
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for("home"))
+
 @app.route('/feed', methods=['GET'])
 def getFeed():
     # 피드 조회하기
+    username_receive = request.args.get("username_give")
+    if username_receive == "":
+        posts = list(db.posts.find({}).sort("date", -1).limit(20))
+    else:
+        posts = list(db.posts.find({"username": username_receive}).sort("date", -1).limit(20))
+
     posts = list(db.posts.find({}).sort('post_date', -1).limit(20))
 
     for post in posts:
@@ -242,6 +265,7 @@ def user():
         feed_cnt = db.posts.count_documents({"email": email})
         follower_cnt = db.follow.count_documents({"t_email": email})
         following_cnt = db.follow.count_documents({"email": email})
+
         follower_data = db.follow.find({"t_email": email})
         following_data = db.follow.find({"email": email})
 

@@ -100,7 +100,6 @@ a:hover {
     font-weight: 600;
 }
 
-
 .bold {
     font-weight: 600;
 }
@@ -651,15 +650,16 @@ input#search:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 30px;
+    margin-top: 5px;
 }
 
 .follow_profile {
     display: flex;
+    align-items: center;
 }
 
 .btn_follow {
-    margin: 0 5px;
+    margin: 0 5px 10px 5px;
     background-color: transparent;
     border: none;
     box-shadow: none;
