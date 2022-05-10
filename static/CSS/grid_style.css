@@ -271,6 +271,13 @@ input#search:focus {
     background-image: url('../img/profile.jpg');
     background-position: center;
     background-size: cover;
+
+    border-radius: 50%;
+}
+
+.card_header .human >img {
+    width: inherit;
+    border-radius: 50%;
 }
 
 .nickname {
