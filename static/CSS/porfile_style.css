@@ -711,3 +711,108 @@ input#search:focus {
     line-height: 1em;
     padding-left: 15px;
 }
+
+/*포스팅 모달 css*/
+.modal-post-content {
+    display: flex;
+}
+
+.btn-input-img {
+    color: white;
+    cursor: pointer;
+    background-color: #0095f6;
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 5px;
+    font-weight: bold;
+
+    margin: 300px;
+}
+
+.modal-post-wrap {
+    display: flex;
+    flex-direction: column;
+
+    max-width: 1195px;
+    min-width: 688px;
+
+    background-color: white;
+
+    border-radius: 10px;
+
+    z-index: 10;
+}
+
+.modal-post-title {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 5px 0 5px;
+    font-weight: bold;
+    border-bottom: #dbdbdb 1px solid;
+}
+
+.modal-post-title > div {
+    flex-grow: 1;
+    text-align: center;
+    margin: 10px;
+}
+
+.button_modal {
+    border: none;
+    background: none;
+    color: #0095f6;
+    font-weight: bold;
+    font-size: small;
+}
+
+.modal-post-images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.modal-post-textarea-div {
+    border-bottom: #dbdbdb 1px solid;
+    padding: 10px;
+}
+
+.post-text {
+    height: 170px;
+    min-width: 340px;
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+.modal-user-id {
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 18px;
+}
+
+.modal-user-id > img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.modal-user-id > div {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.modal-post-text > div > input {
+    min-width: 340px;
+    border: none;
+    outline: none;
+}
+
+.modal-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
