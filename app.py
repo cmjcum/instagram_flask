@@ -7,9 +7,7 @@ import hashlib
 import datetime
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.gsb7w.mongodb.net/Cluster0?retryWrites=true&w=majority')
-db = client.instaClone
-SECRET_KEY = 'CMG'
+
 
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
@@ -136,7 +134,13 @@ def getFeed():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        posts = list(db.posts.find({}).sort('post_date', -1).limit(20))
+        user_id_receive = request.args.get('user_id_give')
+
+        if user_id_receive == '':
+            posts = list(db.posts.find({}).sort('post_date', -1).limit(20))
+
+        else:
+            posts = list(db.posts.find({'user_id': user_id_receive}).sort('post_date', -1).limit(20))
 
         for post in posts:
             post["_id"] = str(post["_id"])
