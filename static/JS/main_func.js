@@ -242,6 +242,17 @@ function popClose() {
 
 // 포스팅 모달 함수
 function selectImages(event) {
+    $.ajax({
+        type: 'GET',
+        url: '/api/userInfo',
+        data: {},
+        success: function (response) {
+            let user_info = response['user_info'];
+            let user_id = user_info['user_id']
+            $('#modal_post_id').text(user_id)
+        }
+    });
+
     $('#modal_post_display_image').empty();
     $('#image_upload_button').hide();
     let sel_files = [];
