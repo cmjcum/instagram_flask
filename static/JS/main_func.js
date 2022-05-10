@@ -293,9 +293,34 @@ function selectImages(event) {
         };
         reader.readAsDataURL(f);
     })
-    $('.modal-post-text').show();
+    $('#modal_post_text').show();
     $('#button_post').show();
 }
+
+function postFeed() {
+    let form = $('#post_form')[0];
+    let formData = new FormData(form);
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/feed',
+        data: formData,
+        // enctype: 'multipart/form-data',
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            alert(response['msg']);
+            $("#modal_post").removeClass("is-active");
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+            alert("fail");
+            $("#modal_post").removeClass("is-active");
+        }
+    });
+}
+
 
 function postFeed() {
     let form = $('#post_form')[0];
