@@ -9,6 +9,9 @@ function goHome() {
     window.location.href = "/";
 }
 
+function goUser() {
+    window.location.href = "/user";
+}
 
 // ... 피드 불러오기
 function getFeed() {
@@ -497,3 +500,4 @@ function deleteFeed(post_id) {
        }
     });
 }
+
