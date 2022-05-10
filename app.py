@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
 
+import random
+
 import jwt
 import hashlib
 import datetime
@@ -22,11 +24,31 @@ def home():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"email": payload['id']}, {'_id': False})
+        all_users = list(db.users.find({}, {'_id': False}))
+        recommend_info = []
+
+        while True:
+            recommend_info.clear()
+            rand = random.sample(range(len(all_users)), 3)
+            for r in rand:
+                if payload['id'] == all_users[r]['email']:
+                    break
+
+                doc = {'email': payload['id'], 't_email': all_users[r]['email']}
+                is_following = bool(db.follow.find_one(doc))
+                if not is_following:
+                    if all_users[r]['pic'] == '':
+                        all_users[r]['pic'] = './static/img/profile.jpg'
+                    recommend_info.append(all_users[r])
+
+            if len(recommend_info) == 3:
+                break
+
         if user_info['pic'] == '':
             pic = './static/img/profile.jpg'
         else:
             pic = user_info['pic']
-        return render_template('index.html', profile_pic=pic, user_info=user_info)
+        return render_template('index.html', profile_pic=pic, user_info=user_info, recommend_info=recommend_info)
 
     except jwt.ExpiredSignatureError:
         return render_template('login_page.html')
@@ -54,7 +76,9 @@ def sign_up_post():
         'email': email_receive,
         'user_id': id_receive,
         'name': name_receive,
-        'password': pw_hash
+        'password': pw_hash,
+        'pic': '',
+        'bio': ''
     }
     db.users.insert_one(doc)
     return jsonify({'msg': '가입완료'})

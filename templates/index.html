@@ -77,8 +77,18 @@
                     </div>
 
                     <div class="follow-info-1">
-                        <div class="profile"></div>
-                        <div class="nickname">sunset_002<br><span class="gray_s">회원님을 위한 추천입니다</span></div>
+                        <div style="background-image: url({{ recommend_info.0.pic }})" class="profile"></div>
+                        <div class="nickname">{{ recommend_info.0.user_id }}<br><span class="gray_s">회원님을 위한 추천입니다</span></div>
+                        <div class="follow-btn"><a href="#" class="blue_sb">팔로우</a></div>
+                    </div>
+                    <div class="follow-info-1">
+                        <div style="background-image: url({{ recommend_info.1.pic }})" class="profile"></div>
+                        <div class="nickname">{{ recommend_info.1.user_id }}<br><span class="gray_s">회원님을 위한 추천입니다</span></div>
+                        <div class="follow-btn"><a href="#" class="blue_sb">팔로우</a></div>
+                    </div>
+                    <div class="follow-info-1">
+                        <div style="background-image: url({{ recommend_info.2.pic }})" class="profile"></div>
+                        <div class="nickname">{{ recommend_info.2.user_id }}<br><span class="gray_s">회원님을 위한 추천입니다</span></div>
                         <div class="follow-btn"><a href="#" class="blue_sb">팔로우</a></div>
                     </div>
 
