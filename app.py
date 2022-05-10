@@ -16,7 +16,6 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
-    print(token_receive)
     # try뜻
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -65,7 +64,6 @@ def sign_up_get():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        print(payload)
 
         userinfo = db.users.find_one({'id': payload['id']})
         return jsonify({'result': 'success'})
@@ -112,7 +110,6 @@ def upload():
         for image in images:
             timestamp = datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
             path = './static/img/post_img/' + timestamp + secure_filename(image.filename)
-            print(path)
             image.save(path)
             images_path.append(path)
 
@@ -212,7 +209,6 @@ def updateLike():
         db.likes.delete_one(doc)
 
       count = db.likes.count_documents({"post_id": post_id_receive})
-      print(count)
       return jsonify({'result': 'success', 'msg': 'updated', 'count': count})
 
   except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
@@ -338,13 +334,11 @@ def getFollowing():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         following_data = list(db.follow.find({"email": payload['id']}))
-        print(following_data)
         following_id = []
         for data in following_data:
             user_info = db.users.find_one({"email": data['t_email']})
             data['user_id'] = user_info['user_id']
             following_id.append(data['user_id'])
-        print(following_id)
 
         return jsonify({'following_id': following_id})
 
