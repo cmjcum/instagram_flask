@@ -77,7 +77,7 @@ function getFeed() {
                                 <!--게시글 헤더-->
                                 <div class="card-body">
                                     <div class="card_header">
-                                        <div class="human"></div>
+                                        <div class="human"><img src="${post['pic']}"></div>
                                         <div class="nickname">${post['user_id']}<br><span class="gray_s">${post['location']}</span></div>
                                     </div>
                                     <button class="dot-dot-dot btn-open-popup" onclick="getModalType(this)"></button>
@@ -533,4 +533,3 @@ function showModalProfilePic() {
         }
     });
 }
-
