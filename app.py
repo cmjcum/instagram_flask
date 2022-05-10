@@ -229,6 +229,17 @@ def deleteFeed():
 
     return jsonify({'msg':'삭제 완료!'})
 
+@app.route('/api/userInfo', methods=['GET'])
+def sendUserInfo():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({'email': payload['id']}, {'_id':False})
+        return jsonify({'user_info': user_info})
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
 
 @app.route('/user')
 def user():
