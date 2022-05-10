@@ -96,13 +96,13 @@ def upload():
     images = request.files.getlist("image[]")
     desc = request.form['desc']
     location = request.form['location']
-    time = datetime.datetime.now()
+    time = datetime.datetime.utcnow()
     email = "LULULALA_2@insta.com"
     user_id = "LULULALA_2"
     images_path = []
 
     for image in images:
-        timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')
+        timestamp = datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
         path = './static/img/post_img/' + timestamp + secure_filename(image.filename)
         print(path)
         image.save(path)
