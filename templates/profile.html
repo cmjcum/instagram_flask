@@ -13,9 +13,9 @@
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-        <!--자바스크립트, 스타일시트 파일 불러오기-->
+    <!--자바스크립트, 스타일시트 파일 불러오기-->
 
-        <script src="{{ url_for('static', filename='JS/profile_func.js') }}"></script>
+    <script src="{{ url_for('static', filename='JS/profile_func.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/porfile_style.css') }}">
 
 
@@ -30,7 +30,7 @@
     <div class="nav">
         <div class="nav-item">
             <a href="#">
-                <div class="logo"></div>
+                <div class="logo" onclick="goHome()"></div>
             </a>
             <div class="find">
                 <input type="text" class="search" id="search" placeholder="검색">
@@ -41,20 +41,20 @@
                 <div class="write"></div>
                 <div class="explore"></div>
                 <div class="like"></div>
-                <div class="profile"><img src="{{ user_pic }}" onerror="this.style.display='none'"></div>
+                <div class="profile" onclick="goUser()"><img src="{{ user_info.pic }}" onerror="this.style.display='none'"></div>
             </div>
         </div>
     </div>
 
     <div class="header">
         <div class="header_left">
-            <div class="my_pic"><img src="{{ user_pic }}" onerror="this.style.display='none'"></div>
+            <div class="my_pic"><img src="{{ user_info.pic }}" onerror="this.style.display='none'"></div>
         </div>
         <div class="header_right">
             <div class="my_id">
-                <span class="user_id">{{ user_id }}</span>
-                    <button class="btn_profile_mod bold">프로필 편집</button>
-                    <div class="profile_gear" onclick="popOpen()"></div>
+                <span class="user_id">{{ user_info.user_id }}</span>
+                <button class="btn_profile_mod bold">프로필 편집</button>
+                <div class="profile_gear" onclick="popOpen()"></div>
 
             </div>
             <div class="my_info">
@@ -67,8 +67,8 @@
                 </div>
             </div>
             <div class="my_name">
-                <span class="bold">{{ user_name }}</span><br>
-                <span class="message">{{ user_bio }}</span>
+                <span class="bold">{{ user_info.name }}</span><br>
+                <span class="message">{{ user_info.bio }}</span>
             </div>
         </div>
     </div>
@@ -93,6 +93,8 @@
         <article>
             <div class="post_box" id="article_box">
                 <!--게시글 섬네일 불러오기-->
+{#                <div class="my_post"><img src="../static/img/post_3.jpg"></div>#}
+
 
             </div>
         </article>
@@ -131,8 +133,7 @@
         <div class="modal-header"><span class="bold">팔로워 목록</span>
             <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
         </div>
-        <div class="follower_list">
-        <!--샘플-->
+        <div class="follower_list" id="follower_id_box">
 {#            <div class="follow_info">#}
 {#                <div class="follow_profile">#}
 {#                    <div class="profile"><img src="../static/img/post_3.jpg"></div>#}
@@ -142,17 +143,20 @@
 {#                </div>#}
 {#                <button type="button" class="btn_follow_del">삭제</button>#}
 {#            </div>#}
-        <!--샘플-->
-            {% for data in follower_data %}
-                <div class="follow_info">
-                    <div class="follow_profile">
-                        <div class="profile"></div>
-                        <div class="nickname"><span id="follower_id">{{ data.email }}</span></div>
-                    </div>
-                    <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>
-                    <button type="button" class="btn_follow_del">삭제</button>
-                </div>
-            {% endfor %}
+
+{#            {% for data in follower_data %}#}
+{#                <div class="follow_info">#}
+{#                    <div class="follow_profile">#}
+{#                        <div class="profile"></div>#}
+{#                        <div class="nickname"><span id="follower_id">{{ data.email }}</span></div>#}
+{#                    </div>#}
+{#                    {% if follow_status %}#}
+{#                    {% else %}#}
+{#                        <button type="button" class="btn_follow" onclick="follow(this)"><span class="gray_s">팔로우</span></button>#}
+{#                    {% endif %}#}
+{#                    <button type="button" class="btn_follow_del" onclick="followerDel(this)">삭제</button>#}
+{#                </div>#}
+{#            {% endfor %}#}
         </div>
 
     </div>
@@ -160,8 +164,7 @@
         <div class="modal-header"><span class="bold">팔로우 목록</span>
             <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
         </div>
-        <div class="following_list">
-        <!--샘플-->
+        <div class="following_list" id="following_id_box">
 {#            <div class="follow_info">#}
 {#                <div class="follow_profile">#}
 {#                    <div class="profile"><img src="../static/img/post_3.jpg"></div>#}
@@ -170,16 +173,16 @@
 {#                </div>#}
 {#                <button type="button" class="btn_follow_del">팔로잉</button>#}
 {#            </div>#}
-        <!--샘플-->
-            {% for data in following_data %}
-                <div class="follow_info">
-                    <div class="follow_profile">
-                        <div class="profile"></div>
-                        <div class="nickname"><span id="following_id">{{ data.t_email }}</span></div>
-                    </div>
-                    <button type="button" class="btn_follow_del">팔로잉</button>
-                </div>
-            {% endfor %}
+
+{#            {% for data in following_data %}#}
+{#                <div class="follow_info">#}
+{#                    <div class="follow_profile">#}
+{#                        <div class="profile"></div>#}
+{#                        <div class="nickname"><span id="following_id">{{ data.t_email }}</span></div>#}
+{#                    </div>#}
+{#                    <button type="button" class="btn_follow_del" onclick="unfollow(this)">팔로잉</button>#}
+{#                </div>#}
+{#            {% endfor %}#}
 
         </div>
         <!--모달 영역 끝-->

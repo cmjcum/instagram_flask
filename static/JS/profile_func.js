@@ -1,21 +1,20 @@
 $(document).ready(function () {
     getFeed()
+    getFollower()
+    getFollowing()
 })
 
-// 피드 불러오기
-function getFeed(email) {
-    if (email==undefined) {
-        email=""
-    }
+// ... 피드 불러오기
+function getFeed() {
     $("#article_box").empty()
     $.ajax({
         type: "GET",
-        url: `/feed?email_give=${email}`,
+        url: "/feed",
         data: {},
         success: function (response) {
             if (response["result"] == "success") {
                 let posts = response["posts"]
-                for (let i = 0; i < 9; i++) {
+                for (let i = 0; i < posts.length; i++) {
                     let post = posts[i]
                     let url = post['photo'][0]
                     let html_temp_img = `<div class="my_post"><img src="${url}"></div>`
@@ -25,6 +24,96 @@ function getFeed(email) {
         }
     })
 }
+
+// 팔로워 불러오기
+function getFollower() {
+    $.ajax({
+        type: "GET",
+        url: "/follower",
+        data: {},
+        success: function (response) {
+                console.log(response)
+                let follower_id = response["follower_id"]
+                for (let i = 0; i < follower_id.length; i++) {
+                    let follower_user_id = follower_id[i]
+                    let html_temp = `<div class="follow_info">
+                                        <div class="follow_profile">
+                                            <div class="profile"></div>
+                                            <div class="nickname">${follower_user_id}</div>
+                                        </div>
+                                        <button type="button" class="btn_follow_del" onclick="followerDel(this)">삭제</button>
+                                    </div>`
+                    $("#follower_id_box").append(html_temp)
+                }
+        }
+    })
+}
+
+// 팔로우 불러오기
+function getFollowing() {
+    $.ajax({
+        type: "GET",
+        url: "/following",
+        data: {},
+        success: function (response) {
+                console.log(response)
+                let following_id = response["following_id"]
+                for (let i = 0; i < following_id.length; i++) {
+                    let following_user_id = following_id[i]
+                    let html_temp = `<div class="follow_info">
+                                        <div class="follow_profile">
+                                            <div class="profile"></div>
+                                            <div class="nickname">${following_user_id}</div>
+                                        </div>
+                                        <button type="button" class="btn_follow_del" onclick="unfollow(this)">팔로잉</button>
+                                    </div>`
+                    $("#following_id_box").append(html_temp)
+                }
+        }
+    })
+}
+
+// 팔로워삭제
+function followerDel(obj) {
+    let user_id = $(obj).prev().children().next().text()
+    console.log(user_id)
+
+}
+
+// 팔로우
+function follow(obj) {
+    let user_id = $(obj).prev().children().next().text()
+    console.log(user_id)
+
+    $.ajax({
+        type: "POST",
+        url: "/api/follow",
+        data: {
+            id_give: user_id
+        },
+        success: function (response) {
+            window.location.reload()
+        }
+    });
+}
+
+// 언팔로우
+function unfollow(obj) {
+    let user_id = $(obj).prev().children().next().text()
+    console.log(user_id)
+
+    $.ajax({
+        type: "POST",
+        url: "/api/unfollow",
+        data: {
+            id_give: user_id
+        },
+        success: function (response) {
+            window.location.reload()
+        }
+    });
+}
+
 
 //로그아웃
 function sign_out() {
@@ -81,4 +170,13 @@ function popClose() {
     $(modalBg).hide();
 
     $('html').removeAttr('style');
+}
+
+// ... 기본 링크
+function goHome() {
+    window.location.href = "/";
+}
+
+function goUser() {
+    window.location.href = "/user";
 }

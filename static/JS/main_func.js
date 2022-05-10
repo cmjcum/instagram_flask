@@ -28,139 +28,92 @@ function getFeed() {
                     let post_date = new Date(post["post_date"])
                     let time_before = time2str(post_date)
 
-                    let html_temp_img = `<div class="card" id="${post['_id']}">
-                                            <!--게시글 헤더-->
-                                            <div class="card-body">
-                                                <div class="card_header">
-                                                    <div class="human"></div>
-                                                    <div class="nickname">${post['user_id']}<br><span class="gray_s">${post['location']}</span></div>
-                                                </div>
-                                                <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
-                                            </div>
-                                            <!--게시글 이미지-->
-                                            <img src="../static/img/post_1-1.jpg" class="card-img-top post_img">
-                                            <!--게시글 이미지 하단 아이콘-->
-                                            <div class="post_icon">
-                                                <div class="post_icon_left">
-                                                    <div class="unlike click" onclick="updateLike(this)"></div>
-                                                    <div class="comment"></div>
-                                                    <div class="direct"></div>
-                                                </div>
-                                                <div class="post_icon_right">
-                                                    <div class="bookmark"></div>
-                                                </div>
-                                            </div>
-                                            <!--댓글 본문-->
-                                            <div class="comment-box">
-                                                    <p><span class="bold">좋아요 3개</span></p>
-                                                    <div class="feed-information">
-                                                        <span class="id">${post['user_id']} </span>
-                                                        <span class="feed-content black">${post['desc']}</span>
-                                                    </div>                                                    
-                                                    <div class="click gray_r" id="comment-open" onclick="getComment(this)">댓글 보기</div>
-                                                    <div id="comments"></div>
-                                                    <br><div class="gray_s">${time_before}</div>
-                                                </div>
-                                            <!--댓글 달기-->
-                                            <ul class="list-group list-group-flush">
-                                                <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item">
-                                                        <div class="emoji"></div>
-                                                        <input type="text" onkeyup="inputComment(this)" class="reply" id="reply" placeholder="댓글 달기...">
-                                                        <button type="button" disabled="false" onclick="postComment(this)" class="btn btn-outline-info btn-sm">게시</button>
-                                                    </li>
-                                                </ul>
-                                            </ul>
-                                        </div>`
-                    let html_temp_carousel = `<div class="card">
-                                                <!--게시글 헤더-->
-                                                <div class="card-body">
-                                                    <div class="card_header">
-                                                        <div class="human"></div>
-                                                        <div class="nickname">${post['user_id']}<br><span class="gray_s">${post['location']}</span></div>
-                                                    </div>
-                                                    <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
-                                                </div>
-                                                <!--게시글 이미지-->
-                                                <div id="carouselExampleIndicators1" class="carousel slide" data-interval="false">
-                                                    <!--인디케이터-->
-                                                    <div class="carousel-indicators">
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="0"
-                                                                class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="1"
-                                                                aria-label="Slide 2"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="2"
-                                                                aria-label="Slide 3"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="3"
-                                                                aria-label="Slide 4"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="4"
-                                                                aria-label="Slide 5"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="5"
-                                                                aria-label="Slide 6"></button>
-                                                    </div>
-                                                    <!--이미지영역-->
-                                                    <div class="carousel-inner">
-                                                        <div class="carousel-item active">
-                                                            <img src="../static/img/post_1-1.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-2.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-3.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-4.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-5.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-6.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                    </div>
-                                                    <!--좌우 넘기기 버튼 영역-->
-                                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators1"
-                                                            data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators1"
-                                                            data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button>
-                                                </div>
-                                                <!--게시글 이미지 하단 아이콘-->
-                                                <div class="post_icon">
-                                                    <div class="post_icon_left">
-                                                        <div class="like"></div>
-                                                        <div class="comment"></div>
-                                                        <div class="direct"></div>
-                                                    </div>
-                                                    <div class="post_icon_right">
-                                                        <div class="bookmark"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="box">
-                                                    <p><span class="bold">좋아요 3개</span></p>
-                                                    <div class="feed-information">
-                                                        <span class="id">${post['user_id']} </span>
-                                                        <span class="feed-content black">${post['desc']}</span>
-                                                    </div>
-                                                    <div class="click gray_r" id="comments" onclick="getComment()">댓글 보기</div>
-                                                    <br><div class="gray_s">${post['post_date']}</div>
-                                                </div>
-                                                <!--댓글 달기-->
-                                                <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item">
-                                                        <div class="emoji"></div>
-                                                        <input type="text" onkeyup="inputComment(this)" class="reply" id="reply" placeholder="댓글 달기...">
-                                                        <button type="button" disabled="false" onclick="postComment()" class="btn btn-outline-info btn-sm">게시</button>
-                                                    </li>
-                                                </ul>
-                                            </div>`
-                    $("#card_box").append(html_temp_img)
+                    let post_id = post['_id']
+                    let carousel_id = 'carousel' + post_id
+
+                    let temp_img_html = `<div id="${carousel_id}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                                 <div id="carousel_inner" class="carousel-inner">`
+
+                    for (let j = 0; j < post['photo'].length; j++) {
+
+                        let temp = ``
+
+                        if (j == 0) {
+                            temp = `<div class="carousel-item active">
+                                      <img src=${post['photo'][j]} class="d-block w-100" alt="...">
+                                    </div>`
+                        } else {
+                            temp = `<div class="carousel-item">
+                                      <img src=${post['photo'][j]} class="d-block w-100" alt="...">
+                                    </div>`
+                        }
+                        temp_img_html = temp_img_html + temp
+                    }
+                    if (post['photo'].length == 1) {
+                        temp_img_html = temp_img_html + `</div></div>`
+                    } else {
+                        temp_img_html = temp_img_html + `<!--좌우 넘기기 버튼 영역-->
+                                             </div>
+                                             <button class="carousel-control-prev" type="button" data-bs-target="#${carousel_id}" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                             </button>
+                                             <button class="carousel-control-next" type="button" data-bs-target="#${carousel_id}" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                             </button>
+                                         </div>`
+                    }
+
+                    let html_temp = `<div class="card" id="${post['_id']}">
+                                <!--게시글 헤더-->
+                                <div class="card-body">
+                                    <div class="card_header">
+                                        <div class="human"></div>
+                                        <div class="nickname">${post['user_id']}<br><span class="gray_s">${post['location']}</span></div>
+                                    </div>
+                                    <button class="dot-dot-dot btn-open-popup" onclick="getModalType(this)"></button>
+                                </div>
+                                
+                                <!--게시글 이미지-->
+                                <div id="feed_img_box">${temp_img_html}</div>                                            
+                                <!--<img src="../static/img/post_img/post_1-1.jpg" class="card-img-top post_img">-->
+
+                                <!--게시글 이미지 하단 아이콘-->
+                                <div class="post_icon">
+                                    <div class="post_icon_left">
+                                        <div class="unlike click" onclick="updateLike(this)"></div>
+                                        <div class="comment"></div>
+                                        <div class="direct"></div>
+                                    </div>
+                                    <div class="post_icon_right">
+                                        <div class="bookmark"></div>
+                                    </div>
+                                </div>
+                                <!--댓글 본문-->
+                                <div class="comments_box">
+                                        <p><span class="bold">좋아요 3개</span></p>
+                                        <div class="feed-information">
+                                            <span class="id">${post['user_id']} </span>
+                                            <span class="feed-content black">${post['desc']}</span>
+                                        </div>                                                    
+                                        <div class="click gray_r" id="comment-open" onclick="getComment(this)">댓글 보기</div>
+                                        <div id="comments"></div>
+                                        <br><div class="gray_s">${time_before}</div>
+                                    </div>
+                                <!--댓글 달기-->
+                                <ul class="list-group list-group-flush">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <div class="emoji"></div>
+                                            <input type="text" onkeyup="inputComment(this)" class="reply" id="reply" placeholder="댓글 달기...">
+                                            <button type="button" disabled="false" onclick="postComment(this)" class="btn btn-outline-info btn-sm">게시</button>
+                                        </li>
+                                    </ul>
+                                </ul>
+                            </div>`
+                    $("#card_box").append(html_temp)
+
                 }
             }
         }
@@ -203,7 +156,7 @@ function getComment(obj) {
                 let time_before = time2str(cmt_date)
 
                 let temp_html = `<div>
-                                    <span class="black"><strong>${user_id}</strong> ${comment}</span>
+                                    <span class="black_b">${user_id}</span><span class="black"> ${comment}</span>
                                     <span class="gray_s">${time_before}</span>
                                 </div>`
                 $(obj).next().append(temp_html)
@@ -340,7 +293,7 @@ function selectImages(event) {
         };
         reader.readAsDataURL(f);
     })
-    $('.modal-post-text').show();
+    $('#modal_post_text').show();
     $('#button_post').show();
 }
 
@@ -358,12 +311,37 @@ function postFeed() {
         contentType: false,
         success: function (response) {
             alert(response['msg']);
-            window.location.href = '/';
+            $("#modal_post").removeClass("is-active");
         },
         error: function (e) {
             console.log("ERROR: ", e);
             alert("fail");
-            window.location.href = '/'
+            $("#modal_post").removeClass("is-active");
+        }
+    });
+}
+
+
+function postFeed() {
+    let form = $('#post_form')[0];
+    let formData = new FormData(form);
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/feed',
+        data: formData,
+        // enctype: 'multipart/form-data',
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            alert(response['msg']);
+            $("#modal_post").removeClass("is-active");
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+            alert("fail");
+            $("#modal_post").removeClass("is-active");
         }
     });
 }
@@ -373,19 +351,22 @@ function initPostModal() {
     $('#modal_post_display_image').empty();
     $('#image_upload_button').show();
 
-    $('.modal-post-text').hide();
+    $('#modal_post_text').hide();
     $('#button_post').hide();
 }
 
 // 모달 종류 선택 -> 내가 작성한 피드의 모달인지 아닌지
-function getModalType() {
+function getModalType(obj) {
+    let post_id = $(obj).closest('.card').attr('id')
     $.ajax({
         type: 'GET',
-        url: '/api/getModal',
+        url: `/api/getModal?post_id_give=${post_id}`,
         data: {},
         success: function(response) {
-            if(response['type'] == 'user') {
-                $('#modal_user').addClass('is-active');
+            if(response['type'] == 'writer') {
+                $('#modal_writer').addClass('is-active');
+                document.getElementById('modal_button_modify').addEventListener('click', function(){initModifyModal(post_id)})
+                document.getElementById('modal_button_delete').addEventListener('click', function(){initDeleteModal(post_id)})
             }
             else {
                 popOpen();
@@ -396,24 +377,105 @@ function getModalType() {
 }
 
 // 피드 수정 모달
-function initModifyModal() {
-    $('#modal_user').removeClass('is-active');
+function initModifyModal(post_id) {
+    $('#modal_writer').removeClass('is-active');
     $('#modal_modify').addClass('is-active');
+    loadModifyModal(post_id);
 }
 
-function loadModifyModal() {
+function loadModifyModal(post_id) {
+    document.getElementById('button_modify').addEventListener('click', function(){modifyFeed(post_id)})
 
     $.ajax({
         type: 'GET',
-        url: '/api/loadModify?post_id_give=',
+        url: `/api/loadModify?post_id_give=${post_id}`,
         data: {},
         success: function (response) {
+            let post_info = response['post_info'];
+            let image_arr = post_info['photo']
+            let temp_img_html = ``;
 
+            $('#modal_modify_display_image').empty()
+            if(image_arr.length == 1) {
+                temp_img_html = `<div id="carousel_modify" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                          <div id="carousel_modify_inner" class="carousel-inner"></div></div>`
+            }
+            else {
+                temp_img_html = `<div id="carousel_modify" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                          <div id="carousel_modify_inner" class="carousel-inner">
+                          </div>
+                          <button class="carousel-control-prev" type="button" data-bs-target="#carousel_modify" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                          </button>
+                          <button class="carousel-control-next" type="button" data-bs-target="#carousel_modify" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                          </button>
+                        </div>`
+            }
+
+            $('#modal_modify_display_image').append(temp_img_html)
+
+            for (let i = 0; i < image_arr.length; i++) {
+                let temp = ``
+                if (i == 0) {
+                    temp = `<div class="carousel-item active">
+                              <img src=${image_arr[i]} class="d-block w-100" alt="...">
+                            </div>`
+                }
+                else {
+                    temp = `<div class="carousel-item">
+                              <img src=${image_arr[i]} class="d-block w-100" alt="...">
+                            </div>`
+                }
+
+                $('#carousel_modify_inner').append(temp);
+            }
+
+            $('#modify_text').text(post_info['desc']);
+            $('#modify_location').val(post_info['location']);
+            $('#writer_id').text(post_info['user_id']);
         }
 
     });
 }
 
-function deleteModal() {
+function modifyFeed(post_id) {
+    let desc = $('#modify_text').val();
+    let location = $('#modify_location').val();
 
+    $.ajax({
+        type: 'POST',
+        url: '/api/modifyFeed',
+        data: { desc_give: desc,
+                location_give: location,
+                post_id_give: post_id },
+        success: function (response) {
+            alert(response['msg']);
+            $("#modal_modify").removeClass("is-active");
+            window.location.reload();
+        }
+    });
 }
+
+// 피드 삭제 모달
+function initDeleteModal(post_id) {
+    $('#modal_writer').removeClass('is-active');
+    $('#modal_delete').addClass('is-active');
+    document.getElementById('button_modify').addEventListener('click', function(){deleteFeed(post_id)})
+}
+
+function deleteFeed(post_id) {
+    $.ajax({
+       type: 'GET',
+       url: `/api/deleteFeed?post_id_give=${post_id}`,
+       data: {},
+       success: function (response) {
+           alert(response['msg']);
+           $("#modal_delete").removeClass("is-active");
+            window.location.reload();
+       }
+    });
+}
+
