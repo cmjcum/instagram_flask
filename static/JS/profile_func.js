@@ -2,7 +2,7 @@ $(document).ready(function () {
     getFeed()
 })
 
-// 피드 불러오기
+// ... 피드 불러오기
 function getFeed() {
     $("#article_box").empty()
     $.ajax({
@@ -12,7 +12,7 @@ function getFeed() {
         success: function (response) {
             if (response["result"] == "success") {
                 let posts = response["posts"]
-                for (let i = 0; i < 9; i++) {
+                for (let i = 0; i < posts.length; i++) {
                     let post = posts[i]
                     let url = post['photo'][0]
                     let html_temp_img = `<div class="my_post"><img src="${url}"></div>`

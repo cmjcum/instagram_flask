@@ -175,7 +175,7 @@ a {
 .logo {
     width: 333.5px;
     height: 29px;
-    background-image: url('../img/login_logo.png');
+    background-image: url('../img/logo.png');
     background-position: left;
     background-size: inherit;
     background-repeat: no-repeat;
@@ -346,6 +346,8 @@ input#search:focus {
     padding-bottom: 5px;
     border: transparent;
 }
+
+
 
 input#reply:focus {
     outline: none;
@@ -594,7 +596,7 @@ input#reply:focus {
     margin: 10px;
 }
 
-.button_modal {
+#button_post {
     border: none;
     background: none;
     color: #0095f6;
@@ -614,7 +616,7 @@ input#reply:focus {
     padding: 10px;
 }
 
-.post-text {
+#post_text {
     height: 170px;
     min-width: 340px;
     resize: none;
@@ -646,21 +648,4 @@ input#reply:focus {
     min-width: 340px;
     border: none;
     outline: none;
-}
-
-.modal-background {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-writer-wrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: auto;
-    height: auto;
-    background-color: white;
-    border-radius: 20px;
 }

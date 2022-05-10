@@ -40,12 +40,12 @@ function getFeed() {
 
                         if (j == 0) {
                             temp = `<div class="carousel-item active">
-                          <img src=${post['photo'][j]} class="d-block w-100" alt="...">
-                        </div>`
+                                      <img src=${post['photo'][j]} class="d-block w-100" alt="...">
+                                    </div>`
                         } else {
                             temp = `<div class="carousel-item">
-                          <img src=${post['photo'][j]} class="d-block w-100" alt="...">
-                        </div>`
+                                      <img src=${post['photo'][j]} class="d-block w-100" alt="...">
+                                    </div>`
                         }
                         temp_img_html = temp_img_html + temp
                     }
