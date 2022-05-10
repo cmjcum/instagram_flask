@@ -41,7 +41,7 @@ def home_signup():
 #    return render_template('login_page.html')
 
 
-@app.route('/signupPrac/', methods=['POST'])
+@app.route('/api/signup', methods=['POST'])
 def sign_up_post():
    email_receive = request.form['email_give']
    id_receive = request.form['id_give']
@@ -60,6 +60,24 @@ def sign_up_post():
    return jsonify({'msg': '가입완료'})
 
 
+# get을 받는 이유
+@app.route('/api/signup', methods=['GET'])
+def sing_up_get():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload)
+
+        userinfo = db.users.find_one({'id': payload['id']})
+        return jsonify({'result': 'success'})
+    except jwt.ExpiredSignatureError:
+        return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다'})
+    except jwt.ExpiredSignatureError:
+        return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다'})
+
+    # return jsonify({'result':'success', 'msg': '이 요청은 GET!'})
+
+
 @app.route('/api/login', methods=['POST'])
 def api_login():
    id_receive = request.form['id_give']
@@ -70,7 +88,7 @@ def api_login():
    if result is not None:
       payload = {
          'id': id_receive,
-         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=560)
+         'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=30)
       }
       token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
@@ -78,24 +96,6 @@ def api_login():
       return jsonify({'result': 'success', 'token': token})
    else:
       return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
-
-
-# get을 받는 이유
-@app.route('/signupPrac', methods=['GET'])
-def sing_up_get():
-   token_receive = request.cookies.get('mytoken')
-   try:
-      payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-      print(payload)
-
-      userinfo = db.users.find_one({'id': payload['id']})
-      return jsonify({'result': 'success', 'nickname': userinfo['nick']})
-   except jwt.ExpiredSignatureError:
-      return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다'})
-   except jwt.ExpiredSignatureError:
-      return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다'})
-
-   # return jsonify({'result':'success', 'msg': '이 요청은 GET!'})
 
 
 @app.route('/api/feed', methods=["POST"])

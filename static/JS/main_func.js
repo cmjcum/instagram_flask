@@ -25,7 +25,44 @@ function getFeed() {
                     let post_date = new Date(post["post_date"])
                     let time_before = time2str(post_date)
 
-                    let html_temp_img = `<div class="card" id="${post['_id']}">
+                    let post_id = post['_id']
+                    let carousel_id = 'carousel' + post_id
+
+                    let temp_img_html = `<div id="${carousel_id}" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                                             <div id="carousel_upload_inner" class="carousel-inner">`
+
+                    for (let j = 0; j < post['photo'].length; j++) {
+
+                        let temp = ``
+
+                        if (j == 0) {
+                            temp = `<div class="carousel-item active">
+                                      <img src=${post['photo'][j]} class="d-block w-100" alt="...">
+                                    </div>`
+                        } else {
+                            temp = `<div class="carousel-item">
+                                      <img src=${post['photo'][j]} class="d-block w-100" alt="...">
+                                    </div>`
+                        }
+                        temp_img_html = temp_img_html + temp
+                    }
+                    if (post['photo'].length == 1) {
+                        temp_img_html = temp_img_html + `</div></div>`
+                    } else {
+                        temp_img_html = temp_img_html + `<!--좌우 넘기기 버튼 영역-->
+                                                         </div>
+                                                         <button class="carousel-control-prev" type="button" data-bs-target="#${carousel_id}" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                         </button>
+                                                         <button class="carousel-control-next" type="button" data-bs-target="#${carousel_id}" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                         </button>
+                                                     </div>`
+                    }
+
+                    let html_temp = `<div class="card" id="${post['_id']}">
                                             <!--게시글 헤더-->
                                             <div class="card-body">
                                                 <div class="card_header">
@@ -34,8 +71,11 @@ function getFeed() {
                                                 </div>
                                                 <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
                                             </div>
+                                            
                                             <!--게시글 이미지-->
-                                            <img src="../static/img/post_img/post_1-1.jpg" class="card-img-top post_img">
+                                            <div id="feed_img_box">${temp_img_html}</div>                                            
+                                            <!--<img src="../static/img/post_img/post_1-1.jpg" class="card-img-top post_img">-->
+
                                             <!--게시글 이미지 하단 아이콘-->
                                             <div class="post_icon">
                                                 <div class="post_icon_left">
@@ -69,100 +109,15 @@ function getFeed() {
                                                 </ul>
                                             </ul>
                                         </div>`
-                    let html_temp_carousel = `<div class="card">
-                                                <!--게시글 헤더-->
-                                                <div class="card-body">
-                                                    <div class="card_header">
-                                                        <div class="human"></div>
-                                                        <div class="nickname">${post['user_id']}<br><span class="gray_s">${post['location']}</span></div>
-                                                    </div>
-                                                    <button class="dot-dot-dot btn-open-popup" onclick="popOpen()"></button>
-                                                </div>
-                                                <!--게시글 이미지-->
-                                                <div id="carouselExampleIndicators1" class="carousel slide" data-interval="false">
-                                                    <!--인디케이터-->
-                                                    <div class="carousel-indicators">
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="0"
-                                                                class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="1"
-                                                                aria-label="Slide 2"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="2"
-                                                                aria-label="Slide 3"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="3"
-                                                                aria-label="Slide 4"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="4"
-                                                                aria-label="Slide 5"></button>
-                                                        <button type="button" data-bs-target="#carouselExampleCaptions1" data-bs-slide-to="5"
-                                                                aria-label="Slide 6"></button>
-                                                    </div>
-                                                    <!--이미지영역-->
-                                                    <div class="carousel-inner">
-                                                        <div class="carousel-item active">
-                                                            <img src="../static/img/post_1-1.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-2.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-3.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-4.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-5.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                        <div class="carousel-item">
-                                                            <img src="../static/img/post_1-6.jpg" class="d-block w-100" alt="...">
-                                                        </div>
-                                                    </div>
-                                                    <!--좌우 넘기기 버튼 영역-->
-                                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators1"
-                                                            data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators1"
-                                                            data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button>
-                                                </div>
-                                                <!--게시글 이미지 하단 아이콘-->
-                                                <div class="post_icon">
-                                                    <div class="post_icon_left">
-                                                        <div class="like"></div>
-                                                        <div class="comment"></div>
-                                                        <div class="direct"></div>
-                                                    </div>
-                                                    <div class="post_icon_right">
-                                                        <div class="bookmark"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="box">
-                                                    <p><span class="bold">좋아요 3개</span></p>
-                                                    <div class="feed-information">
-                                                        <span class="id">${post['user_id']} </span>
-                                                        <span class="feed-content black">${post['desc']}</span>
-                                                    </div>
-                                                    <div class="click gray_r" id="comments" onclick="getComment()">댓글 보기</div>
-                                                    <br><div class="gray_s">${post['post_date']}</div>
-                                                </div>
-                                                <!--댓글 달기-->
-                                                <ul class="list-group list-group-flush">
-                                                    <li class="list-group-item">
-                                                        <div class="emoji"></div>
-                                                        <input type="text" onkeyup="inputComment(this)" class="reply" id="reply" placeholder="댓글 달기...">
-                                                        <button type="button" disabled="false" onclick="postComment()" class="btn btn-outline-info btn-sm">게시</button>
-                                                    </li>
-                                                </ul>
-                                            </div>`
-                    $("#card_box").append(html_temp_img)
+                    $("#card_box").append(html_temp)
                 }
             }
         }
     })
 }
+
+
+
 // 하트를 누르면 함수가 실행되는 곳에 있는 클래스를 like 클래스로 바꾸고 좋아요 카운트 +1
 // post_id는 어디서받아와
 //
