@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <!--자바스크립트, 스타일시트 파일 불러오기-->
+
+    <script src="{{ url_for('static', filename='JS/profile_func.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/porfile_style.css') }}">
+
+
+    <title>짭스타그램</title>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+    <div class="nav">
+        <div class="nav-item">
+            <a href="#">
+                <div class="logo"></div>
+            </a>
+            <div class="find">
+                <input type="text" class="search" id="search" placeholder="검색">
+            </div>
+            <div class="menu">
+                <div class="home"></div>
+                <div class="direct"></div>
+                <div class="write"></div>
+                <div class="explore"></div>
+                <div class="like"></div>
+                {#{{ user_pic }} 적용예정#}
+                <div class="profile"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="header_left">
+            {#{{ user_pic }} 적용예정#}
+            <div class="my_pic"></div>
+        </div>
+        <div class="header_right">
+            <div class="my_id">
+                <span class="user_id">{{ user_id }}</span>
+                <button class="btn_profile_mod bold">프로필 편집</button>
+                <div class="profile_gear" onclick="popOpen()"></div>
+
+            </div>
+            <div class="my_info">
+                <div class="info">게시물 <span class="bold">{{ feed_cnt }}</span></div>
+                <div class="info" onclick="popFollowerOpen()" style="cursor: pointer;">팔로워 <span
+                        class="bold">{{ follower_cnt }}</span>
+                </div>
+                <div class="info" onclick="popFollowingOpen()" style="cursor: pointer;">팔로우 <span
+                        class="bold">{{ following_cnt }}</span>
+                </div>
+            </div>
+            <div class="my_name">
+                <span class="bold">{{ user_name }}</span><br>
+                <span class="message">{{ user_bio }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post">
+
+        <div class="post_tab">
+            <a class="tab" href="#">
+                <div class="profile_post"></div>
+                게시물
+            </a>
+            <a class="tab" href="#">
+                <div class="profile_bookmark"></div>
+                저장됨
+            </a>
+            <a class="tab" href="#">
+                <div class="profile_tagged"></div>
+                태그됨
+            </a>
+        </div>
+
+        <article>
+            <div class="post_box" id="article_box">
+                <!--게시글 섬네일 불러오기-->
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+                <div class="my_post"><img src="../static/img/post_3.jpg"></div>
+
+
+            </div>
+        </article>
+
+
+    </div>
+
+    <div class="footer">
+        <p>2022 Instagram Clone Project from Team.CodingOrDie</p>
+        <p>Team.CodingOrDie || JA <a href="https://cold-charcoal.tistory.com">blog</a> | DG <a
+                href="https://ddongkim.tistory.com">blog</a> | NE <a
+                href="https://moist-ink.tistory.com/">blog</a>
+            | HK
+            <a href="https://lululala-2.tistory.com">blog</a></p>
+    </div>
+
+
+</div>
+
+<!--모달 영역 시작-->
+<div class="modal-bg">
+    <div class="modal-wrap" id="modal-gear">
+        <button class="btn_in_popup btn_top">비밀번호 변경</button>
+        <button class="btn_in_popup">QR 코드</button>
+        <button class="btn_in_popup">앱 및 웹사이트</button>
+        <button class="btn_in_popup">알림</button>
+        <button class="btn_in_popup">개인정보 및 보안</button>
+        <button class="btn_in_popup">로그인 활동</button>
+        <button class="btn_in_popup">Instagram에서 보낸 이메일</button>
+        <button class="btn_in_popup">문제신고</button>
+        <button class="btn_in_popup" onclick="sign_out()">로그아웃</button>
+        <button class="btn_in_popup btn_bottom" onclick="popClose()">취소</button>
+    </div>
+
+    <div class="modal-wrap" id="modal-follower">
+        <div class="modal-header"><span class="bold">팔로워 목록</span>
+            <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
+        </div>
+        <div class="follower_list">
+            <div class="follow_info">
+                <div class="follow_profile">
+                    <div class="profile"><img src="../static/img/post_3.jpg"></div>
+                    <div class="nickname"><span id="follower_id">follower_id</span>
+                        <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>
+                        <br><span id="follower_name" class="gray_s">follower_name</span></div>
+                </div>
+                <button type="button" class="btn_follow_del">삭제</button>
+            </div>
+            {% for data in follower_data %}
+                <div class="follow_info">
+                    <div class="follow_profile">
+                        <div class="profile"></div>
+                        <div class="nickname"><span id="follower_id">{{ data.email }}</span>
+                            <button type="button" class="btn_follow"><span class="gray_s">팔로우</span></button>
+                            <br><span id="follower_name" class="gray_s">follower_name</span></div>
+                    </div>
+                    <button type="button" class="btn_follow_del">삭제</button>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="modal-wrap" id="modal-following">
+        <div class="modal-header"><span class="bold">팔로우 목록</span>
+            <button type="button" class="btn-close" aria-label="Close" onclick="popClose()"></button>
+        </div>
+        <div class="following_list">
+            <div class="follow_info">
+                <div class="follow_profile">
+                    <div class="profile"><img src="../static/img/post_3.jpg"></div>
+                    <div class="nickname"><span id="following_id">following_id</span>
+                        <br><span id="following_name" class="gray_s">following_name</span></div>
+                </div>
+                <button type="button" class="btn_follow_del">팔로잉</button>
+            </div>
+
+            {% for data in following_data %}
+                <div class="follow_info">
+                    <div class="follow_profile">
+                        <div class="profile"></div>
+                        <div class="nickname"><span id="following_id">{{ data.t_email }}</span>
+                            <br><span id="following_name" class="gray_s">following_name</span></div>
+                    </div>
+                    <button type="button" class="btn_follow_del">팔로잉</button>
+                </div>
+            {% endfor %}
+
+        </div>
+        <!--모달 영역 끝-->
+    </div>
+</div>
+</body>
+
+</html>

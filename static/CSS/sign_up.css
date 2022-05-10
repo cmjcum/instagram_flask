@@ -18,7 +18,7 @@
     height: 70px;
     margin: 40px auto 30px auto;
 
-    background-image: url("../img/insta.png");
+    background-image: url("../img/logo.png");
     background-size: auto;
     background-position: center;
 }
@@ -28,11 +28,6 @@
     font-weight: bold;
     color: #8e8e8e;
 }
-
-
-
-
-
 
 .privacy_text_box{
     width: 80%;
