@@ -20,18 +20,24 @@ def home():
     print(token_receive)
     # try뜻
     try:
-        # jwt 디코드(암호풀기를 해준다 jwt토큰 안에 있는 토큰 리시브 시크릿키) 까지는 알겠는데 헤쉬256이 , 하고 나오는 이유는 모르겠다
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # payload의 뜻 알기, 이 코드는 db에 저장되어 있는 id 값을 불러오는 코드인듯?
-        user_info = db.users.find_one({"email": payload['id']})
-        # render_template()뜻 알기
-        return render_template('index.html', user_info=user_info)
+        user_info = db.users.find_one({"email": payload['id']}, {'_id': False})
+
+        if user_info['pic'] == '':
+            pic = '../static/img/profile.jpg'
+        else:
+            pic = user_info['pic']
+        return render_template('index.html', profile_pic=pic, user_info=user_info)
+
     except jwt.ExpiredSignatureError:
         return render_template('login_page.html')
         # return redirect(url_for("login", msg="로그인 시간이 만료되었습니다"))
     except jwt.exceptions.DecodeError:
         return render_template('login_page.html')
         # return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다"))
+
+
+
 
 
 
@@ -238,6 +244,23 @@ def deleteFeed():
     return jsonify({'msg':'삭제 완료!'})
 
 
+
+
+
+# @app.route('/fileshow')
+# def file_show():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         img_info = db.users.find_one({"email": payload['id']})
+#         return render_template('index.html', img_info=img_info)
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for("home"))
+
+
+
+
+
 @app.route('/user')
 def user():
 
@@ -289,3 +312,39 @@ if __name__ == "__main__":
     app.run(debug=True)
     # host 등을 직접 지정하고 싶다면
     # app.run(host="0.0.0.0", port="5000", debug=True)
+
+
+
+# @app.route('/')
+# def home():
+#     token_receive = request.cookies.get('mytoken')
+#     print(token_receive)
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         user_info = db.users.find_one({"email": payload['id']})
+#         return render_template('index.html', user_info=user_info)
+#     except jwt.ExpiredSignatureError:
+#         return render_template('login_page.html')
+#     except jwt.exceptions.DecodeError:
+#         return render_template('login_page.html')
+#
+#
+#
+#
+# #
+# @app.route('/fileshow')
+# def file_show():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         img_info = db.users.find_one({"email": payload['id']})
+#         return render_template('index.html', img_info=img_info)
+#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+#         return redirect(url_for("home"))
+
+# if __name__ == '__main__':
+#     app.run('0.0.0.0', port=5001, debug=True)
+
+
+# html code
+# <img src="/static/{{ img_info.img }}">
