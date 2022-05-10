@@ -1,44 +1,38 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from werkzeug.utils import secure_filename
+from bson.objectid import ObjectId
 
-import codecs
 import jwt
 import hashlib
 import datetime
 from pymongo import MongoClient
 
+
+
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
-
-
 
 @app.route('/')
 def home():
    token_receive = request.cookies.get('mytoken')
 
-   # try뜻
    try:
-      # jwt 디코드(암호풀기를 해준다 jwt토큰 안에 있는 토큰 리시브 시크릿키) 까지는 알겠는데 헤쉬256이 , 하고 나오는 이유는 모르겠다
       payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-      # payload의 뜻 알기, 이 코드는 db에 저장되어 있는 id 값을 불러오는 코드인듯?
+
       user_info = db.user.find_one({"id": payload['id']})
-      # render_template()뜻 알기
       return render_template('index.html')
+
    except jwt.ExpiredSignatureError:
       return render_template('login_page.html')
-      # return redirect(url_for("login", msg="로그인 시간이 만료되었습니다"))
+
    except jwt.exceptions.DecodeError:
       return render_template('login_page.html')
-      # return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다"))
+
 
 
 @app.route('/signup')
 def home_signup():
    return render_template('sign_up.html')
-
-# @app.route('/loginpage')
-# def home_signup():
-#    return render_template('login_page.html')
 
 
 @app.route('/api/signup', methods=['POST'])
@@ -62,7 +56,7 @@ def sign_up_post():
 
 # get을 받는 이유
 @app.route('/api/signup', methods=['GET'])
-def sing_up_get():
+def sign_up_get():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -194,62 +188,96 @@ def postComment():
 #   return jsonify({'result': 'success', 'msg': 'updated', 'count':count})
 
 
-@app.route('/profile')  # 접속하는 url
-def profile():
-    return render_template('profile.html')
+@app.route('/api/getModal', methods=['GET'])
+def sendModalType():
+    token_receive = request.cookies.get('mytoken')
+    post_id_receive = request.args['post_id_give']
+    post_info = db.posts.find_one({'_id': ObjectId(post_id_receive)})
+    post_writer = post_info['email']
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        if post_writer == payload['id']:
+            return jsonify({'type': 'writer'})
+        else:
+            return jsonify({'type': 'not writer'})
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+         return redirect(url_for("home"))
 
 
-@app.route('/<user_id>')
-def user(user_id):
-    email = 'LULULALA_2@insta.com'  # 나중에 토큰에서 메일주소 받으면 되겠지?
-    user_info = db.users.find_one({"email": email}, {"_id": False})
-
-    user_id = user_info['user_id']
-    user_pic = user_info['pic']
-    user_bio = user_info['bio']
-    user_name = user_info['name']
-
-    feed_cnt = db.posts.count_documents({"email": email})
-    follower_cnt = db.follow.count_documents({"t_email": email})
-    following_cnt = db.follow.count_documents({"email": email})
-
-    follower_data = db.follow.find({"t_email": email})
-    following_data = db.follow.find({"email": email})
+@app.route('/api/loadModify', methods=['GET'])
+def sendFeedInfo():
+    post_id_receive = request.args['post_id_give']
+    post_info = db.posts.find_one({'_id': ObjectId(post_id_receive)}, {'_id':False})
+    post_info['user_id'] = db.users.find_one({'email': post_info['email']})['user_id']
+    return jsonify({'post_info':post_info})
 
 
-    return render_template('profile.html', user_id=user_id, user_pic=user_pic, user_bio=user_bio, user_name=user_name,
-                           follower_cnt=follower_cnt, following_cnt=following_cnt, feed_cnt=feed_cnt, follower_data=follower_data, following_data=following_data)
+@app.route('/api/modifyFeed', methods=['POST'])
+def modifyFeed():
+    post_id_receive = request.form['post_id_give']
+    desc_receive = request.form['desc_give']
+    location_receive = request.form['location_give']
+
+    db.posts.update_one({'_id':ObjectId(post_id_receive)}, {'$set':{'desc':desc_receive, 'location':location_receive}})
+
+    return jsonify({'msg': '수정 완료!'})
 
 
-# @app.route('/user/<username>')
-# def user(username):
-#     # 각 사용자의 프로필과 글을 모아볼 수 있는 공간
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         status = (username == payload["id"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
-#
-#         user_info = db.users.find_one({"username": username}, {"_id": False})
-#         return render_template('user.html', user_info=user_info, status=status)
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
+@app.route('/api/deleteFeed', methods=['GET'])
+def deleteFeed():
+    post_id_receive = request.form['post_id_give']
+    print(post_id_receive)
+    # db.posts.delete_one({'_id': ObjectId(post_id_receive)})
 
-# @app.route('/api/following'):
-# def actionFollow():
-#     email = 'LULULALA_2@insta.com'
-#     # user_info = db.users.find_one({"email": payload["email"]})
-#     user_info = db.users.find_one({"email": email})
-#     t_email_receive = request.form["t_email_give"]
-#     action_receive = request.form["action_give"]
-#     doc = {
-#         "t_email": t_email_receive,
-#         "email": user_info["email"],
-#     }
-#
-#     if action_receive == "follow":
-#         db.follow.insert_one(doc)
-#     else:
-#         db.follow.delete_one(doc)
+    return jsonify({'msg':'삭제 완료!'})
+
+
+@app.route('/user')
+def user():
+
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        email = payload['id']
+
+        user_info = db.users.find_one({"email": email})
+
+        user_id = user_info['user_id']
+        user_pic = user_info['pic']
+        user_bio = user_info['bio']
+        user_name = user_info['name']
+
+        feed_cnt = db.posts.count_documents({"email": email})
+        follower_cnt = db.follow.count_documents({"t_email": email})
+        following_cnt = db.follow.count_documents({"email": email})
+        follower_data = db.follow.find({"t_email": email})
+        following_data = db.follow.find({"email": email})
+
+        return render_template('profile.html', user_id=user_id, user_pic=user_pic, user_bio=user_bio, user_name=user_name, follower_cnt=follower_cnt, following_cnt=following_cnt, feed_cnt=feed_cnt, follower_data=follower_data, following_data=following_data)
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return render_template('login_page.html')
+
+
+    # @app.route('/api/following'):
+    # def actionFollow():
+    #     email = 'LULULALA_2@insta.com'
+    #     # user_info = db.users.find_one({"email": payload["email"]})
+    #     user_info = db.users.find_one({"email": email})
+    #     t_email_receive = request.form["t_email_give"]
+    #     action_receive = request.form["action_give"]
+    #     doc = {
+    #         "t_email": t_email_receive,
+    #         "email": user_info["email"],
+    #     }
+    #
+    #     if action_receive == "follow":
+    #         db.follow.insert_one(doc)
+    #     else:
+    #         db.follow.delete_one(doc)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
