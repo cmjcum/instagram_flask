@@ -22,7 +22,7 @@
     <title>짭스타그램</title>
 
 <script>
-      function logout(){
+    function logout() {
         $.removeCookie('mytoken');
         alert('로그아웃!')
         window.location.href='/'
@@ -66,7 +66,8 @@
 
                 <div class="my-info">
                     <div style="background-image: url({{ profile_pic }})" class="profile"></div>
-                    <div class="nickname">user_id<br><span class="gray_r">name</span></div>
+                    <div class="nickname">{{ user_info.user_id }}<br><span class="gray_r">{{ user_info.name }}</span>
+                    </div>
                 </div>
 
                 <div class="follow-info">

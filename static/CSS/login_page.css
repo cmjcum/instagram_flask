@@ -19,7 +19,11 @@
     margin: 40px auto 50px auto;
 
     background-image: url("../img/login_logo.png");
+<<<<<<< HEAD
+    background-size: contain;
+=======
     background-size: auto;
+>>>>>>> 15dee917a38196e9cf8275999d39ebb80e5aa6e6
     background-position: center;
     background-repeat: no-repeat;
 }
