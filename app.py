@@ -22,7 +22,7 @@ def home():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"email": payload['id']}, {'_id': False})
         if user_info['pic'] == '':
-            pic = '../static/img/profile.jpg'
+            pic = './static/img/profile.jpg'
         else:
             pic = user_info['pic']
         return render_template('index.html', profile_pic=pic, user_info=user_info)
@@ -384,6 +384,25 @@ def actionUnFollow():
 
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
+
+
+@app.route('/api/deleteFollower', methods=['POST'])
+def deleteFollower():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        t_email = payload["id"]
+        email = db.users.find_one({'user_id': request.form['user_id_give']})['email']
+
+        doc = {'email': email, 't_email': t_email}
+
+        db.follow.delete_one(doc)
+
+        return jsonify({'msg': '완료!'})
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

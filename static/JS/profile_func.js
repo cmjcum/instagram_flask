@@ -44,7 +44,7 @@ function getFollower() {
                                             <div class="profile"></div>
                                             <div class="nickname">${follower_user_id}</div>
                                         </div>
-                                                                <button type="button" class="btn_follow" onclick="follow(this)"><span class="gray_s">팔로우</span></button>
+                                        <button type="button" class="btn_follow" onclick="follow(this)"><span class="gray_s">팔로우</span></button>
                                         <button type="button" class="btn_follow_del" onclick="followerDel(this)">삭제</button>
                                     </div>`
                     $("#follower_id_box").append(html_temp)
@@ -79,9 +79,16 @@ function getFollowing() {
 
 // 팔로워삭제
 function followerDel(obj) {
-    let user_id = $(obj).prev().children().next().text()
+    let user_id = $(obj).prev().prev().children().next().text();
     console.log(user_id)
-
+    $.ajax({
+        type: 'POST',
+        url: '/api/deleteFollower',
+        data: { user_id_give: user_id },
+        success: function (response) {
+            window.location.reload();
+        }
+    });
 }
 
 // 팔로우
