@@ -338,6 +338,32 @@
     </div>
     <!--모달 영역 끝-->
 
+    {#    자신의 게시글에서 나오는 모달#}
+    <div id="modal_user" class="modal">
+        <div class="modal-background" onclick='$("#modal_user").removeClass("is-active")'>
+            <button class="btn-in-popup upset">삭제</button>
+            <button class="btn-in-popup" onclick="initModifyModal()">수정</button>
+            <button class="btn-in-popup">좋아요 수 숨기기</button>
+            <button class="btn-in-popup">댓글 기능 해제</button>
+            <button class="btn-in-popup">게시물로 이동</button>
+            <button class="btn-in-popup">태그된 계정</button>
+            <button class="btn-in-popup" onclick='$("#modal_user").removeClass("is-active")'>취소</button>
+        </div>
+        <button class="modal-close is-large" aria-label="close" onclick='$("#modal_user").removeClass("is-active")'></button>
+    </div>
+{#    <div class="modal-bg">#}
+{#        <div class="modal-wrap">#}
+{#            <button class="btn-in-popup upset">삭제</button>#}
+{#            <button class="btn-in-popup" onclick="initModifyModal()">수정</button>#}
+{#            <button class="btn-in-popup">좋아요 수 숨기기</button>#}
+{#            <button class="btn-in-popup">댓글 기능 해제</button>#}
+{#            <button class="btn-in-popup">게시물로 이동</button>#}
+{#            <button class="btn-in-popup">태그된 계정</button>#}
+{#            <button class="btn-in-popup" onclick="popClose()">취소</button>#}
+{#        </div>#}
+{##}
+{#    </div>#}
+
 {#    포스팅 모달#}
     <div id="modal_post" class="modal">
         <div class="modal-background" onclick='$("#modal_post").removeClass("is-active")'></div>

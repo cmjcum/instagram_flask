@@ -22,7 +22,6 @@ function popClose() {
     $('html').removeAttr('style');
 }
 
-
 // 포스팅 모달 함수
 function selectImages(event) {
     $('#modal_post_display_image').empty();
@@ -87,8 +86,9 @@ function postFeed() {
     $.ajax({
         type: 'POST',
         url: '/api/feed',
-        // enctype: 'multipart/form-data',
         data: formData,
+        // enctype: 'multipart/form-data',
+        cache: false,
         processData: false,
         contentType: false,
         success: function (response) {
@@ -112,13 +112,31 @@ function initPostModal() {
     $('#button_post').hide();
 }
 
+// 모달 종류 선택 -> 내가 작성한 피드의 모달인지 아닌지
+function getModalType() {
+    $.ajax({
+        type: 'GET',
+        url: '/api/getModal',
+        data: {},
+        success: function(response) {
+            if(response['type'] == 'user') {
+                $('#modal_user').addClass('is-active');
+            }
+            else {
+                popOpen();
+            }
+        }
+    });
+
+}
+
 // 피드 수정 모달
 function initModifyModal() {
-    popClose();
+    $('#modal_user').removeClass('is-active');
     $('#modal_modify').addClass('is-active');
 }
 
-function loadModifyFeedModal() {
+function loadModifyModal() {
 
     $.ajax({
         type: 'GET',
@@ -129,4 +147,8 @@ function loadModifyFeedModal() {
         }
 
     });
+}
+
+function deleteModal() {
+
 }
