@@ -105,29 +105,33 @@ def upload():
     desc = request.form['desc']
     location = request.form['location']
     time = datetime.datetime.utcnow()
-    email = "LULULALA_2@insta.com"
-    user_id = "LULULALA_2"
     images_path = []
 
-    for image in images:
-        timestamp = datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
-        path = './static/img/post_img/' + timestamp + secure_filename(image.filename)
-        print(path)
-        image.save(path)
-        images_path.append(path)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-    doc = {
-        'email': email,
-        'user_id': user_id,
-        'photo': images_path,
-        'location': location,
-        'post_date': time,
-        'desc': desc
-    }
+        for image in images:
+            timestamp = datetime.datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
+            path = './static/img/post_img/' + timestamp + secure_filename(image.filename)
+            print(path)
+            image.save(path)
+            images_path.append(path)
 
-    db.posts.insert_one(doc)
+        doc = {
+            'email': payload['id'],
+            'photo': images_path,
+            'location': location,
+            'post_date': time,
+            'desc': desc
+        }
 
-    return jsonify({'msg': '완료!'})
+        db.posts.insert_one(doc)
+
+        return jsonify({'msg': '완료!'})
+
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 
 @app.route('/feed', methods=['GET'])
@@ -142,6 +146,7 @@ def getFeed():
             post["_id"] = str(post["_id"])
             post["like_cnt"] = db.likes.count_documents({"post_id": post["_id"]})
             post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "email": payload["id"]}))
+            post['user_id'] = db.users.find_one({'email': post['email']})['user_id']
 
         return jsonify({'posts': posts, 'result': 'success'})
 
