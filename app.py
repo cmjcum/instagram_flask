@@ -304,6 +304,7 @@ def user():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
         try:
             writer_id = request.args['writer_id_give']
         except:
@@ -334,15 +335,17 @@ def getFollower():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         follower_data = list(db.follow.find({"t_email": payload['id']}))
-
-        follower_id = []
-
+        print('follower_data',follower_data)
+        follower_info = []
         for data in follower_data:
+            print(data['email'])
             user_info = db.users.find_one({"email": data['email']})
             data['user_id'] = user_info['user_id']
-            follower_id.append(data['user_id'])
+            data['pic'] = user_info['pic']
+            doc = {"user_id": data['user_id'], "pic": data['pic']}
+            follower_info.append(doc)
 
-        return jsonify({'follower_id': follower_id})
+        return jsonify({'follower_info': follower_info})
 
         # follow_status = ''  # True:서로 팔로우 / False:상대만 날 팔로우>팔로우 버튼 노출
 
@@ -354,14 +357,16 @@ def getFollowing():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        following_data = list(db.follow.find({"email": payload['id']}))
-        following_id = []
+        following_data = list(db.follow.find({"email": payload['id']}, {"password": False}))
+        following_info = []
         for data in following_data:
             user_info = db.users.find_one({"email": data['t_email']})
             data['user_id'] = user_info['user_id']
-            following_id.append(data['user_id'])
+            data['pic'] = user_info['pic']
+            doc = {"user_id": data['user_id'], "pic": data['pic']}
+            following_info.append(doc)
 
-        return jsonify({'following_id': following_id})
+        return jsonify({'following_info': following_info})
 
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))

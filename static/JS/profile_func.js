@@ -35,12 +35,14 @@ function getFollower() {
         data: {},
         success: function (response) {
                 console.log(response)
-                let follower_id = response["follower_id"]
-                for (let i = 0; i < follower_id.length; i++) {
-                    let follower_user_id = follower_id[i]
+                let follower_info = response["follower_info"]
+                for (let i = 0; i < follower_info.length; i++) {
+                    let follower_data = follower_info[i]
+                    let follower_user_id = follower_data['user_id']
+                    let follower_user_pic = follower_data['pic']
                     let html_temp = `<div class="follow_info">
                                         <div class="follow_profile">
-                                            <div class="profile"></div>
+                                            <div class="profile"><img src="${follower_user_pic}" onerror="this.style.display='none'"></div>
                                             <div class="nickname">${follower_user_id}</div>
                                         </div>
                                         <button type="button" class="btn_follow" onclick="follow(this)"><span class="gray_s">팔로우</span></button>
@@ -60,12 +62,14 @@ function getFollowing() {
         data: {},
         success: function (response) {
                 console.log(response)
-                let following_id = response["following_id"]
-                for (let i = 0; i < following_id.length; i++) {
-                    let following_user_id = following_id[i]
+                let following_info = response["following_info"]
+                for (let i = 0; i < following_info.length; i++) {
+                    let following_data = following_info[i]
+                    let following_user_id = following_data['user_id']
+                    let following_user_pic = following_data['pic']
                     let html_temp = `<div class="follow_info">
                                         <div class="follow_profile">
-                                            <div class="profile"></div>
+                                            <div class="profile"><img src="${following_user_pic}" onerror="this.style.display='none'"></div>
                                             <div class="nickname">${following_user_id}</div>
                                         </div>
                                         <button type="button" class="btn_follow_del" onclick="unfollow(this)">팔로잉</button>
