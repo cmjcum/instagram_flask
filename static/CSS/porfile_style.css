@@ -673,6 +673,7 @@ input#search:focus {
 }
 
 .btn_follow {
+    padding: 0;
     margin: 0 5px 10px 5px;
     background-color: transparent;
     border: none;
