@@ -304,12 +304,13 @@ def user():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        cur_user_id = db.users.find_one({'email': payload['id']})['user_id']
 
         try:
             writer_id = request.args['writer_id_give']
         except:
-            writer_id = payload['id']
-        if writer_id == payload['id']:
+            writer_id = cur_user_id
+        if writer_id == cur_user_id:
             email = payload['id']
             hide = 'false'
         else:
