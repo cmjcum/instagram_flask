@@ -68,18 +68,24 @@ def sign_up_post():
     name_receive = request.form['name_give']
     password_receive = request.form['password_give']
 
-    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    is_exist_email = bool(db.users.find_one({'email': email_receive}))
+    is_exist_user_id = bool(db.users.find_one({'user_id': id_receive}))
 
-    doc = {
-        'email': email_receive,
-        'user_id': id_receive,
-        'name': name_receive,
-        'password': pw_hash,
-        'pic': '',
-        'bio': ''
-    }
-    db.users.insert_one(doc)
-    return jsonify({'msg': '가입완료'})
+    if is_exist_email or is_exist_user_id:
+        return jsonify({'msg': '중복된 이메일 혹은 아이디입니다.', 'state': 'false'})
+    else:
+        pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+
+        doc = {
+            'email': email_receive,
+            'user_id': id_receive,
+            'name': name_receive,
+            'password': pw_hash,
+            'pic': '',
+            'bio': ''
+        }
+        db.users.insert_one(doc)
+        return jsonify({'msg': '가입완료', 'state': 'true'})
 
 
 # get을 받는 이유
@@ -304,12 +310,13 @@ def user():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        cur_user_id = db.users.find_one({'email': payload['id']})['user_id']
 
         try:
             writer_id = request.args['writer_id_give']
         except:
-            writer_id = payload['id']
-        if writer_id == payload['id']:
+            writer_id = cur_user_id
+        if writer_id == cur_user_id:
             email = payload['id']
             hide = 'false'
         else:

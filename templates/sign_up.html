@@ -22,7 +22,12 @@
                 data: {email_give: email, id_give: id, name_give: name, password_give: password},
                 success: function (response) {
                     alert(response['msg'])
-                    window.location.href = '/'
+                    if(response['state'] == 'false') {
+                        window.location.reload()
+                    }
+                    else {
+                        window.location.href = '/'
+                    }
                 }
             })
         }
