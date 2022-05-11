@@ -9,9 +9,7 @@ import hashlib
 import datetime
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.gsb7w.mongodb.net/Cluster0?retryWrites=true&w=majority')
-db = client.instaClone
-SECRET_KEY = 'CMG'
+
 
 # Flask 객체 인스턴스 생성
 app = Flask(__name__)
@@ -178,7 +176,6 @@ def getFeed():
             post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "email": payload["id"]}))
             post['user_id'] = db.users.find_one({'email': post['email']})['user_id']
             post['pic'] = db.users.find_one({'email': post['email']})['pic']
-        print(post)
 
         return jsonify({'posts': posts, 'result': 'success'})
 
@@ -300,23 +297,6 @@ def sendUserInfo():
 
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
-
-
-
-
-
-# @app.route('/fileshow')
-# def file_show():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         img_info = db.users.find_one({"email": payload['id']})
-#         return render_template('index.html', img_info=img_info)
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
-
-
-
 
 
 @app.route('/user')
