@@ -170,7 +170,7 @@ def getFeed():
             posts = list(db.posts.find({'email': payload['id']}).sort('post_date', -1).limit(20))
 
         else:
-            posts = list(db.posts.find({'user_id': user_id_receive}).sort('post_date', -1).limit(20))
+            posts = list(db.posts.find({}).sort('post_date', -1).limit(20))
 
         for post in posts:
             post["_id"] = str(post["_id"])
