@@ -304,7 +304,17 @@ def user():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        email = payload['id']
+        try:
+            writer_id = request.args['writer_id_give']
+        except:
+            writer_id = payload['id']
+        if writer_id == payload['id']:
+            email = payload['id']
+            hide = 'false'
+        else:
+            email = db.users.find_one({'user_id': writer_id})['email']
+            hide = 'true'
+
         user_info = db.users.find_one({"email": email})
 
         feed_cnt = db.posts.count_documents({"email": email})
@@ -312,7 +322,7 @@ def user():
         following_cnt = db.follow.count_documents({"email": email})
 
         return render_template('profile.html', user_info=user_info, follower_cnt=follower_cnt,
-                               following_cnt=following_cnt, feed_cnt=feed_cnt)
+                               following_cnt=following_cnt, feed_cnt=feed_cnt, hide=hide)
 
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return render_template('login_page.html')

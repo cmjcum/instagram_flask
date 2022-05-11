@@ -14,6 +14,12 @@ function goUser() {
     window.location.href = "/user";
 }
 
+function goProfilePage(obj) {
+    let writer_id = $(obj).next().children('#feed_writer_id').text()
+    console.log(writer_id)
+    window.location.href = `/user?writer_id_give=${writer_id}`;
+}
+
 // ... 피드 불러오기
 function getFeed() {
     $("#card_box").empty()
@@ -77,8 +83,8 @@ function getFeed() {
                                 <!--게시글 헤더-->
                                 <div class="card-body">
                                     <div class="card_header">
-                                        <div class="human"><img src="${post['pic']}"></div>
-                                        <div class="nickname">${post['user_id']}<br><span class="gray_s">${post['location']}</span></div>
+                                        <div onclick="goProfilePage(this)" class="human"><img src="${post['pic']}"></div>
+                                        <div class="nickname"><span id="feed_writer_id">${post['user_id']}</span><br><span class="gray_s">${post['location']}</span></div>
                                     </div>
                                     <button class="dot-dot-dot btn-open-popup" onclick="getModalType(this)"></button>
                                 </div>

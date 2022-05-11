@@ -3,6 +3,7 @@ $(document).ready(function () {
     getFollower()
     getFollowing()
     showModalProfilePic()
+    isHidden()
 })
 
 // ... 피드 불러오기
@@ -311,4 +312,17 @@ function showModalProfilePic() {
             }
         }
     });
+}
+
+function isHidden() {
+    let hide = $('body').attr('class');
+    console.log(hide)
+    if(hide == 'true') {
+        $('#button_modify_profile').hide();
+        $('#button_gear').hide();
+    }
+    else {
+        $('#button_modify_profile').show();
+        $('#button_ger').show();
+    }
 }

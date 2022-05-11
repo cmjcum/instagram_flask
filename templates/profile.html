@@ -25,7 +25,7 @@
 
 </head>
 
-<body>
+<body id="{{ user_info.user_id }}" class="{{ hide }}">
 
 <div class="wrap">
 
@@ -55,8 +55,8 @@
         <div class="header_right">
             <div class="my_id">
                 <span class="user_id">{{ user_info.user_id }}</span>
-                <button class="btn_profile_mod bold">프로필 편집</button>
-                <div class="profile_gear" onclick="popOpen()"></div>
+                <button id="button_modify_profile" class="btn_profile_mod bold">프로필 편집</button>
+                <div id="button_gear" class="profile_gear" onclick="popOpen()"></div>
 
             </div>
             <div class="my_info">
